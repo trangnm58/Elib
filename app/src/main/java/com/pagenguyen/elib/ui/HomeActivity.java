@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,6 +14,7 @@ import com.pagenguyen.elib.R;
 import com.parse.ParseUser;
 
 public class HomeActivity extends AppCompatActivity {
+	private static final String TAG = HomeActivity.class.getSimpleName();
 	private ParseUser mCurrentUser;
 
 	@Override
@@ -20,16 +22,19 @@ public class HomeActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
 
-		mCurrentUser = ParseUser.getCurrentUser();
-
 		// check if there is internet
 		if (isNetworkAvailable()) {
+			mCurrentUser = ParseUser.getCurrentUser();
 			if (mCurrentUser == null) {
 				// first time using app or logout
 				navigateToLogIn();
 			} else {
 				// we have current user
+				Log.d(TAG, mCurrentUser.getUsername());
 			}
+		} else {
+			// display message to user
+			Log.d(TAG, "no internet");
 		}
 	}
 
