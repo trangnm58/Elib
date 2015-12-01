@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.pagenguyen.elib.R;
+import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 
 public class HomeActivity extends AppCompatActivity {
@@ -21,6 +22,8 @@ public class HomeActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+
+		ParseAnalytics.trackAppOpened(getIntent());
 
 		// check if there is internet
 		if (isNetworkAvailable()) {
