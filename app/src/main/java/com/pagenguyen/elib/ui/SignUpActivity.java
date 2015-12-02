@@ -61,7 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 							if (e == null) {
 								// Success
-								// go to Main Activity
+								// go to Home Activity
 								Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
 								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 								intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
