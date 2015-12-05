@@ -78,8 +78,7 @@
         <activity
             android:name=".ui.stories.StoryListActivity"
             android:label="@string/title_activity_story_list"
-            android:parentActivityName=".ui.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:parentActivityName=".ui.HomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pagenguyen.elib.ui.HomeActivity" />
@@ -87,8 +86,7 @@
         <activity
             android:name=".ui.stories.StoryContentActivity"
             android:label="@string/title_activity_story_content"
-            android:parentActivityName=".ui.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:parentActivityName=".ui.HomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pagenguyen.elib.ui.HomeActivity" />

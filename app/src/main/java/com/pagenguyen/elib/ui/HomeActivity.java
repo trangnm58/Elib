@@ -1,31 +1,23 @@
 package com.pagenguyen.elib.ui;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-<<<<<<< HEAD
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.menu.HomeMenuAdapter;
-import com.pagenguyen.elib.menu.HomeMenuItem;
-=======
-import android.widget.Button;
-
-import com.pagenguyen.elib.R;
+import com.pagenguyen.elib.adapter.HomeMenuAdapter;
+import com.pagenguyen.elib.dataStructure.HomeMenuItem;
 import com.pagenguyen.elib.ui.dictionary.SearchVocabActivity;
 import com.pagenguyen.elib.ui.stories.StoryListActivity;
->>>>>>> origin/master
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 
@@ -56,7 +48,6 @@ public class HomeActivity extends ListActivity {
 			Log.d(TAG, "no internet");
 		}
 
-<<<<<<< HEAD
         mMenuItems = new HomeMenuItem[6];
         mMenuItems[0] = new HomeMenuItem("topic", "Học từ theo chủ đề", "TopicActivity");
         mMenuItems[1] = new HomeMenuItem("book", "Học tiếng Anh qua truyện", "BookActivity");
@@ -67,34 +58,29 @@ public class HomeActivity extends ListActivity {
 
         HomeMenuAdapter adapter = new HomeMenuAdapter(this, mMenuItems);
         setListAdapter(adapter);
-=======
-		Button mDictionaryFunc = (Button) findViewById(R.id.dictionaryFunc);
-		Button mStoryFunc = (Button) findViewById(R.id.readStoryFunc);
-
-		mDictionaryFunc.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(HomeActivity.this, SearchVocabActivity.class);
-				startActivity(intent);
-			}
-		});
-
-		mStoryFunc.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(HomeActivity.this, StoryListActivity.class);
-				startActivity(intent);
-			}
-		});
->>>>>>> origin/master
 	}
+
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Toast.makeText(
-                HomeActivity.this,
-                ((HomeMenuItem) l.getItemAtPosition(position)).getLabel(),
-                Toast.LENGTH_SHORT
-        ).show();
+        switch (position) {
+            case (1): {
+                Intent intent = new Intent(HomeActivity.this, StoryListActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case (2): {
+                Intent intent = new Intent(HomeActivity.this, SearchVocabActivity.class);
+                startActivity(intent);
+                break;
+            }
+            default: {
+                Toast.makeText(
+                        HomeActivity.this,
+                        ((HomeMenuItem) l.getItemAtPosition(position)).getLabel(),
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        }
     }
 
 	@Override

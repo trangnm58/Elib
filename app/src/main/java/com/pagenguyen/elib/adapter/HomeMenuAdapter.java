@@ -1,4 +1,4 @@
-package com.pagenguyen.elib.menu;
+package com.pagenguyen.elib.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
+import com.pagenguyen.elib.dataStructure.HomeMenuItem;
 
 /**
  * Created by Can on 05-Dec-15.
