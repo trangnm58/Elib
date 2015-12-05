@@ -46,6 +46,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.dictionary.SearchVocabActivity"
+            android:label="@string/title_activity_search_vocab"
+            android:parentActivityName=".ui.HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pagenguyen.elib.ui.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".ui.dictionary.VocabContentActivity"
+            android:label="@string/title_activity_vocab_content"
+            android:parentActivityName=".ui.HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pagenguyen.elib.ui.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".ui.dictionary.VoiceSearchActivity"
+            android:label="@string/title_activity_voice_search"
+            android:parentActivityName=".ui.dictionary.SearchVocabActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pagenguyen.elib.ui.dictionary.SearchVocabActivity" />
+        </activity>
     </application>
 
 </manifest>
