@@ -1,6 +1,7 @@
 package com.pagenguyen.elib.ui;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -10,14 +11,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
+import com.pagenguyen.elib.menu.HomeMenuAdapter;
+import com.pagenguyen.elib.menu.HomeMenuItem;
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 
-public class HomeActivity extends Activity {
+public class HomeActivity extends ListActivity {
 	private static final String TAG = HomeActivity.class.getSimpleName();
 	private ParseUser mCurrentUser;
+    private HomeMenuItem[] mMenuItems;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +47,26 @@ public class HomeActivity extends Activity {
 			// display message to user
 			Log.d(TAG, "no internet");
 		}
+
+        mMenuItems = new HomeMenuItem[6];
+        mMenuItems[0] = new HomeMenuItem("topic", "Học từ theo chủ đề", "TopicActivity");
+        mMenuItems[1] = new HomeMenuItem("book", "Học tiếng Anh qua truyện", "BookActivity");
+        mMenuItems[2] = new HomeMenuItem("dictionary", "Từ điển tích hợp", "DictActivity");
+        mMenuItems[3] = new HomeMenuItem("speak", "Luyện phát âm", "SpeakActivity");
+        mMenuItems[4] = new HomeMenuItem("game", "Trò chơi", "GameActivity");
+        mMenuItems[5] = new HomeMenuItem("favorite", "Danh mục từ yêu thích", "FavActivity");
+
+        HomeMenuAdapter adapter = new HomeMenuAdapter(this, mMenuItems);
+        setListAdapter(adapter);
 	}
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        Toast.makeText(
+                HomeActivity.this,
+                ((HomeMenuItem) l.getItemAtPosition(position)).getLabel(),
+                Toast.LENGTH_SHORT
+        ).show();
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -57,12 +83,37 @@ public class HomeActivity extends Activity {
 		int id = item.getItemId();
 
 		//noinspection SimplifiableIfStatement
-		if (id == R.id.action_logout) {
-			// use ParseUser logout() function
-			ParseUser.logOut();
-			// go to login activity after logout
-			navigateToLogIn();
-			return true;
+		switch (id) {
+			case (R.id.action_my_profile):{
+				Toast.makeText(
+						HomeActivity.this,
+						"Chức năng chưa hỗ trợ!",
+						Toast.LENGTH_SHORT
+				).show();
+				// TODO intent to my profile
+				return true;
+			}
+			case (R.id.action_settings):{
+				Toast.makeText(
+						HomeActivity.this,
+						"Chức năng chưa hỗ trợ!",
+						Toast.LENGTH_SHORT
+				).show();
+				// TODO intent to settings
+				return true;
+			}
+			case (R.id.action_login):{
+				// go to login activity
+				navigateToLogIn();
+				return true;
+			}
+			case (R.id.action_logout):{
+				// use ParseUser logout() function
+				ParseUser.logOut();
+				// go to login activity after logout
+				navigateToLogIn();
+				return true;
+			}
 		}
 
 		return super.onOptionsItemSelected(item);
@@ -77,7 +128,8 @@ public class HomeActivity extends Activity {
 	}
 
 	private boolean isNetworkAvailable() {
-		ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager manager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = manager.getActiveNetworkInfo();
 		return info != null && info.isConnected();
 	}

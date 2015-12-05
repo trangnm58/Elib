@@ -1,22 +1,33 @@
 <resources>
 
     <string name="app_name">Elib</string>
+    <string name="long_name">Phần mềm hỗ trợ học tiếng Anh Elib</string>
 
+    <!-- home menu-->
+    <string name="action_my_profile">Thông tin cá nhân</string>
     <string name="action_settings">Cài đặt</string>
     <string name="action_logout">Đăng xuất</string>
-    <string name="title_activity_login">Đăng nhập</string>
-    <string name="login_button_label">Đăng nhập</string>
-    <string name="title_activity_sign_up">Đăng ký tài khoản</string>
-    <string name="sign_up_button_label">Đăng ký</string>
+    <string name="action_login">Đăng nhập</string>
 
+    <!-- Login, sign up hint -->
     <string name="username_hint">Tên tài khoản</string>
     <string name="password_hint">Mật khẩu</string>
     <string name="email_hint">Email</string>
-    <string name="sign_up_label">Tạo tài khoản mới.</string>
     <string name="re_password_hint">Nhập lại mật khẩu</string>
+
+    <!-- Login-->
+    <string name="title_activity_login">Đăng nhập</string>
+    <string name="login_button_label">Đăng nhập</string>
+    <string name="title_activity_sign_up">Đăng ký tài khoản</string>
+
+    <!-- sign up-->
+    <string name="sign_up_button_label">Đăng ký</string>
+    <string name="sign_up_label">Tạo tài khoản mới.</string>
     <string name="registered_label">Đã có tài khoản.</string>
 
+    <!-- speech recognition-->
     <string name="speech_waiting_prompt">Đang lắng nghe...</string>
     <string name="google_voice_input_missing_error">Thiết bị không hỗ trợ Google Voice Input!</string>
+    <string name="no_home_menu_item">Hiện chưa có bài học.</string>
 
 </resources>

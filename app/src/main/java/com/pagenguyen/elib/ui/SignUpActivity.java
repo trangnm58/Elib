@@ -98,7 +98,7 @@ public class SignUpActivity extends Activity {
                             // go to Home Activity
                             Toast.makeText(
                                     SignUpActivity.this,
-                                    "Email không hợp lệ!",
+                                    "Đăng ký thành công!",
                                     Toast.LENGTH_LONG
                             ).show();
                             Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
