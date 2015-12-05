@@ -23,7 +23,8 @@
         <activity
             android:name=".ui.LoginActivity"
             android:label="@string/title_activity_login"
-            android:parentActivityName=".ui.HomeActivity" >
+            android:parentActivityName=".ui.HomeActivity"
+            android:theme="@style/FullTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pagenguyen.elib.ui.HomeActivity" />
@@ -35,7 +36,8 @@
         <activity
             android:name=".ui.SignUpActivity"
             android:label="@string/title_activity_sign_up"
-            android:parentActivityName=".ui.LoginActivity" >
+            android:parentActivityName=".ui.LoginActivity"
+            android:theme="@style/FullTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pagenguyen.elib.ui.LoginActivity" />

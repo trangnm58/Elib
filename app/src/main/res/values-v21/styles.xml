@@ -1,12 +1,12 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <style name="AppTheme" parent="android:Theme.Material.Light">
         <!-- Customize your theme here. -->
     </style>
 
     <!-- fullscreen theme without appbar. -->
-    <style name="FullTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="FullTheme" parent="android:Theme.Material.Light.NoActionBar">
         <!-- Customize your theme here. -->
     </style>
 

@@ -1,11 +1,13 @@
 package com.pagenguyen.elib.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.pagenguyen.elib.R;
 import com.parse.LogInCallback;
@@ -15,27 +17,26 @@ import com.parse.ParseUser;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class LoginActivity extends AppCompatActivity {
-	@Bind(R.id.signUpButton) Button mSignUpButton;
+public class LoginActivity extends Activity {
 	@Bind(R.id.userNameField) EditText mUsername;
 	@Bind(R.id.passwordField) EditText mPassword;
 	@Bind(R.id.loginButton) Button mLoginButton;
+    private ProgressBar progressBar;
+
+    public void signUp(View v) {
+        // go to sign up activity
+        Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+        startActivity(intent);
+    }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+        progressBar = (ProgressBar) findViewById(R.id.logInProgress);
+        changeLoadingState();
 		// bind butterknife
 		ButterKnife.bind(this);
-
-		mSignUpButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// go to sign up activity
-				Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-				startActivity(intent);
-			}
-		});
 
 		mLoginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -51,9 +52,11 @@ public class LoginActivity extends AppCompatActivity {
 					// display message to warn user
 				} else {
 					// login
+                    changeLoadingState();
 					ParseUser.logInInBackground(username, password, new LogInCallback() {
 						@Override
 						public void done(ParseUser user, ParseException e) {
+                            changeLoadingState();
 							if (e == null) {
 								// Success
 								// Go to Home Activity
@@ -71,4 +74,12 @@ public class LoginActivity extends AppCompatActivity {
 			}
 		});
 	}
+
+    private void changeLoadingState() {
+        if (progressBar.getVisibility() == View.VISIBLE) {
+            progressBar.setVisibility(View.INVISIBLE);
+        } else {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+    }
 }

@@ -1,15 +1,17 @@
 <resources>
     <string name="app_name">Elib</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="action_logout">Logout</string>
-    <string name="title_activity_login">Sign In</string>
-    <string name="username_hint">Username</string>
-    <string name="password_hint">Password</string>
-    <string name="sign_up_button_label">Sign Up</string>
-    <string name="login_button_label">Sign In</string>
-    <string name="title_activity_sign_up">Sign Up</string>
+    <string name="action_settings">Cài đặt</string>
+    <string name="action_logout">Đăng xuất</string>
+    <string name="title_activity_login">Đăng nhập</string>
+    <string name="login_button_label">Đăng nhập</string>
+    <string name="title_activity_sign_up">Đăng ký tài khoản</string>
+    <string name="sign_up_button_label">Đăng ký</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="username_hint">Tên tài khoản</string>
+    <string name="password_hint">Mật khẩu</string>
     <string name="email_hint">Email</string>
+    <string name="sign_up_label">Tạo tài khoản mới.</string>
+    <string name="re_password_hint">Nhập lại mật khẩu</string>
+    <string name="registered_label">Đã có tài khoản.</string>
 </resources>

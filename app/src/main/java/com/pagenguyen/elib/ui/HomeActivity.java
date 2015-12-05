@@ -1,5 +1,6 @@
 package com.pagenguyen.elib.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -14,7 +15,7 @@ import com.pagenguyen.elib.R;
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends Activity {
 	private static final String TAG = HomeActivity.class.getSimpleName();
 	private ParseUser mCurrentUser;
 
