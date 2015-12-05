@@ -71,10 +71,11 @@ public class GlosbeApi {
 				// this callback helper is for examples
 				String data = response.body().string();
 				JSONArray examples = new JSONObject(data).getJSONArray("examples");
-				String[] exps = new String[NUM_OF_SAMPLES];
-				for (int i=0; i < NUM_OF_SAMPLES; i++) {
+				String[] exps = new String[NUM_OF_SAMPLES * 2];
+				for (int i=0; i < NUM_OF_SAMPLES * 2; i = i + 2) {
 					JSONObject exp = examples.getJSONObject(i);
-					exps[i] = exp.getString("second");
+					exps[i] = exp.getString("first");   // english examples
+					exps[i + 1] = exp.getString("second"); // vietnamese examples
 				}
 				return exps;
 			} else {
