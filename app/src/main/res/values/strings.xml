@@ -12,4 +12,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="email_hint">Email</string>
+    <string name="speech_waiting_prompt">Đang lắng nghe...</string>
+    <string name="google_voice_input_missing_error">Thiết bị không hỗ trợ Google Voice Input!</string>
 </resources>
