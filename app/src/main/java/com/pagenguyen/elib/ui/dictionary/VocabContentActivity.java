@@ -8,7 +8,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.adapter.VocabAdapter;
+import com.pagenguyen.elib.adapter.ElibAdapter;
 import com.pagenguyen.elib.api.GlosbeApi;
 import com.pagenguyen.elib.model.GlosbeResult;
 import com.squareup.okhttp.Callback;
@@ -73,8 +73,9 @@ public class VocabContentActivity extends AppCompatActivity {
 
                         //Set definitions list view
                         if (mVocabDefinition != null && mVocabDefinition.length > 0) {
-                            VocabAdapter adapter = new VocabAdapter(VocabContentActivity.this,
+                            ElibAdapter adapter = new ElibAdapter(VocabContentActivity.this,
                                     R.layout.vocab_content_item,
+                                    R.id.vocabContentView,
                                     mVocabDefinition);
                             mListDefinition.setAdapter(adapter);
                         }
@@ -101,8 +102,9 @@ public class VocabContentActivity extends AppCompatActivity {
 
                         //Set example list view
                         if (mVocabExamples != null && mVocabExamples.length > 0) {
-                            VocabAdapter adapter = new VocabAdapter(VocabContentActivity.this,
+                            ElibAdapter adapter = new ElibAdapter(VocabContentActivity.this,
                                     R.layout.vocab_content_item,
+                                    R.id.vocabContentView,
                                     mVocabExamples);
                             mListExample.setAdapter(adapter);
                         }

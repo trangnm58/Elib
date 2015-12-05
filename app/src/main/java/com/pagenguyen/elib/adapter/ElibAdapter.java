@@ -2,6 +2,7 @@ package com.pagenguyen.elib.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +14,16 @@ import com.pagenguyen.elib.R;
 /**
  * Created by Kira on 12/4/2015.
  */
-public class VocabAdapter extends BaseAdapter {
+public class ElibAdapter extends BaseAdapter {
     private String[] mList;
     private Context mContext;
     private int mLayoutResourceId;
+    private int mItemViewId;
 
-    public VocabAdapter(Context context, int layoutId, String[] array){
+    public ElibAdapter(Context context, int layoutId, int itemViewId, String[] array){
         mContext = context;
         mLayoutResourceId = layoutId;
+        mItemViewId = itemViewId;
         mList = array;
     }
 
@@ -54,7 +57,7 @@ public class VocabAdapter extends BaseAdapter {
             convertView = inflater.inflate(mLayoutResourceId, parent, false);
 
             holder = new ViewHolder();
-            holder.text = (TextView) convertView.findViewById(R.id.vocabContentView);
+            holder.text = (TextView) convertView.findViewById(mItemViewId);
 
             convertView.setTag(holder);
         }
@@ -65,6 +68,7 @@ public class VocabAdapter extends BaseAdapter {
 
         //setting data
         holder.text.setText(mList[position]);
+
 
         return convertView;
     }

@@ -10,8 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.pagenguyen.elib.R;
+import com.pagenguyen.elib.ui.dictionary.SearchVocabActivity;
+import com.pagenguyen.elib.ui.stories.StoryListActivity;
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 
@@ -40,6 +44,25 @@ public class HomeActivity extends Activity {
 			// display message to user
 			Log.d(TAG, "no internet");
 		}
+
+		Button mDictionaryFunc = (Button) findViewById(R.id.dictionaryFunc);
+		Button mStoryFunc = (Button) findViewById(R.id.readStoryFunc);
+
+		mDictionaryFunc.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(HomeActivity.this, SearchVocabActivity.class);
+				startActivity(intent);
+			}
+		});
+
+		mStoryFunc.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(HomeActivity.this, StoryListActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override

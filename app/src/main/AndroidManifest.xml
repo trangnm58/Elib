@@ -17,6 +17,7 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -28,8 +29,10 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pagenguyen.elib.ui.HomeActivity" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -41,15 +44,17 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pagenguyen.elib.ui.LoginActivity" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.dictionary.SearchVocabActivity"
             android:label="@string/title_activity_search_vocab"
-            android:parentActivityName=".ui.HomeActivity">
+            android:parentActivityName=".ui.HomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pagenguyen.elib.ui.HomeActivity" />
@@ -57,7 +62,7 @@
         <activity
             android:name=".ui.dictionary.VocabContentActivity"
             android:label="@string/title_activity_vocab_content"
-            android:parentActivityName=".ui.HomeActivity">
+            android:parentActivityName=".ui.HomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pagenguyen.elib.ui.HomeActivity" />
@@ -65,10 +70,28 @@
         <activity
             android:name=".ui.dictionary.VoiceSearchActivity"
             android:label="@string/title_activity_voice_search"
-            android:parentActivityName=".ui.dictionary.SearchVocabActivity">
+            android:parentActivityName=".ui.dictionary.SearchVocabActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pagenguyen.elib.ui.dictionary.SearchVocabActivity" />
+        </activity>
+        <activity
+            android:name=".ui.stories.StoryListActivity"
+            android:label="@string/title_activity_story_list"
+            android:parentActivityName=".ui.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pagenguyen.elib.ui.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".ui.stories.StoryContentActivity"
+            android:label="@string/title_activity_story_content"
+            android:parentActivityName=".ui.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pagenguyen.elib.ui.HomeActivity" />
         </activity>
     </application>
 

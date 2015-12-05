@@ -26,13 +26,15 @@
     <string name="warn_title">Cảnh báo!</string>
     <string name="warn_message">Bạn chắc chắn chứ?</string>
     <string name="cancel_button">HỦY BỎ</string>
-    <string name="title_activity_search_vocabulary">SearchVocabulary</string>
-    <string name="title_activity_search_vocab">SearchVocab</string>
+    <string name="title_activity_search_vocabulary"></string>
+    <string name="title_activity_search_vocab">Tìm từ</string>
     <string name="search_vocab_hint">Nhập từ cần tìm</string>
-    <string name="title_activity_vocab_content">VocabContentActivity</string>
+    <string name="title_activity_vocab_content">Nội dung từ</string>
     <string name="no_vocab_content">Từ cần tìm hiện không có trong từ điển</string>
 
-    <string name="title_activity_voice_search">VoiceSearchActivity</string>
+    <string name="title_activity_voice_search">Đọc từ tra nghĩa</string>
     <string name="voice_guiding_text_1">Nhấn vào biểu tượng microphone để đọc</string>
     <string name="voice_recording_text">Đang ghi âm</string>
+    <string name="title_activity_story_list">Danh sách truyện</string>
+    <string name="title_activity_story_content">Đọc truyện</string>
 </resources>

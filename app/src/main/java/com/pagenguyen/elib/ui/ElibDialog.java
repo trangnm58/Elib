@@ -48,7 +48,7 @@ public class ElibDialog extends DialogFragment {
                     .setNegativeButton(context.getString(R.string.no_button), null);
         } else if(type == 2){
             builder.setTitle(context.getString(R.string.warn_title))
-                    .setMessage(context.getString(R.string.warn_message))
+                    .setMessage(message)
                     .setPositiveButton(context.getString(R.string.ok_button), null)
                     .setNegativeButton(context.getString(R.string.cancel_button), null);
         } else{
