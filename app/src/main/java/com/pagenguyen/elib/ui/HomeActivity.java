@@ -12,12 +12,20 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+<<<<<<< HEAD
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.menu.HomeMenuAdapter;
 import com.pagenguyen.elib.menu.HomeMenuItem;
+=======
+import android.widget.Button;
+
+import com.pagenguyen.elib.R;
+import com.pagenguyen.elib.ui.dictionary.SearchVocabActivity;
+import com.pagenguyen.elib.ui.stories.StoryListActivity;
+>>>>>>> origin/master
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 
@@ -48,6 +56,7 @@ public class HomeActivity extends ListActivity {
 			Log.d(TAG, "no internet");
 		}
 
+<<<<<<< HEAD
         mMenuItems = new HomeMenuItem[6];
         mMenuItems[0] = new HomeMenuItem("topic", "Học từ theo chủ đề", "TopicActivity");
         mMenuItems[1] = new HomeMenuItem("book", "Học tiếng Anh qua truyện", "BookActivity");
@@ -58,6 +67,26 @@ public class HomeActivity extends ListActivity {
 
         HomeMenuAdapter adapter = new HomeMenuAdapter(this, mMenuItems);
         setListAdapter(adapter);
+=======
+		Button mDictionaryFunc = (Button) findViewById(R.id.dictionaryFunc);
+		Button mStoryFunc = (Button) findViewById(R.id.readStoryFunc);
+
+		mDictionaryFunc.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(HomeActivity.this, SearchVocabActivity.class);
+				startActivity(intent);
+			}
+		});
+
+		mStoryFunc.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(HomeActivity.this, StoryListActivity.class);
+				startActivity(intent);
+			}
+		});
+>>>>>>> origin/master
 	}
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
