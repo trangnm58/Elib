@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">Elib</string>
 
     <string name="action_settings">Cài đặt</string>
@@ -11,12 +12,11 @@
     <string name="username_hint">Tên tài khoản</string>
     <string name="password_hint">Mật khẩu</string>
     <string name="email_hint">Email</string>
-<<<<<<< HEAD
     <string name="sign_up_label">Tạo tài khoản mới.</string>
     <string name="re_password_hint">Nhập lại mật khẩu</string>
     <string name="registered_label">Đã có tài khoản.</string>
-=======
+
     <string name="speech_waiting_prompt">Đang lắng nghe...</string>
     <string name="google_voice_input_missing_error">Thiết bị không hỗ trợ Google Voice Input!</string>
->>>>>>> origin/master
+
 </resources>

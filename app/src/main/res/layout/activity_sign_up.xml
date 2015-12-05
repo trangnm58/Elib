@@ -16,7 +16,8 @@
         android:textColor="#ff646464"
         android:textSize="100sp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -85,7 +86,7 @@
         android:id="@+id/registeredLink"
         android:textSize="20sp"
         android:clickable="true"
-        android:onClick="signUp"
+        android:onClick="registered"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 

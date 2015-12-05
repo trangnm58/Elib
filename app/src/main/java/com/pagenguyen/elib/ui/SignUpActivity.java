@@ -116,6 +116,12 @@ public class SignUpActivity extends Activity {
 		});
 	}
 
+    public void registered(View v) {
+        // go to sign up activity
+        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
+
     private void changeLoadingState() {
         if (progressBar.getVisibility() == View.VISIBLE) {
             progressBar.setVisibility(View.INVISIBLE);
