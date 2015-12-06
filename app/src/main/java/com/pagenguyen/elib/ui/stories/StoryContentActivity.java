@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -113,13 +114,20 @@ public class StoryContentActivity extends AppCompatActivity {
             dialog.show(getFragmentManager(), "read_error");
         }
 
-        mStoryContentText.setText(sbuffer.toString());
+        mStoryContentText.setText(Html.fromHtml(sbuffer.toString()));
     }
 
     private void setWordListView(){
-        String[] mWords = { "hello",
-                            "you",
-                            "background" };
+        String[] mWords = { "creeper",
+                            "delight",
+                            "deject",
+                            "fairy",
+                            "fate",
+                            "occasion",
+                            "prevail",
+                            "marriage",
+                            "soldier",
+                            "yarn" };
 
         ElibAdapter adapter = new ElibAdapter(StoryContentActivity.this,
                 R.layout.item_vocab_content,

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +29,7 @@ public class VocabContentActivity extends AppCompatActivity {
     @Bind(R.id.definitionListView) ListView mListDefinition;
     @Bind(R.id.exampleListView) ListView mListExample;
     @Bind(R.id.emptyListView) TextView mEmptyTextView;
-    @Bind(R.id.loadingView) TextView mLoadingView;
+    @Bind(R.id.loadingContentView) ProgressBar mLoadingView;
     @Bind(R.id.vocabBackHome) ImageView mHomeIcon;
     @Bind(R.id.volumeButton) ImageView mVolumeIcon;
 
@@ -36,6 +37,10 @@ public class VocabContentActivity extends AppCompatActivity {
     public static String[] mVocabDefinition;
     public static String[] mVocabExamples;
     public Intent mIntent;
+
+    /* success = 1 if vocabulary is in dictionary
+       success = -1 if vocabulary is not in dictionary */
+    public int mSuccess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,9 @@ public class VocabContentActivity extends AppCompatActivity {
 
         mIntent = getIntent();
         mVocab = mIntent.getStringExtra("vocab");
+
+        //set default value
+        mSuccess = -1;
         mEmptyTextView.setVisibility(View.GONE);
         mLoadingView.setVisibility(View.VISIBLE);
 
@@ -84,6 +92,8 @@ public class VocabContentActivity extends AppCompatActivity {
                         //Set definitions list view
                         if (mVocabDefinition != null && mVocabDefinition.length > 0) {
                             mLoadingView.setVisibility(View.GONE);
+                            mSuccess = 1;
+                            mEmptyTextView.setVisibility(View.GONE);
 
                             ElibAdapter adapter = new ElibAdapter(VocabContentActivity.this,
                                     R.layout.item_vocab_content,
@@ -91,7 +101,9 @@ public class VocabContentActivity extends AppCompatActivity {
                                     mVocabDefinition);
                             mListDefinition.setAdapter(adapter);
                         } else {
-                            mEmptyTextView.setVisibility(View.VISIBLE);
+                            if(mSuccess == -1){
+                                mEmptyTextView.setVisibility(View.VISIBLE);
+                            } else { mEmptyTextView.setVisibility(View.GONE); }
                         }
                     }
                 });
@@ -114,6 +126,8 @@ public class VocabContentActivity extends AppCompatActivity {
                         //Set example list view
                         if (mVocabExamples != null && mVocabExamples.length > 0) {
                             mLoadingView.setVisibility(View.GONE);
+                            mSuccess = 1;
+                            mEmptyTextView.setVisibility(View.GONE);
 
                             ElibAdapter adapter = new ElibAdapter(VocabContentActivity.this,
                                     R.layout.item_vocab_content,
@@ -121,7 +135,9 @@ public class VocabContentActivity extends AppCompatActivity {
                                     mVocabExamples);
                             mListExample.setAdapter(adapter);
                         } else {
-                            mEmptyTextView.setVisibility(View.VISIBLE);
+                            if(mSuccess == -1){
+                                mEmptyTextView.setVisibility(View.VISIBLE);
+                            } else { mEmptyTextView.setVisibility(View.GONE); }
                         }
                     }
                 });
