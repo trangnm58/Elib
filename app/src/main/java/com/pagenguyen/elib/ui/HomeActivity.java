@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.HomeMenuAdapter;
-import com.pagenguyen.elib.dataStructure.HomeMenuItem;
+import com.pagenguyen.elib.model.HomeMenuItem;
 import com.pagenguyen.elib.ui.dictionary.SearchVocabActivity;
 import com.pagenguyen.elib.ui.stories.StoryListActivity;
 import com.parse.ParseAnalytics;

@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.dataStructure.HomeMenuItem;
+import com.pagenguyen.elib.model.HomeMenuItem;
 
 /**
  * Created by Can on 05-Dec-15.

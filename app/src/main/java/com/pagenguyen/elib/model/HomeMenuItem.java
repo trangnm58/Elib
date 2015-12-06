@@ -1,4 +1,4 @@
-package com.pagenguyen.elib.dataStructure;
+package com.pagenguyen.elib.model;
 
 import com.pagenguyen.elib.R;
 
