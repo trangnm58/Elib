@@ -30,6 +30,7 @@
     <string name="google_voice_input_missing_error">Thiết bị không hỗ trợ Google Voice Input!</string>
     <string name="no_home_menu_item">Hiện chưa có bài học.</string>
 
+    <!-- dialog -->
     <string name="ok_button">ĐỒNG Ý</string>
     <string name="error_message">Có lỗi xảy ra trong quá trình chạy. Bạn có muốn gửi báo cáo lỗi? Nó giúp chúng tôi hỗ trợ bạn tốt hơn!</string>
     <string name="send_button">GỬI</string>
@@ -37,15 +38,29 @@
     <string name="warn_title">Cảnh báo!</string>
     <string name="warn_message">Bạn chắc chắn chứ?</string>
     <string name="cancel_button">HỦY BỎ</string>
-    <string name="title_activity_search_vocabulary"></string>
+
+    <!--dictionary -->
     <string name="title_activity_search_vocab">Tìm từ</string>
     <string name="search_vocab_hint">Nhập từ cần tìm</string>
     <string name="title_activity_vocab_content">Nội dung từ</string>
     <string name="no_vocab_content">Từ cần tìm hiện không có trong từ điển</string>
 
+    <!-- search vocabulary by voice -->
     <string name="title_activity_voice_search">Đọc từ tra nghĩa</string>
     <string name="voice_guiding_text_1">Nhấn vào biểu tượng microphone để đọc</string>
     <string name="voice_recording_text">Đang ghi âm</string>
+
+    <!-- reading stories -->
     <string name="title_activity_story_list">Danh sách truyện</string>
     <string name="title_activity_story_content">Đọc truyện</string>
+
+    <!-- exercies -->
+    <string name="title_activity_list_exercise">Danh sách bài tập</string>
+    <string name="title_activity_exercise_content">Bài tập</string>
+
+    <!-- excercies result -->
+    <string name="title_activity_exercise_result">Kết quả</string>
+    <string name="result_title_text">KẾT QUẢ</string>
+    <string name="bad_result_status">Chưa đạt ! Bạn cần cố gắng hơn</string>
+    <string name="answer_title_text">ĐÁP ÁN</string>
 </resources>

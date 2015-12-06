@@ -79,6 +79,33 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pagenguyen.elib.ui.HomeActivity" />
         </activity>
+        <activity
+            android:name=".ui.exercise.ExerciseListActivity"
+            android:label="@string/title_activity_list_exercise"
+            android:parentActivityName=".ui.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pagenguyen.elib.ui.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".ui.exercise.ExerciseContentActivity"
+            android:label="@string/title_activity_exercise_content"
+            android:parentActivityName=".ui.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pagenguyen.elib.ui.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".ui.exercise.ExerciseResultActivity"
+            android:label="@string/title_activity_exercise_result"
+            android:parentActivityName=".ui.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pagenguyen.elib.ui.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

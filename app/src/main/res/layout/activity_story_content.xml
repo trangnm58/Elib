@@ -13,7 +13,7 @@
     <TabHost
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/tabHost"
+        android:id="@+id/tabHostStory"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true">
 
@@ -37,23 +37,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-
-                    <TextView
-                        tools:text="Tên truyện"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:id="@+id/currentStoryName"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:textSize="24dp" />
+                    <include layout="@layout/tab_story_content" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/wordListView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"></LinearLayout>
+                    android:orientation="vertical">
+                    <include layout="@layout/tab_story_vocab_list" />
+                </LinearLayout>
 
             </FrameLayout>
         </LinearLayout>

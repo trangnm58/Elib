@@ -1,8 +1,8 @@
 package com.pagenguyen.elib.ui.dictionary;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,11 +20,12 @@ import java.io.IOException;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class VocabContentActivity extends Activity {
+public class VocabContentActivity extends AppCompatActivity {
     @Bind(R.id.vocabView) TextView mVocabView;
     @Bind(R.id.definitionListView) ListView mListDefinition;
     @Bind(R.id.exampleListView) ListView mListExample;
     @Bind(R.id.emptyListView) TextView mEmptyTextView;
+    @Bind(R.id.loadingView) TextView mLoadingView;
 
     public String mVocab;
     public static String[] mVocabDefinition;
@@ -41,6 +42,7 @@ public class VocabContentActivity extends Activity {
         mIntent = getIntent();
         mVocab = mIntent.getStringExtra("vocab");
         mEmptyTextView.setVisibility(View.GONE);
+        mLoadingView.setVisibility(View.VISIBLE);
 
         //get the vocabulary from Search Vocab Activity
         setVocabView();
@@ -65,7 +67,6 @@ public class VocabContentActivity extends Activity {
             public void onResponse(Response response) throws IOException {
                 glosbeResult.setTranslations(GlosbeApi.callbackTransHelper(response));
 
-                // runOnUiThread -> cập nhật view cho phần Nghĩa
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -73,8 +74,10 @@ public class VocabContentActivity extends Activity {
 
                         //Set definitions list view
                         if (mVocabDefinition != null && mVocabDefinition.length > 0) {
+                            mLoadingView.setVisibility(View.GONE);
+
                             ElibAdapter adapter = new ElibAdapter(VocabContentActivity.this,
-                                    R.layout.vocab_content_item,
+                                    R.layout.item_vocab_content,
                                     R.id.vocabContentView,
                                     mVocabDefinition);
                             mListDefinition.setAdapter(adapter);
@@ -94,7 +97,6 @@ public class VocabContentActivity extends Activity {
             public void onResponse(Response response) throws IOException {
                 glosbeResult.setExamples(GlosbeApi.callbackExpHelper(response));
 
-                // runOnUiThread -> cập nhật view cho phần Ví dụ
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -102,8 +104,10 @@ public class VocabContentActivity extends Activity {
 
                         //Set example list view
                         if (mVocabExamples != null && mVocabExamples.length > 0) {
+                            mLoadingView.setVisibility(View.GONE);
+
                             ElibAdapter adapter = new ElibAdapter(VocabContentActivity.this,
-                                    R.layout.vocab_content_item,
+                                    R.layout.item_vocab_content,
                                     R.id.vocabContentView,
                                     mVocabExamples);
                             mListExample.setAdapter(adapter);
