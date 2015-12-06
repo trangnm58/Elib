@@ -1,12 +1,16 @@
 package com.pagenguyen.elib.ui.exercise;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.ElibAdapter;
+import com.pagenguyen.elib.ui.HomeActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -15,7 +19,7 @@ public class ExerciseResultActivity extends AppCompatActivity {
     @Bind(R.id.resultText) TextView mResultText;
     @Bind(R.id.resultStatusText) TextView mResultStatusText;
     @Bind(R.id.answerTitleText) TextView mAnswerTitleText;
-
+    @Bind(R.id.resultBackHome) ImageView mHomeIcon;
     @Bind(R.id.answerListView) ListView mListAnswers;
 
     @Override
@@ -28,6 +32,8 @@ public class ExerciseResultActivity extends AppCompatActivity {
         setAnswerListView();
 
         setListItemClick();
+
+        setHomeIconClick();
     }
 
     private void setAnswerListView() {
@@ -54,4 +60,14 @@ public class ExerciseResultActivity extends AppCompatActivity {
 
     }
 
+    private void setHomeIconClick(){
+        mHomeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ExerciseResultActivity.this, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+    }
 }

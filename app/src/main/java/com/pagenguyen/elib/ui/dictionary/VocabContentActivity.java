@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.ElibAdapter;
 import com.pagenguyen.elib.api.GlosbeApi;
 import com.pagenguyen.elib.model.GlosbeResult;
+import com.pagenguyen.elib.ui.HomeActivity;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -26,6 +29,8 @@ public class VocabContentActivity extends AppCompatActivity {
     @Bind(R.id.exampleListView) ListView mListExample;
     @Bind(R.id.emptyListView) TextView mEmptyTextView;
     @Bind(R.id.loadingView) TextView mLoadingView;
+    @Bind(R.id.vocabBackHome) ImageView mHomeIcon;
+    @Bind(R.id.volumeButton) ImageView mVolumeIcon;
 
     public String mVocab;
     public static String[] mVocabDefinition;
@@ -47,14 +52,18 @@ public class VocabContentActivity extends AppCompatActivity {
         //get the vocabulary from Search Vocab Activity
         setVocabView();
         //get definition and examples of the vocabulary
-        getVocabContent();
+        setVocabContentView();
+        //set homeIcon click
+        setHomeIconClick();
+        //set volume Icon  click
+        setVolumeIconClick();
     }
 
     public void setVocabView(){
         mVocabView.setText(mVocab);
     }
 
-    public void getVocabContent(){
+    public void setVocabContentView(){
         final GlosbeResult glosbeResult = new GlosbeResult();
 
         GlosbeApi.getTranslations(mVocab, new Callback() {
@@ -81,9 +90,9 @@ public class VocabContentActivity extends AppCompatActivity {
                                     R.id.vocabContentView,
                                     mVocabDefinition);
                             mListDefinition.setAdapter(adapter);
+                        } else {
+                            mEmptyTextView.setVisibility(View.VISIBLE);
                         }
-
-                        else { mEmptyTextView.setVisibility(View.VISIBLE); }
                     }
                 });
             }
@@ -111,11 +120,33 @@ public class VocabContentActivity extends AppCompatActivity {
                                     R.id.vocabContentView,
                                     mVocabExamples);
                             mListExample.setAdapter(adapter);
+                        } else {
+                            mEmptyTextView.setVisibility(View.VISIBLE);
                         }
-
-                        else { mEmptyTextView.setVisibility(View.VISIBLE); }
                     }
                 });
+            }
+        });
+    }
+
+    private void setHomeIconClick(){
+        mHomeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(VocabContentActivity.this, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void setVolumeIconClick() {
+        mVolumeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(VocabContentActivity.this,
+                        "Đang đọc phát âm",
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }

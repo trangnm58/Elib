@@ -6,6 +6,7 @@ import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +20,7 @@ import butterknife.ButterKnife;
 
 public class VoiceSearchActivity extends AppCompatActivity {
     @Bind(R.id.voiceGuidingText) TextView mGuideText;
-    @Bind(R.id.microButton) Button mMicroButton;
+    @Bind(R.id.microButton) ImageView mMicroButton;
 
     /* Status of mMicroButton
      * start: click to read
@@ -72,10 +73,12 @@ public class VoiceSearchActivity extends AppCompatActivity {
                 // results là mảng string các kết quả trả về
                 ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-                String vocab = results.get(0);  //get the first vocabulary in result
                 if(results != null){
+                    //get the first vocabulary in result
+                    String vocab = results.get(0);
 
-                    Intent intent = new Intent();
+                    //Go to vocabulary search result
+                    Intent intent = new Intent(VoiceSearchActivity.this, VocabContentActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("vocab", vocab);
                     startActivity(intent);
