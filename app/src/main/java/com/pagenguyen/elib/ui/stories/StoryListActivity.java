@@ -1,10 +1,8 @@
 package com.pagenguyen.elib.ui.stories;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
-import android.support.v7.app.AppCompatActivity;
-
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -16,7 +14,7 @@ import com.pagenguyen.elib.adapter.ElibAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class StoryListActivity extends AppCompatActivity {
+public class StoryListActivity extends Activity {
     @Bind(R.id.storyListView) ListView mListStories;
 
     public Intent mIntent;

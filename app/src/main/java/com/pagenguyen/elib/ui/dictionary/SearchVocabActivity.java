@@ -1,9 +1,8 @@
 package com.pagenguyen.elib.ui.dictionary;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +13,7 @@ import com.pagenguyen.elib.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SearchVocabActivity extends AppCompatActivity {
+public class SearchVocabActivity extends Activity {
     @Bind(R.id.searchVocabField) EditText mSearchField;
     @Bind(R.id.searchVocabButton) Button mSearchButton;
     @Bind(R.id.microSearchButton) Button mMicroButton;

@@ -1,22 +1,19 @@
 package com.pagenguyen.elib.ui.stories;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.ElibAdapter;
 import com.pagenguyen.elib.ui.ElibDialog;
 import com.pagenguyen.elib.ui.dictionary.VocabContentActivity;
-import com.pagenguyen.elib.ui.exercise.ExerciseContentActivity;
 import com.pagenguyen.elib.ui.exercise.ExerciseListActivity;
 
 import java.io.BufferedReader;
@@ -27,7 +24,7 @@ import java.io.InputStreamReader;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class StoryContentActivity extends AppCompatActivity {
+public class StoryContentActivity extends Activity {
     @Bind(R.id.currentStoryName) TextView mStoryNameText;
     @Bind(R.id.doExerciseButton) TextView mDoExerciseButton;
     @Bind(R.id.storyContentText) TextView mStoryContentText;

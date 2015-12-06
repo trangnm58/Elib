@@ -1,8 +1,8 @@
 package com.pagenguyen.elib.ui.dictionary;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -24,7 +24,7 @@ import java.io.IOException;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class VocabContentActivity extends AppCompatActivity {
+public class VocabContentActivity extends Activity {
     @Bind(R.id.vocabView) TextView mVocabView;
     @Bind(R.id.definitionListView) ListView mListDefinition;
     @Bind(R.id.exampleListView) ListView mListExample;

@@ -1,8 +1,8 @@
 package com.pagenguyen.elib.ui.exercise;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -14,7 +14,7 @@ import com.pagenguyen.elib.adapter.ElibAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ExerciseListActivity extends AppCompatActivity {
+public class ExerciseListActivity extends Activity {
     @Bind(R.id.exerciseListView) ListView mListExercise;
 
     public Intent mIntent;

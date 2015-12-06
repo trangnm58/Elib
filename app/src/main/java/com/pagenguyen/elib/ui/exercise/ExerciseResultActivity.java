@@ -1,8 +1,8 @@
 package com.pagenguyen.elib.ui.exercise;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -15,7 +15,7 @@ import com.pagenguyen.elib.ui.HomeActivity;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ExerciseResultActivity extends AppCompatActivity {
+public class ExerciseResultActivity extends Activity {
     @Bind(R.id.resultText) TextView mResultText;
     @Bind(R.id.resultStatusText) TextView mResultStatusText;
     @Bind(R.id.answerTitleText) TextView mAnswerTitleText;
