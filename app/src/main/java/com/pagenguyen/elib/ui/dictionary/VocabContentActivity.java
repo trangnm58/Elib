@@ -34,13 +34,9 @@ public class VocabContentActivity extends AppCompatActivity {
     @Bind(R.id.volumeButton) ImageView mVolumeIcon;
 
     public String mVocab;
-    public static String[] mVocabDefinition;
-    public static String[] mVocabExamples;
+    public String[] mVocabDefinition;
+    public String[] mVocabExamples;
     public Intent mIntent;
-
-    /* success = 1 if vocabulary is in dictionary
-       success = -1 if vocabulary is not in dictionary */
-    public int mSuccess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +49,7 @@ public class VocabContentActivity extends AppCompatActivity {
         mVocab = mIntent.getStringExtra("vocab");
 
         //set default value
-        mSuccess = -1;
-        mEmptyTextView.setVisibility(View.GONE);
+        mEmptyTextView.setText("Đang tải...");
         mLoadingView.setVisibility(View.VISIBLE);
 
         //get the vocabulary from Search Vocab Activity
@@ -88,23 +83,18 @@ public class VocabContentActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         mVocabDefinition = glosbeResult.getTranslations();
+                        mLoadingView.setVisibility(View.GONE);
 
                         //Set definitions list view
                         if (mVocabDefinition != null && mVocabDefinition.length > 0) {
-                            mLoadingView.setVisibility(View.GONE);
-                            mSuccess = 1;
-                            mEmptyTextView.setVisibility(View.GONE);
-
                             ElibAdapter adapter = new ElibAdapter(VocabContentActivity.this,
                                     R.layout.item_vocab_content,
                                     R.id.vocabContentView,
                                     mVocabDefinition);
                             mListDefinition.setAdapter(adapter);
-                        } else {
-                            if(mSuccess == -1){
-                                mEmptyTextView.setVisibility(View.VISIBLE);
-                            } else { mEmptyTextView.setVisibility(View.GONE); }
                         }
+                        mEmptyTextView.setText(R.string.no_vocab_content);
+                        mListDefinition.setEmptyView(mEmptyTextView);
                     }
                 });
             }
@@ -122,23 +112,19 @@ public class VocabContentActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         mVocabExamples = glosbeResult.getExamples();
+                        mLoadingView.setVisibility(View.GONE);
 
                         //Set example list view
                         if (mVocabExamples != null && mVocabExamples.length > 0) {
-                            mLoadingView.setVisibility(View.GONE);
-                            mSuccess = 1;
-                            mEmptyTextView.setVisibility(View.GONE);
-
                             ElibAdapter adapter = new ElibAdapter(VocabContentActivity.this,
                                     R.layout.item_vocab_content,
                                     R.id.vocabContentView,
                                     mVocabExamples);
                             mListExample.setAdapter(adapter);
-                        } else {
-                            if(mSuccess == -1){
-                                mEmptyTextView.setVisibility(View.VISIBLE);
-                            } else { mEmptyTextView.setVisibility(View.GONE); }
                         }
+
+                        mEmptyTextView.setText(R.string.no_vocab_content);
+                        mListExample.setEmptyView(mEmptyTextView);
                     }
                 });
             }

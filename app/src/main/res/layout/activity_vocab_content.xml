@@ -36,8 +36,8 @@
         android:id="@+id/volumeButton"
         android:src="@drawable/ic_volume_up_white_24dp"
         android:background="@drawable/frame"
-        android:layout_above="@+id/definitionListView"
-        android:layout_toEndOf="@+id/vocabView" />
+        android:layout_toEndOf="@+id/vocabView"
+        android:layout_marginLeft="10dp"/>
 
     <ListView
         android:layout_width="wrap_content"
