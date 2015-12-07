@@ -1,21 +1,21 @@
 package com.pagenguyen.elib.ui.exercise;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.adapter.ElibAdapter;
-import com.pagenguyen.elib.ui.HomeActivity;
+import com.pagenguyen.elib.adapter.OneTextviewAdapter;
+import com.pagenguyen.elib.ui.main.HomeActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ExerciseResultActivity extends Activity {
+public class ExerciseResultActivity extends AppCompatActivity {
     @Bind(R.id.resultText) TextView mResultText;
     @Bind(R.id.resultStatusText) TextView mResultStatusText;
     @Bind(R.id.answerTitleText) TextView mAnswerTitleText;
@@ -48,9 +48,9 @@ public class ExerciseResultActivity extends Activity {
                                 "Câu 9: c - Sai",
                                 "Câu 10: d - Sai" };
 
-        ElibAdapter adapter = new ElibAdapter(ExerciseResultActivity.this,
-                R.layout.item_answer_content,
-                R.id.answerContentView,
+        OneTextviewAdapter adapter = new OneTextviewAdapter(ExerciseResultActivity.this,
+                R.layout.item_one_textview,
+                R.id.itemContent,
                 mAnswers);
 
         mListAnswers.setAdapter(adapter);

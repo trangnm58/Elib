@@ -1,9 +1,9 @@
 package com.pagenguyen.elib.ui.dictionary;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class VoiceSearchActivity extends Activity {
+public class VoiceSearchActivity extends AppCompatActivity {
     @Bind(R.id.voiceGuidingText) TextView mGuideText;
     @Bind(R.id.microButton) ImageView mMicroButton;
 

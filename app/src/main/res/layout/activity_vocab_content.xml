@@ -1,6 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -9,6 +11,15 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.pagenguyen.elib.ui.dictionary.VocabContentActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
     <ImageView
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
@@ -16,8 +27,8 @@
         android:id="@+id/vocabBackHome"
         android:src="@mipmap/ic_home_white_24dp"
         android:background="@drawable/frame"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignBottom="@+id/volumeButton"
+        android:layout_alignParentEnd="true"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,26 +37,30 @@
         android:textSize="32dp"
         android:id="@+id/vocabView"
         tools:text="Từ"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/my_toolbar"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="16dp"/>
 
     <ImageView
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:id="@+id/volumeButton"
-        android:src="@mipmap/ic_volume_up_white_24dp"
-        android:background="@drawable/frame"
-        android:layout_toEndOf="@+id/vocabView"
-        android:layout_marginLeft="10dp"/>
+        android:src="@mipmap/ic_volume_up_black_18dp"
+        android:layout_marginLeft="10dp"
+        android:layout_above="@+id/definitionListView"
+        android:layout_toEndOf="@+id/vocabView"/>
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/definitionListView"
-        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/vocabView"
+        android:layout_alignParentStart="true"
         android:layout_above="@+id/emptyListView"
-        android:layout_below="@+id/vocabBackHome" />
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:divider="#cacaca"
+        android:dividerHeight="1dp"/>
 
    <TextView
         android:layout_width="wrap_content"
@@ -60,7 +75,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/exampleListView"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/definitionListView" />
+        android:layout_below="@+id/definitionListView"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:divider="#cacaca"
+        android:dividerHeight="1dp"/>
 
     <ProgressBar
         android:layout_width="wrap_content"

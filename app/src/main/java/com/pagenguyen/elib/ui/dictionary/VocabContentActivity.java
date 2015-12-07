@@ -1,8 +1,9 @@
 package com.pagenguyen.elib.ui.dictionary;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -11,10 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.adapter.ElibAdapter;
+import com.pagenguyen.elib.adapter.OneTextviewAdapter;
 import com.pagenguyen.elib.api.GlosbeApi;
 import com.pagenguyen.elib.model.GlosbeResult;
-import com.pagenguyen.elib.ui.HomeActivity;
+import com.pagenguyen.elib.ui.main.HomeActivity;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -24,7 +25,7 @@ import java.io.IOException;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class VocabContentActivity extends Activity {
+public class VocabContentActivity extends AppCompatActivity {
     @Bind(R.id.vocabView) TextView mVocabView;
     @Bind(R.id.definitionListView) ListView mListDefinition;
     @Bind(R.id.exampleListView) ListView mListExample;
@@ -42,8 +43,8 @@ public class VocabContentActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vocab_content);
-
         ButterKnife.bind(this);
+        setupToolbar();
 
         mIntent = getIntent();
         mVocab = mIntent.getStringExtra("vocab");
@@ -60,6 +61,11 @@ public class VocabContentActivity extends Activity {
         setHomeIconClick();
         //set volume Icon  click
         setVolumeIconClick();
+    }
+
+    private void setupToolbar() {
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
     }
 
     public void setVocabView(){
@@ -87,9 +93,9 @@ public class VocabContentActivity extends Activity {
 
                         //Set definitions list view
                         if (mVocabDefinition != null && mVocabDefinition.length > 0) {
-                            ElibAdapter adapter = new ElibAdapter(VocabContentActivity.this,
-                                    R.layout.item_vocab_content,
-                                    R.id.vocabContentView,
+                            OneTextviewAdapter adapter = new OneTextviewAdapter(VocabContentActivity.this,
+                                    R.layout.item_one_textview,
+                                    R.id.itemContent,
                                     mVocabDefinition);
                             mListDefinition.setAdapter(adapter);
                         }
@@ -116,9 +122,9 @@ public class VocabContentActivity extends Activity {
 
                         //Set example list view
                         if (mVocabExamples != null && mVocabExamples.length > 0) {
-                            ElibAdapter adapter = new ElibAdapter(VocabContentActivity.this,
-                                    R.layout.item_vocab_content,
-                                    R.id.vocabContentView,
+                            OneTextviewAdapter adapter = new OneTextviewAdapter(VocabContentActivity.this,
+                                    R.layout.item_one_textview,
+                                    R.id.itemContent,
                                     mVocabExamples);
                             mListExample.setAdapter(adapter);
                         }

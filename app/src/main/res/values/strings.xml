@@ -28,7 +28,6 @@
     <!-- speech recognition-->
     <string name="speech_waiting_prompt">Đang lắng nghe...</string>
     <string name="google_voice_input_missing_error">Thiết bị không hỗ trợ Google Voice Input!</string>
-    <string name="no_home_menu_item">Hiện chưa có bài học.</string>
 
     <!-- dialog -->
     <string name="ok_button">ĐỒNG Ý</string>
@@ -40,7 +39,7 @@
     <string name="cancel_button">HỦY BỎ</string>
 
     <!--dictionary -->
-    <string name="title_activity_search_vocab">Tìm từ</string>
+    <string name="title_activity_search_vocab">Từ điển tích hợp</string>
     <string name="search_vocab_hint">Nhập từ cần tìm</string>
     <string name="title_activity_vocab_content">Nội dung từ</string>
     <string name="no_vocab_content">Từ hiện không có trong từ điển</string>

@@ -1,4 +1,4 @@
-package com.pagenguyen.elib.ui;
+package com.pagenguyen.elib.ui.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

@@ -1,13 +1,13 @@
 package com.pagenguyen.elib.ui.exercise;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.pagenguyen.elib.R;
 
 /**
  * Created by Kira on 12/6/2015.
  */
-public class ExerciseResult extends Activity {
+public class ExerciseResult extends AppCompatActivity {
     public float mScore;
     public String mStatus;
 

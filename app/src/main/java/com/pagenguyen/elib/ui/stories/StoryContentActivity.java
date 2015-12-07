@@ -1,8 +1,9 @@
 package com.pagenguyen.elib.ui.stories;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,8 +12,8 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.adapter.ElibAdapter;
-import com.pagenguyen.elib.ui.ElibDialog;
+import com.pagenguyen.elib.adapter.OneTextviewAdapter;
+import com.pagenguyen.elib.ui.dialog.ElibDialog;
 import com.pagenguyen.elib.ui.dictionary.VocabContentActivity;
 import com.pagenguyen.elib.ui.exercise.ExerciseListActivity;
 
@@ -24,7 +25,7 @@ import java.io.InputStreamReader;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class StoryContentActivity extends Activity {
+public class StoryContentActivity extends AppCompatActivity {
     @Bind(R.id.currentStoryName) TextView mStoryNameText;
     @Bind(R.id.doExerciseButton) TextView mDoExerciseButton;
     @Bind(R.id.storyContentText) TextView mStoryContentText;
@@ -37,8 +38,9 @@ public class StoryContentActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_content);
-
         ButterKnife.bind(this);
+
+        setupToolbar();
 
         //Load and set Tab
         loadTabs();
@@ -58,6 +60,11 @@ public class StoryContentActivity extends Activity {
 
         //set doExerciseButton action
         setDoExerciseButton();
+    }
+
+    private void setupToolbar() {
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
     }
 
     private void loadTabs() {
@@ -126,9 +133,9 @@ public class StoryContentActivity extends Activity {
                             "soldier",
                             "yarn" };
 
-        ElibAdapter adapter = new ElibAdapter(StoryContentActivity.this,
-                R.layout.item_vocab_content,
-                R.id.vocabContentView,
+        OneTextviewAdapter adapter = new OneTextviewAdapter(StoryContentActivity.this,
+                R.layout.item_one_textview,
+                R.id.itemContent,
                 mWords);
 
         mWordList.setAdapter(adapter);
@@ -151,7 +158,7 @@ public class StoryContentActivity extends Activity {
         mWordList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView vocabText = (TextView) view.findViewById(R.id.vocabContentView);
+                TextView vocabText = (TextView) view.findViewById(R.id.itemContent);
 
                 Intent intent = new Intent(StoryContentActivity.this, VocabContentActivity.class);
                 intent.putExtra("vocab", vocabText.getText().toString().toLowerCase());

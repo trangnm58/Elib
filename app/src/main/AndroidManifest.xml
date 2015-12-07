@@ -13,47 +13,44 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".ui.HomeActivity"
+            android:name=".ui.main.HomeActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.main.LoginActivity"
             android:label="@string/title_activity_login"
-            android:parentActivityName=".ui.HomeActivity"
-            android:theme="@style/FullTheme" >
+            android:parentActivityName=".ui.main.HomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pagenguyen.elib.ui.HomeActivity" />
+                android:value=".ui.main.HomeActivity" />
         </activity>
         <activity
-            android:name=".ui.SignUpActivity"
+            android:name=".ui.main.SignUpActivity"
             android:label="@string/title_activity_sign_up"
-            android:parentActivityName=".ui.LoginActivity"
-            android:theme="@style/FullTheme" >
+            android:parentActivityName=".ui.main.LoginActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pagenguyen.elib.ui.LoginActivity" />
+                android:value=".ui.main.LoginActivity" />
         </activity>
         <activity
             android:name=".ui.dictionary.SearchVocabActivity"
             android:label="@string/title_activity_search_vocab"
-            android:parentActivityName=".ui.HomeActivity" >
+            android:parentActivityName=".ui.main.HomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pagenguyen.elib.ui.HomeActivity" />
+                android:value=".ui.main.HomeActivity" />
         </activity>
         <activity
             android:name=".ui.dictionary.VocabContentActivity"
             android:label="@string/title_activity_vocab_content"
-            android:parentActivityName=".ui.HomeActivity" >
+            android:parentActivityName=".ui.dictionary.SearchVocabActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pagenguyen.elib.ui.HomeActivity" />
+                android:value=".ui.dictionary.SearchVocabActivity" />
         </activity>
         <activity
             android:name=".ui.dictionary.VoiceSearchActivity"
@@ -66,45 +63,42 @@
         <activity
             android:name=".ui.stories.StoryListActivity"
             android:label="@string/title_activity_story_list"
-            android:parentActivityName=".ui.HomeActivity" >
+            android:parentActivityName=".ui.main.HomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pagenguyen.elib.ui.HomeActivity" />
+                android:value=".ui.main.HomeActivity" />
         </activity>
         <activity
             android:name=".ui.stories.StoryContentActivity"
             android:label="@string/title_activity_story_content"
-            android:parentActivityName=".ui.HomeActivity" >
+            android:parentActivityName=".ui.stories.StoryListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pagenguyen.elib.ui.HomeActivity" />
+                android:value=".ui.stories.StoryListActivity" />
         </activity>
         <activity
             android:name=".ui.exercise.ExerciseListActivity"
             android:label="@string/title_activity_list_exercise"
-            android:parentActivityName=".ui.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:parentActivityName=".ui.main.HomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pagenguyen.elib.ui.HomeActivity" />
+                android:value=".ui.main.HomeActivity" />
         </activity>
         <activity
             android:name=".ui.exercise.ExerciseContentActivity"
             android:label="@string/title_activity_exercise_content"
-            android:parentActivityName=".ui.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:parentActivityName=".ui.exercise.ExerciseListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pagenguyen.elib.ui.HomeActivity" />
+                android:value=".ui.exercise.ExerciseListActivity" />
         </activity>
         <activity
             android:name=".ui.exercise.ExerciseResultActivity"
             android:label="@string/title_activity_exercise_result"
-            android:parentActivityName=".ui.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:parentActivityName=".ui.exercise.ExerciseContentActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pagenguyen.elib.ui.HomeActivity" />
+                android:value=".ui.exercise.ExerciseContentActivity" />
         </activity>
     </application>
 

@@ -1,20 +1,21 @@
 package com.pagenguyen.elib.ui.exercise;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.adapter.ElibAdapter;
+import com.pagenguyen.elib.adapter.OneTextviewAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ExerciseListActivity extends Activity {
+public class ExerciseListActivity extends AppCompatActivity {
     @Bind(R.id.exerciseListView) ListView mListExercise;
 
     public Intent mIntent;
@@ -23,12 +24,16 @@ public class ExerciseListActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_list);
-
         ButterKnife.bind(this);
 
+        setupToolbar();
         setExerciseListView();
-
         setListItemClick();
+    }
+
+    private void setupToolbar() {
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
     }
 
     private void setExerciseListView() {
@@ -36,9 +41,9 @@ public class ExerciseListActivity extends Activity {
                                 "Bài tập 2",
                                 "Bài tập 3" };
 
-        ElibAdapter adapter = new ElibAdapter(ExerciseListActivity.this,
-                R.layout.item_exercise_title,
-                R.id.exerciseTitleText,
+        OneTextviewAdapter adapter = new OneTextviewAdapter(ExerciseListActivity.this,
+                R.layout.item_one_textview,
+                R.id.itemContent,
                 mExercises);
 
         mListExercise.setAdapter(adapter);
@@ -48,7 +53,7 @@ public class ExerciseListActivity extends Activity {
         mListExercise.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView titleText = (TextView) view.findViewById(R.id.exerciseTitleText);
+                TextView titleText = (TextView) view.findViewById(R.id.itemContent);
                 String title = titleText.getText().toString();
 
                 Intent intent = new Intent(ExerciseListActivity.this, ExerciseContentActivity.class);

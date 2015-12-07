@@ -1,8 +1,9 @@
 package com.pagenguyen.elib.ui.dictionary;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,7 +14,7 @@ import com.pagenguyen.elib.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SearchVocabActivity extends Activity {
+public class SearchVocabActivity extends AppCompatActivity {
     @Bind(R.id.searchVocabField) EditText mSearchField;
     @Bind(R.id.searchVocabButton) Button mSearchButton;
     @Bind(R.id.microSearchButton) Button mMicroButton;
@@ -22,9 +23,9 @@ public class SearchVocabActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_vocab);
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
         ButterKnife.bind(this);
+
+        setupToolbar();
 
         //Search vocabulary by voice
         mMicroButton.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +66,11 @@ public class SearchVocabActivity extends Activity {
                 }
             }
         });
+    }
+
+    private void setupToolbar() {
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
     }
 
 }

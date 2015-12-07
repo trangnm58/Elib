@@ -1,8 +1,8 @@
-package com.pagenguyen.elib.ui;
+package com.pagenguyen.elib.ui.main;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,7 +16,7 @@ import com.parse.ParseUser;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends AppCompatActivity {
 	@Bind(R.id.userNameField) EditText mUsername;
 	@Bind(R.id.passwordField) EditText mPassword;
 	@Bind(R.id.loginButton) Button mLoginButton;

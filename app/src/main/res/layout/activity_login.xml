@@ -6,7 +6,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/activity_vertical_margin"
-                tools:context="com.pagenguyen.elib.ui.LoginActivity">
+                tools:context="com.pagenguyen.elib.ui.main.LoginActivity">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,7 +25,8 @@
         android:layout_below="@+id/appName"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30sp"
-        android:id="@+id/linearLayout">
+        android:id="@+id/linearLayout"
+        android:padding="16dp">
 
         <EditText
             android:layout_width="match_parent"
@@ -72,6 +73,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:clickable="true"
-        android:onClick="signUp"/>
+        android:onClick="signUp"
+        android:layout_marginBottom="10dp"/>
 
 </RelativeLayout>

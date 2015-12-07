@@ -44,7 +44,7 @@ public class HomeMenuAdapter extends BaseAdapter {
 
         if (convertView == null) {
             // brand new
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.menu_list_item, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_menu_list, null);
             holder = new ViewHolder();
             holder.iconImageView = (ImageView) convertView.findViewById(R.id.iconImageView);
             holder.menuItemLabel = (TextView) convertView.findViewById(R.id.menuItemLabel);

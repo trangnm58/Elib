@@ -1,20 +1,21 @@
 package com.pagenguyen.elib.ui.stories;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.adapter.ElibAdapter;
+import com.pagenguyen.elib.adapter.OneTextviewAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class StoryListActivity extends Activity {
+public class StoryListActivity extends AppCompatActivity {
     @Bind(R.id.storyListView) ListView mListStories;
 
     public Intent mIntent;
@@ -25,9 +26,14 @@ public class StoryListActivity extends Activity {
         setContentView(R.layout.activity_story_list);
         ButterKnife.bind(this);
 
+        setupToolbar();
         setStoryListView();
-
         setListItemClick();
+    }
+
+    private void setupToolbar() {
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
     }
 
     private void setStoryListView() {
@@ -49,9 +55,9 @@ public class StoryListActivity extends Activity {
                 "Tricksters Humbled 2",
                 "Why Snakes Have Forked Tongues 2" };
 
-        ElibAdapter adapter = new ElibAdapter(StoryListActivity.this,
-                R.layout.item_story_name,
-                R.id.storyNameText,
+        OneTextviewAdapter adapter = new OneTextviewAdapter(StoryListActivity.this,
+                R.layout.item_one_textview,
+                R.id.itemContent,
                 mStories);
 
         mListStories.setAdapter(adapter);
@@ -61,7 +67,7 @@ public class StoryListActivity extends Activity {
         mListStories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView nameText = (TextView) view.findViewById(R.id.storyNameText);
+                TextView nameText = (TextView) view.findViewById(R.id.itemContent);
                 String name = nameText.getText().toString();
 
                 Intent intent = new Intent(StoryListActivity.this, StoryContentActivity.class);

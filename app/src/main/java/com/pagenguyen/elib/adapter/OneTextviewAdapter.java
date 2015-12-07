@@ -2,25 +2,22 @@ package com.pagenguyen.elib.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.pagenguyen.elib.R;
-
 /**
  * Created by Kira on 12/4/2015.
  */
-public class ElibAdapter extends BaseAdapter {
+public class OneTextviewAdapter extends BaseAdapter {
     private String[] mList;
     private Context mContext;
     private int mLayoutResourceId;
     private int mItemViewId;
 
-    public ElibAdapter(Context context, int layoutId, int itemViewId, String[] array){
+    public OneTextviewAdapter(Context context, int layoutId, int itemViewId, String[] array){
         mContext = context;
         mLayoutResourceId = layoutId;
         mItemViewId = itemViewId;
