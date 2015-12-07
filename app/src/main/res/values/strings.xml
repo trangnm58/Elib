@@ -43,12 +43,11 @@
     <string name="title_activity_search_vocab">Tìm từ</string>
     <string name="search_vocab_hint">Nhập từ cần tìm</string>
     <string name="title_activity_vocab_content">Nội dung từ</string>
-    <string name="no_vocab_content">Từ cần tìm hiện không có trong từ điển</string>
+    <string name="no_vocab_content">Từ hiện không có trong từ điển</string>
 
     <!-- search vocabulary by voice -->
     <string name="title_activity_voice_search">Đọc từ tra nghĩa</string>
     <string name="voice_guiding_text_1">Nhấn vào biểu tượng microphone để đọc</string>
-    <string name="voice_recording_text">Đang ghi âm</string>
 
     <!-- reading stories -->
     <string name="title_activity_story_list">Danh sách truyện</string>
@@ -62,5 +61,7 @@
     <string name="title_activity_exercise_result">Kết quả</string>
     <string name="result_title_text">KẾT QUẢ</string>
     <string name="bad_result_status">Chưa đạt ! Bạn cần cố gắng hơn</string>
+    <string name="normal_result_status">Bạn có thể làm tốt hơn nữa!</string>
+    <string name="good_result_status">Tuyệt vời!</string>
     <string name="answer_title_text">ĐÁP ÁN</string>
 </resources>

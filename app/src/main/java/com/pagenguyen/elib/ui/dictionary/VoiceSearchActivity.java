@@ -51,7 +51,7 @@ public class VoiceSearchActivity extends Activity {
 
     private void startRecording() {
         mOnClickStatus = "record";
-        mGuideText.setText(R.string.voice_recording_text);
+        mGuideText.setText(R.string.speech_waiting_prompt);
 
         //Start recordinng
         SpeechRecognitionHelper.onSpeech(VoiceSearchActivity.this);

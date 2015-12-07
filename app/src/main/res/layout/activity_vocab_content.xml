@@ -67,8 +67,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/loadingContentView"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10sp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignBottom="@+id/definitionListView"
+        android:layout_alignStart="@+id/vocabView"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
