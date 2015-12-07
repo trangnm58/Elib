@@ -1,4 +1,4 @@
-package com.pagenguyen.elib.ui.exercise;
+package com.pagenguyen.elib.model;
 
 import android.support.v7.app.AppCompatActivity;
 

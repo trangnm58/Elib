@@ -2,8 +2,11 @@ package com.pagenguyen.elib.ui.dictionary;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -31,7 +34,6 @@ public class VocabContentActivity extends AppCompatActivity {
     @Bind(R.id.exampleListView) ListView mListExample;
     @Bind(R.id.emptyListView) TextView mEmptyTextView;
     @Bind(R.id.loadingContentView) ProgressBar mLoadingView;
-    @Bind(R.id.vocabBackHome) ImageView mHomeIcon;
     @Bind(R.id.volumeButton) ImageView mVolumeIcon;
 
     public String mVocab;
@@ -57,15 +59,40 @@ public class VocabContentActivity extends AppCompatActivity {
         setVocabView();
         //get definition and examples of the vocabulary
         setVocabContentView();
-        //set homeIcon click
-        setHomeIconClick();
         //set volume Icon  click
         setVolumeIconClick();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        switch (id) {
+            case (R.id.action_home):{
+                Intent intent = new Intent(VocabContentActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupToolbar() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
     public void setVocabView(){
@@ -133,17 +160,6 @@ public class VocabContentActivity extends AppCompatActivity {
                         mListExample.setEmptyView(mEmptyTextView);
                     }
                 });
-            }
-        });
-    }
-
-    private void setHomeIconClick(){
-        mHomeIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(VocabContentActivity.this, HomeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
             }
         });
     }

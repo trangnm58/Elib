@@ -50,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_home, menu);
+        getMenuInflater().inflate(R.menu.menu_for_home, menu);
         return true;
     }
 
@@ -159,28 +159,6 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        switch (position) {
-            case (1): {
-                Intent intent = new Intent(HomeActivity.this, StoryListActivity.class);
-                startActivity(intent);
-                break;
-            }
-            case (2): {
-                Intent intent = new Intent(HomeActivity.this, SearchVocabActivity.class);
-                startActivity(intent);
-                break;
-            }
-            default: {
-                Toast.makeText(
-                        HomeActivity.this,
-                        ((HomeMenuItem) l.getItemAtPosition(position)).getLabel(),
-                        Toast.LENGTH_SHORT
-                ).show();
-            }
-        }
     }
 
 	private void navigateToLogIn() {
