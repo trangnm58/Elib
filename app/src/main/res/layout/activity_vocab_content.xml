@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/vocabBackHome"
-        android:src="@drawable/ic_home_white_24dp"
+        android:src="@mipmap/ic_home_white_24dp"
         android:background="@drawable/frame"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/volumeButton"
-        android:src="@drawable/ic_volume_up_white_24dp"
+        android:src="@mipmap/ic_volume_up_white_24dp"
         android:background="@drawable/frame"
         android:layout_toEndOf="@+id/vocabView"
         android:layout_marginLeft="10dp"/>

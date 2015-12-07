@@ -17,7 +17,7 @@
         android:id="@+id/microButton"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_keyboard_voice_white_48dp"
+        android:src="@mipmap/ic_keyboard_voice_white_48dp"
         android:background="@drawable/frame" />
 
     <TextView

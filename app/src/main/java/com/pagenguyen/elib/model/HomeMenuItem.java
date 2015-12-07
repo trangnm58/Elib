@@ -29,22 +29,22 @@ public class HomeMenuItem {
     public int getIconInt() {
         switch (mIcon) {
             case ("book"): {
-                return R.drawable.ic_book_white_24dp;
+                return R.mipmap.ic_book_white_24dp;
             }
             case ("dictionary"): {
-                return R.drawable.ic_find_in_page_white_24dp;
+                return R.mipmap.ic_find_in_page_white_24dp;
             }
             case ("favorite"): {
-                return R.drawable.ic_favorite_white_24dp;
+                return R.mipmap.ic_favorite_white_24dp;
             }
             case ("game"): {
-                return R.drawable.ic_videogame_asset_white_24dp;
+                return R.mipmap.ic_videogame_asset_white_24dp;
             }
             case ("speak"): {
-                return R.drawable.ic_forum_white_24dp;
+                return R.mipmap.ic_forum_white_24dp;
             }
             case ("topic"): {
-                return R.drawable.ic_filter_list_white_24dp;
+                return R.mipmap.ic_filter_list_white_24dp;
             }
             default: {
                 return 0;
