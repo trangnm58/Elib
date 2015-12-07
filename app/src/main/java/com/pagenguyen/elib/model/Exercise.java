@@ -16,7 +16,7 @@ public class Exercise {
 		mContent = content;
 	}
 
-	public void createParseStory() {
+	public void createParseExercise() {
 		// create new exercise object in Exercise class
 		ParseObject exercise = new ParseObject(ParseConstants.CLASS_EXERCISE);
 		exercise.put(ParseConstants.EXERCISE_CONTENT, mContent);
