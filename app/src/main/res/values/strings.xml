@@ -67,4 +67,5 @@
     <!-- topic -->
     <string name="title_activity_topic_list">Danh sách chủ đề</string>
     <string name="title_activity_topic_content_actitvity">Danh sách từ vựng</string>
+    <string name="title_activity_multiple_choice">Bài tập</string>
 </resources>
