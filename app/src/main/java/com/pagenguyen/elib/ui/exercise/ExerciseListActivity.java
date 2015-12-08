@@ -59,7 +59,7 @@ public class ExerciseListActivity extends AppCompatActivity {
                 TextView titleText = (TextView) view.findViewById(R.id.itemContent);
                 String title = titleText.getText().toString();
 
-                Intent intent = new Intent(ExerciseListActivity.this, ExerciseContentActivity.class);
+                Intent intent = new Intent(ExerciseListActivity.this, FillInBlanksActivity.class);
                 intent.putExtra("exercise_title", title);
                 startActivity(intent);
             }

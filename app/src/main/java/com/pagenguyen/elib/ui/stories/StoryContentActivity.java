@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.OneTextviewAdapter;
-import com.pagenguyen.elib.ui.dialog.ElibDialog;
 import com.pagenguyen.elib.ui.dictionary.VocabContentActivity;
 import com.pagenguyen.elib.ui.exercise.ExerciseListActivity;
 
@@ -140,8 +139,6 @@ public class StoryContentActivity extends AppCompatActivity {
             }
             input.close();
         } else {
-            ElibDialog dialog = ElibDialog.newInstance(2, "Lỗi khi tải truyện.");
-            dialog.show(getFragmentManager(), "read_error");
         }
 
         mStoryContentText.setText(Html.fromHtml(sbuffer.toString()));

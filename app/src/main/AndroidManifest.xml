@@ -87,7 +87,7 @@
                 android:value=".ui.main.HomeActivity" />
         </activity>
         <activity
-            android:name=".ui.exercise.ExerciseContentActivity"
+            android:name=".ui.exercise.FillInBlanksActivity"
             android:label="@string/title_activity_exercise_content"
             android:parentActivityName=".ui.exercise.ExerciseListActivity" >
             <meta-data
@@ -97,10 +97,10 @@
         <activity
             android:name=".ui.exercise.ExerciseResultActivity"
             android:label="@string/title_activity_exercise_result"
-            android:parentActivityName=".ui.exercise.ExerciseContentActivity" >
+            android:parentActivityName=".ui.exercise.FillInBlanksActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.exercise.ExerciseContentActivity" />
+                android:value=".ui.exercise.FillInBlanksActivity" />
         </activity>
     </application>
 
