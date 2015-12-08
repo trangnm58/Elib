@@ -17,6 +17,7 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -101,6 +102,22 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.exercise.FillInBlanksActivity" />
+        </activity>
+        <activity
+            android:name=".ui.topics.TopicListActivity"
+            android:label="@string/title_activity_topic_list"
+            android:parentActivityName=".ui.main.HomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pagenguyen.elib.ui.main.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".ui.topics.TopicContentActivity"
+            android:label="@string/title_activity_topic_content_actitvity"
+            android:parentActivityName=".ui.topics.TopicListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pagenguyen.elib.ui.topics.TopicListActivity" />
         </activity>
     </application>
 

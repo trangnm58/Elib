@@ -63,4 +63,8 @@
     <string name="normal_result_status">Bạn có thể làm tốt hơn nữa!</string>
     <string name="good_result_status">Tuyệt vời!</string>
     <string name="answer_title_text">ĐÁP ÁN</string>
+
+    <!-- topic -->
+    <string name="title_activity_topic_list">Danh sách chủ đề</string>
+    <string name="title_activity_topic_content_actitvity">Danh sách từ vựng</string>
 </resources>
