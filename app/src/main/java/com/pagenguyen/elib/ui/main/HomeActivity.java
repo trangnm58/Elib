@@ -20,7 +20,6 @@ import com.pagenguyen.elib.adapter.HomeMenuAdapter;
 import com.pagenguyen.elib.model.HomeMenuItem;
 import com.pagenguyen.elib.ui.dictionary.SearchVocabActivity;
 import com.pagenguyen.elib.ui.stories.StoryListActivity;
-import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 
 import butterknife.Bind;
@@ -28,6 +27,7 @@ import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity {
 	private static final String TAG = HomeActivity.class.getSimpleName();
+    @Bind(R.id.my_toolbar) Toolbar mToolbar;
     @Bind(R.id.homeMenu) ListView mHomeMenu;
 	private ParseUser mCurrentUser;
     private HomeMenuItem[] mMenuItems;
@@ -39,9 +39,6 @@ public class HomeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setupToolbar();
-
-		ParseAnalytics.trackAppOpened(getIntent());
-
         checkOnFirstOpenApp();
         setHomeMenuAdapter();
         setupHomeMenuClick();
@@ -99,8 +96,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        setSupportActionBar(mToolbar);
     }
 
     private void checkOnFirstOpenApp() {

@@ -7,9 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -24,6 +22,7 @@ import butterknife.ButterKnife;
 public class FillInBlanksActivity extends AppCompatActivity {
     @Bind(R.id.exerciseTitleView) TextView mExerciseTitle;
     @Bind(R.id.wordGridView) GridView mWordGrid;
+    @Bind(R.id.my_toolbar) Toolbar mToolbar;
 
     public FlowLayout mFlowLayout;
 
@@ -73,8 +72,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        setSupportActionBar(mToolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
     }

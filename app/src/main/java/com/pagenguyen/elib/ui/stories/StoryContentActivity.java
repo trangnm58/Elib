@@ -32,6 +32,7 @@ public class StoryContentActivity extends AppCompatActivity {
     @Bind(R.id.storyContentText) TextView mStoryContentText;
     @Bind(R.id.tabHostStory) TabHost mTabHost;
     @Bind(R.id.storyWordListView) ListView mWordList;
+    @Bind(R.id.my_toolbar) Toolbar mToolbar;
 
     public String mStoryName;
 
@@ -86,8 +87,7 @@ public class StoryContentActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        setSupportActionBar(mToolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
     }

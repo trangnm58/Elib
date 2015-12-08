@@ -12,11 +12,11 @@
         android:layout_height="wrap_content"
         android:text="@string/app_name"
         android:id="@+id/appName"
-        android:textColor="#caffffff"
-        android:textSize="100sp"
+        android:textColor="#ccffffff"
+        android:textSize="72dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30sp" />
+        android:layout_marginTop="72dp" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/appName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30sp"
+        android:layout_marginTop="15dp"
         android:id="@+id/linearLayout"
         android:padding="16dp">
 
@@ -34,7 +34,7 @@
             android:id="@+id/userNameField"
             android:ems="10"
             android:hint="@string/username_hint"
-            android:textSize="24sp"
+            android:textSize="24dp"
             android:focusable="true"
             android:singleLine="true"
             />
@@ -46,7 +46,7 @@
             android:ems="10"
             android:id="@+id/passwordField"
             android:hint="@string/password_hint"
-            android:textSize="24sp"
+            android:textSize="24dp"
             />
 
         <Button

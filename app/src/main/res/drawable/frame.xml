@@ -6,6 +6,6 @@
         android:right="6dp"
         android:bottom="6dp" />
     <solid
-        android:color="#33cccc"/>
+        android:color="#8EB4C1"/>
 
 </shape>

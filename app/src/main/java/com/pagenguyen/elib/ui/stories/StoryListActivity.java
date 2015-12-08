@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 
 public class StoryListActivity extends AppCompatActivity {
     @Bind(R.id.storyListView) ListView mListStories;
+    @Bind(R.id.my_toolbar) Toolbar mToolbar;
 
     public Intent mIntent;
 
@@ -33,13 +34,13 @@ public class StoryListActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        setSupportActionBar(mToolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
     private void setStoryListView() {
+        // load from Parse
         String[] mStories = { "Sleeping Beauty",
                 "The God of Love",
                 "The Irreverent Devotee",

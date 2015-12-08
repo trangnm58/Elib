@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 
 public class SearchVocabActivity extends AppCompatActivity {
     @Bind(R.id.searchVocabField) EditText mSearchField;
+    @Bind(R.id.my_toolbar) Toolbar mToolbar;
     @Bind(R.id.searchVocabButton) Button mSearchButton;
     @Bind(R.id.microSearchButton) Button mMicroButton;
 
@@ -27,20 +28,11 @@ public class SearchVocabActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setupToolbar();
+        setupVoiceSearchButton();
+        setupSeachButton();
+    }
 
-        //Search vocabulary by voice
-        mMicroButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Reset search field
-                mSearchField.setText("");
-
-                Intent intent = new Intent(SearchVocabActivity.this, VoiceSearchActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        });
-
+    private void setupSeachButton() {
         //Go to the vocabulary result
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,9 +61,23 @@ public class SearchVocabActivity extends AppCompatActivity {
         });
     }
 
+    private void setupVoiceSearchButton() {
+        //Search vocabulary by voice
+        mMicroButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Reset search field
+                mSearchField.setText("");
+
+                Intent intent = new Intent(SearchVocabActivity.this, VoiceSearchActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+    }
+
     private void setupToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        setSupportActionBar(mToolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
     }

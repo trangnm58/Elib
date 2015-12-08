@@ -1,12 +1,14 @@
 package com.pagenguyen.elib.ui.main;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
 import com.parse.LogInCallback;
@@ -20,7 +22,8 @@ public class LoginActivity extends AppCompatActivity {
 	@Bind(R.id.userNameField) EditText mUsername;
 	@Bind(R.id.passwordField) EditText mPassword;
 	@Bind(R.id.loginButton) Button mLoginButton;
-    private ProgressBar progressBar;
+	@Bind(R.id.logInProgress) ProgressBar mProgressBar;
+	@Bind(R.id.appName)	TextView mAppName;
 
     public void signUp(View v) {
         // go to sign up activity
@@ -32,11 +35,19 @@ public class LoginActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-        progressBar = (ProgressBar) findViewById(R.id.logInProgress);
-        changeLoadingState();
-		// bind butterknife
 		ButterKnife.bind(this);
 
+        setAppNameFont();
+        changeLoadingState();
+		setSignInButton();
+	}
+
+    private void setAppNameFont() {
+        Typeface customFont = Typeface.createFromAsset(getAssets(), "fonts/the-rave-is-in-your-pants.regular.otf");
+        mAppName.setTypeface(customFont, Typeface.BOLD);
+    }
+
+    private void setSignInButton() {
 		mLoginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -55,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
 					ParseUser.logInInBackground(username, password, new LogInCallback() {
 						@Override
 						public void done(ParseUser user, ParseException e) {
-                            changeLoadingState();
+							changeLoadingState();
 							if (e == null) {
 								// Success
 								// Go to Home Activity
@@ -74,11 +85,11 @@ public class LoginActivity extends AppCompatActivity {
 		});
 	}
 
-    private void changeLoadingState() {
-        if (progressBar.getVisibility() == View.VISIBLE) {
-            progressBar.setVisibility(View.INVISIBLE);
+	private void changeLoadingState() {
+        if (mProgressBar.getVisibility() == View.VISIBLE) {
+            mProgressBar.setVisibility(View.INVISIBLE);
         } else {
-            progressBar.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.VISIBLE);
         }
     }
 }

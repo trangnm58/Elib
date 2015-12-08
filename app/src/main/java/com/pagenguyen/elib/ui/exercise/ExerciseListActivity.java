@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 
 public class ExerciseListActivity extends AppCompatActivity {
     @Bind(R.id.exerciseListView) ListView mListExercise;
+    @Bind(R.id.my_toolbar) Toolbar mToolbar;
 
     public Intent mIntent;
 
@@ -33,8 +34,7 @@ public class ExerciseListActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        setSupportActionBar(mToolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
     }

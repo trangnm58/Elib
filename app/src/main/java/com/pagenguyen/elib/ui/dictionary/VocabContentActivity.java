@@ -35,6 +35,7 @@ public class VocabContentActivity extends AppCompatActivity {
     @Bind(R.id.emptyListView) TextView mEmptyTextView;
     @Bind(R.id.loadingContentView) ProgressBar mLoadingView;
     @Bind(R.id.volumeButton) ImageView mVolumeIcon;
+    @Bind(R.id.my_toolbar) Toolbar mToolbar;
 
     public String mVocab;
     public String[] mVocabDefinition;
@@ -89,8 +90,7 @@ public class VocabContentActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        setSupportActionBar(mToolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
     }
