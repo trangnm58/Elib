@@ -34,13 +34,15 @@ public class Story {
 		mNewWords = newWords;
 	}
 
-	public void createParseStory() {
-		// create new story object in Story class
+	public void createParseObject() {
+		// convert to ParseObject
 		ParseObject story = new ParseObject(ParseConstants.CLASS_STORY);
 		story.put(ParseConstants.STORY_CONTENT, mContent);
 		story.put(ParseConstants.STORY_TITLE, mTitle);
-		story.put(ParseConstants.STORY_NEW_WORDS, mNewWords);
-		// save story to parse
+		for (int i = 0; i < mNewWords.length; i++) {
+			story.add(ParseConstants.STORY_NEW_WORDS, mNewWords[i]);
+		}
+		// save to Parse
 		story.saveInBackground();
 	}
 }
