@@ -4,7 +4,7 @@
       tools:context=".ui.exercise.ExerciseResultActivity">
       <item android:id="@+id/action_home"
             android:title=""
-            android:icon="@mipmap/ic_home_white_24dp"
+            android:icon="@mipmap/ic_home_white_48dp"
             android:orderInCategory="1"
             app:showAsAction="ifRoom"/>
 </menu>
