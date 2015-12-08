@@ -88,6 +88,14 @@
                 android:value=".ui.main.HomeActivity" />
         </activity>
         <activity
+            android:name=".ui.dictionary.TranslatorActivity"
+            android:label="@string/title_activity_search_vocab"
+            android:parentActivityName=".ui.main.HomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.main.HomeActivity" />
+        </activity>
+        <activity
             android:name=".ui.exercise.FillInBlanksActivity"
             android:label="@string/title_activity_exercise_content"
             android:parentActivityName=".ui.exercise.ExerciseListActivity" >

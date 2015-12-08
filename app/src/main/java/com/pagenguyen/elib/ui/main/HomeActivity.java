@@ -19,6 +19,7 @@ import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.HomeMenuAdapter;
 import com.pagenguyen.elib.model.HomeMenuItem;
 import com.pagenguyen.elib.ui.dictionary.SearchVocabActivity;
+import com.pagenguyen.elib.ui.dictionary.TranslatorActivity;
 import com.pagenguyen.elib.ui.stories.StoryListActivity;
 import com.parse.ParseUser;
 
@@ -118,13 +119,14 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setHomeMenuAdapter() {
-        mMenuItems = new HomeMenuItem[6];
+        mMenuItems = new HomeMenuItem[7];
         mMenuItems[0] = new HomeMenuItem("topic", "Học từ theo chủ đề", "TopicActivity");
         mMenuItems[1] = new HomeMenuItem("book", "Học tiếng Anh qua truyện", "BookActivity");
         mMenuItems[2] = new HomeMenuItem("dictionary", "Từ điển tích hợp", "DictActivity");
-        mMenuItems[3] = new HomeMenuItem("speak", "Luyện phát âm", "SpeakActivity");
-        mMenuItems[4] = new HomeMenuItem("game", "Trò chơi", "GameActivity");
-        mMenuItems[5] = new HomeMenuItem("favorite", "Danh mục từ yêu thích", "FavActivity");
+        mMenuItems[3] = new HomeMenuItem("dictionary", "Từ điển tích hợp 2", "DictActivity");
+        mMenuItems[4] = new HomeMenuItem("speak", "Luyện phát âm", "SpeakActivity");
+        mMenuItems[5] = new HomeMenuItem("game", "Trò chơi", "GameActivity");
+        mMenuItems[6] = new HomeMenuItem("favorite", "Danh mục từ yêu thích", "FavActivity");
 
         HomeMenuAdapter adapter = new HomeMenuAdapter(this, mMenuItems);
         mHomeMenu.setAdapter(adapter);
@@ -142,6 +144,11 @@ public class HomeActivity extends AppCompatActivity {
                     }
                     case (2): {
                         Intent intent = new Intent(HomeActivity.this, SearchVocabActivity.class);
+                        startActivity(intent);
+                        break;
+                    }
+                    case (3): {
+                        Intent intent = new Intent(HomeActivity.this, TranslatorActivity.class);
                         startActivity(intent);
                         break;
                     }
