@@ -24,7 +24,6 @@ public class TopicContentActivity extends AppCompatActivity {
 
     @Bind(R.id.topicNameView) TextView mTopicNameView;
     @Bind(R.id.vocabularyListView) ListView mVocabularyListView;
-    @Bind(R.id.buttonExercises) TextView mButton;
     @Bind(R.id.my_toolbar) Toolbar mToolbar;
 
     public String mTopicName;
@@ -140,7 +139,6 @@ public class TopicContentActivity extends AppCompatActivity {
 
         setVocabularyListView();
 
-        setDoExerciseButton();
     }
 
     @Override
@@ -176,7 +174,7 @@ public class TopicContentActivity extends AppCompatActivity {
 
     private void loadTopicName(){
         Intent intent=getIntent();
-        mTopicName=intent.getStringExtra("topicname");
+        mTopicName=intent.getStringExtra("topic_name");
 
         mTopicNameView.setText("Chủ đề: " + mTopicName);
     }
@@ -222,14 +220,4 @@ public class TopicContentActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void setDoExerciseButton(){
-        mButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent intent= new Intent(TopicContentActivity.this, ExerciseListActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
 }
