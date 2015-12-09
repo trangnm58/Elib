@@ -27,6 +27,7 @@ public class TopicListActivity extends AppCompatActivity {
 
         setupToolbar();
         setTopicListView();
+        setListItemClick();
     }
 
     private void setupToolbar() {

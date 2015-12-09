@@ -21,6 +21,7 @@ import com.pagenguyen.elib.model.HomeMenuItem;
 import com.pagenguyen.elib.ui.dictionary.SearchVocabActivity;
 import com.pagenguyen.elib.ui.dictionary.TranslatorActivity;
 import com.pagenguyen.elib.ui.stories.StoryListActivity;
+import com.pagenguyen.elib.ui.topics.TopicListActivity;
 import com.parse.ParseUser;
 
 import butterknife.Bind;
@@ -137,6 +138,11 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
+                    case (0): {
+                        Intent intent = new Intent(HomeActivity.this, TopicListActivity.class);
+                        startActivity(intent);
+                        break;
+                    }
                     case (1): {
                         Intent intent = new Intent(HomeActivity.this, StoryListActivity.class);
                         startActivity(intent);
