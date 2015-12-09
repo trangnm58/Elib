@@ -16,6 +16,7 @@ import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.OneTextviewAdapter;
 import com.pagenguyen.elib.ui.dictionary.VocabContentActivity;
 import com.pagenguyen.elib.ui.exercise.FillInBlankListActivity;
+import com.pagenguyen.elib.ui.exercise.MultipleChoiceListActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -158,7 +159,8 @@ public class TopicContentActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         switch (id) {
             case (R.id.action_exercises):{
-                Intent intent = new Intent(TopicContentActivity.this, FillInBlankListActivity.class);
+                Intent intent = new Intent(TopicContentActivity.this, MultipleChoiceListActivity.class);
+                intent.putExtra("topic_name", mTopicName);
                 startActivity(intent);
             }
         }

@@ -11,11 +11,12 @@
         android:id="@+id/question_content"
         android:layout_weight="0.00"
         android:textSize="@dimen/abc_text_size_medium_material"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp" />
 
     <RelativeLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:weightSum="1"
@@ -30,7 +31,8 @@
             android:checked="false"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentLeft="true"
+            android:textSize="18dp" />
 
         <CheckBox
             android:layout_width="wrap_content"
@@ -43,12 +45,13 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="240dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:textSize="18dp" />
     </RelativeLayout>
 
     <RelativeLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:weightSum="1"
         android:layout_weight="0.00"
@@ -62,7 +65,8 @@
             android:layout_weight="0.43"
             android:checked="false"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:textSize="18dp"  />
 
         <CheckBox
             android:layout_width="wrap_content"
@@ -75,7 +79,8 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="240dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:textSize="18dp" />
     </RelativeLayout>
 
 

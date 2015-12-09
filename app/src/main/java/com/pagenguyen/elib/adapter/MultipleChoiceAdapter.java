@@ -28,6 +28,8 @@ public class MultipleChoiceAdapter extends BaseAdapter {
         mExercise=exercise;
         mQuestion=mExercise.getQuestionList();
 
+        userAnswer = new Integer[mQuestion.length];
+
         for (int i=0; i<mQuestion.length; i++){
             userAnswer[i]=-1;
         }

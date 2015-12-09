@@ -141,6 +141,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pagenguyen.elib.ui.main.HomeActivity" />
         </activity>
+        <activity
+            android:name=".ui.exercise.MultipleChoiceListActivity"
+            android:label="@string/title_activity_multiple_choice_list"
+            android:parentActivityName=".ui.topics.TopicContentActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pagenguyen.elib.ui.topics.TopicListActivity" />
+        </activity>
     </application>
 
 </manifest>
