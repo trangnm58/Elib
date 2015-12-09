@@ -2,8 +2,6 @@ package com.pagenguyen.elib.ui.topics;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,8 +12,6 @@ import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.OneTextviewAdapter;
-import com.pagenguyen.elib.ui.stories.StoryContentActivity;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
