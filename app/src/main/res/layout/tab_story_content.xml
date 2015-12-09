@@ -3,29 +3,44 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="10dp">
 
     <TextView
-            tools:text="Tên truyện"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/currentStoryName"
-            android:layout_gravity="center_horizontal"
-            android:textSize="24dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="10dp"/>
+        tools:text="Tên truyện"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/currentStoryName"
+        android:layout_gravity="center_horizontal"
+        android:textSize="24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/currentStoryName"
+        android:layout_centerHorizontal="true">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
             tools:text="Nội dung truyện"
-            android:id="@+id/storyContentText"
+            android:textSize="16dp"
             android:layout_gravity="center_horizontal"
-            android:layout_below="@+id/currentStoryName"
-            android:layout_alignParentEnd="true"
-            android:padding="10dp" />
+            android:id="@+id/storyContentText"/>
+
+    </ScrollView>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/loadStoryContentView"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

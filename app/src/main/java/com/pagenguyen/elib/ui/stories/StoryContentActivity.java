@@ -11,18 +11,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.OneTextviewAdapter;
+import com.pagenguyen.elib.model.ParseConstants;
+import com.pagenguyen.elib.model.Story;
 import com.pagenguyen.elib.ui.dictionary.VocabContentActivity;
 import com.pagenguyen.elib.ui.exercise.ExerciseListActivity;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,9 +37,9 @@ public class StoryContentActivity extends AppCompatActivity {
     @Bind(R.id.storyContentText) TextView mStoryContentText;
     @Bind(R.id.tabHostStory) TabHost mTabHost;
     @Bind(R.id.storyWordListView) ListView mWordList;
-    @Bind(R.id.my_toolbar) Toolbar mToolbar;
+    @Bind(R.id.loadStoryContentView) ProgressBar mLoadContent;
 
-    public String mStoryName;
+    public Story mStory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,18 +52,10 @@ public class StoryContentActivity extends AppCompatActivity {
         //Load and set Tab
         loadTabs();
 
-        //get StoryName and set View
-        setNameView();
+        mLoadContent.setVisibility(View.VISIBLE);
 
-        //set Story content
-        try {
-            setStoryContent();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //set word list view
-        setWordListView();
+        //get story from id and set story content
+        getStoryFromId();
     }
 
     @Override
@@ -87,7 +84,8 @@ public class StoryContentActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        setSupportActionBar(mToolbar);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
     }
@@ -120,41 +118,14 @@ public class StoryContentActivity extends AppCompatActivity {
         });
     }
 
-    private void setNameView() {
-        //get StoryName
-        Intent intent = getIntent();
-        mStoryName = intent.getStringExtra("story_name");
-        mStoryNameText.setText(mStoryName);
-    }
+    private void setWordListView(List<String> words){
+        String[] mWords = new String[words.size()];
 
-    private void setStoryContent() throws IOException {
-        InputStream input = this.getResources().openRawResource(R.raw.sleeping_beauty);
-        StringBuilder sbuffer = new StringBuilder();
-        String data = "";
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-
-        if(input != null){
-            while((data = reader.readLine()) != null){
-                sbuffer.append(data).append("\n");
-            }
-            input.close();
-        } else {
+        int i = 0;
+        for(Object s:words){
+            mWords[i] = s.toString();
+            i++;
         }
-
-        mStoryContentText.setText(Html.fromHtml(sbuffer.toString()));
-    }
-
-    private void setWordListView(){
-        String[] mWords = { "creeper",
-                            "delight",
-                            "deject",
-                            "fairy",
-                            "fate",
-                            "occasion",
-                            "prevail",
-                            "marriage",
-                            "soldier",
-                            "yarn" };
 
         OneTextviewAdapter adapter = new OneTextviewAdapter(StoryContentActivity.this,
                 R.layout.item_one_textview,
@@ -176,6 +147,39 @@ public class StoryContentActivity extends AppCompatActivity {
                 Intent intent = new Intent(StoryContentActivity.this, VocabContentActivity.class);
                 intent.putExtra("vocab", vocabText.getText().toString().toLowerCase());
                 startActivity(intent);
+            }
+        });
+    }
+
+    public void getStoryFromId() {
+        Intent intent = getIntent();
+        String storyId = intent.getStringExtra("story_id");
+
+        mStory = new Story();
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseConstants.CLASS_STORY);
+        query.getInBackground(storyId, new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    mStory.setTitle(object.getString(ParseConstants.TITLE));
+                    mStory.setContent(object.getString(ParseConstants.CONTENT));
+
+                    //set story name
+                    mStoryNameText.setText(mStory.getTitle());
+
+                    //set story content
+                    mStoryContentText.setText(Html.fromHtml(mStory.getContent()));
+
+                    mLoadContent.setVisibility(View.GONE);
+
+                    //set word list view
+                    List<String> words = object.getList(ParseConstants.NEW_WORDS);
+                    setWordListView(words);
+                } else {
+                    Toast.makeText(StoryContentActivity.this,
+                            "Tai khong thanh cong",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

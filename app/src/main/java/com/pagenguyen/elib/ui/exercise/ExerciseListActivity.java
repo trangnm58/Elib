@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
@@ -18,7 +19,7 @@ import butterknife.ButterKnife;
 
 public class ExerciseListActivity extends AppCompatActivity {
     @Bind(R.id.exerciseListView) ListView mListExercise;
-    @Bind(R.id.my_toolbar) Toolbar mToolbar;
+    @Bind(R.id.loadExerciseListView) ProgressBar mLoadList;
 
     public Intent mIntent;
 
@@ -28,21 +29,24 @@ public class ExerciseListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exercise_list);
         ButterKnife.bind(this);
 
+        mLoadList.setVisibility(View.VISIBLE);
+
         setupToolbar();
         setExerciseListView();
         setListItemClick();
     }
 
     private void setupToolbar() {
-        setSupportActionBar(mToolbar);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
     private void setExerciseListView() {
         String[] mExercises = { "Bài tập 1",
-                                "Bài tập 2",
-                                "Bài tập 3" };
+                "Bài tập 2",
+                "Bài tập 3" };
 
         OneTextviewAdapter adapter = new OneTextviewAdapter(ExerciseListActivity.this,
                 R.layout.item_one_textview,
@@ -50,6 +54,8 @@ public class ExerciseListActivity extends AppCompatActivity {
                 mExercises);
 
         mListExercise.setAdapter(adapter);
+
+        mLoadList.setVisibility(View.GONE);
     }
 
     private void setListItemClick() {

@@ -8,19 +8,28 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.adapter.OneTextviewAdapter;
+import com.pagenguyen.elib.adapter.StoryAdapter;
+import com.pagenguyen.elib.model.ParseConstants;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class StoryListActivity extends AppCompatActivity {
     @Bind(R.id.storyListView) ListView mListStories;
-    @Bind(R.id.my_toolbar) Toolbar mToolbar;
+    @Bind(R.id.loadStoryListView) ProgressBar mLoadList;
 
     public Intent mIntent;
+    public StoryAdapter mAdapter;
+    public List<ParseObject> mStoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,54 +37,57 @@ public class StoryListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_story_list);
         ButterKnife.bind(this);
 
+        mLoadList.setVisibility(View.VISIBLE);
+
         setupToolbar();
-        setStoryListView();
+        getStoryList();
+
+        //setStoryListView();
         setListItemClick();
     }
 
     private void setupToolbar() {
-        setSupportActionBar(mToolbar);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
-    private void setStoryListView() {
-        // load from Parse
-        String[] mStories = { "Sleeping Beauty",
-                "The God of Love",
-                "The Irreverent Devotee",
-                "The Key to Heaven",
-                "The Man Who Could not Die",
-                "The Origin of Coconut Tree",
-                "The Story of Lord Ganesha",
-                "The Sun-Goddess of Korea",
-                "The Two Bachelors",
-                "Tricksters Humbled",
-                "Why Snakes Have Forked Tongues",
-                "The Origin of Coconut Tree 2",
-                "The Story of Lord Ganesha 2",
-                "The Sun-Goddess of Korea 2",
-                "The Two Bachelors 2",
-                "Tricksters Humbled 2",
-                "Why Snakes Have Forked Tongues 2" };
+    private void getStoryList() {
+        //get Story Array from database
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseConstants.CLASS_STORY);
 
-        OneTextviewAdapter adapter = new OneTextviewAdapter(StoryListActivity.this,
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> object, ParseException e) {
+                if (e == null) {
+                    mStoryList = object;
+                    setStoryListView(mStoryList);
+                } else {
+
+                }
+            }
+        });
+    }
+
+    private void setStoryListView(List<ParseObject> stories){
+        mAdapter = new StoryAdapter(StoryListActivity.this,
                 R.layout.item_one_textview,
-                R.id.itemContent,
-                mStories);
+                stories);
 
-        mListStories.setAdapter(adapter);
+        mListStories.setAdapter(mAdapter);
+
+        mLoadList.setVisibility(View.GONE);
     }
 
     private void setListItemClick() {
         mListStories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView nameText = (TextView) view.findViewById(R.id.itemContent);
-                String name = nameText.getText().toString();
+                String storyId = mStoryList.get(position).getObjectId();
 
                 Intent intent = new Intent(StoryListActivity.this, StoryContentActivity.class);
-                intent.putExtra("story_name", name);
+                intent.putExtra("story_id", storyId);
                 startActivity(intent);
             }
         });
