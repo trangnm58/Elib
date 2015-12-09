@@ -73,4 +73,5 @@
     <string name="menu_exercise_label">Bài tập</string>
     <string name="search_button_label">Tìm kiếm</string>
     <string name="voice_search_description">Voice search</string>
+    <string name="fill_in_blanks_title">Điền từ vào chỗ trống</string>
 </resources>

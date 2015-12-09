@@ -2,6 +2,7 @@ package com.pagenguyen.elib.ui.exercise;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,21 +12,32 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.FillInBlankAdapter;
+import com.pagenguyen.elib.model.FillInBlankExercise;
+import com.pagenguyen.elib.model.ParseConstants;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class FillInBlanksActivity extends AppCompatActivity {
     @Bind(R.id.exerciseTitleView) TextView mExerciseTitle;
-    @Bind(R.id.questionListView) ListView mQuestionList;
+    @Bind(R.id.questionListView) ListView mQuestionListView;
     @Bind(R.id.exerciseStatusView) TextView mStatus;
     @Bind(R.id.exerciseScoreView) TextView mScore;
 
     public FillInBlankAdapter mAdapter;
+    public FillInBlankExercise mExercise;
+    public List<ParseObject> mQuestionList;
+    public String mExerciseId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,29 +118,41 @@ public class FillInBlanksActivity extends AppCompatActivity {
     }
 
     private void setExerciseTitle() {
-        /*Intent intent = getIntent();
-        String title = intent.getStringExtra("exercise_title");*/
-        mExerciseTitle.setText("Bài tập điền từ vào chỗ trống");
+        mExercise = new FillInBlankExercise("Điền từ vào chỗ trống");
+        mExerciseTitle.setText(mExercise.getTitle());
     }
 
     private void setExcerciseContent() {
-        String[] questions = {
-                "She looked a bit  (1)  when they told her she didn't get the job.", //dejected
-                "General Vo Nguyen Giap was a self-taught  (2)  who became one of the foremost military commanders of the 20th century",
-                "My parents were celebrating 25 years of  (3).", //marrige
-                "They warned that if no rain falls within the next two months, a crisis might  (4)  in the area", // prevail
-                "The plant, a  (5)  of the arum lily family, is a native of Mexico and Guatemala.", //creeper
-                "Thread is a type of  (6)  intended for sewing by hand or machine.", //yarn
-                "I love magical things like  (7)  and goblins.",
-                "The children squealed in  (8)  when they saw all the presents under the Christmas tree.", //delight
-                "When we met again by chance in Cairo, I felt it must be  (9).",
-                "Holidays and other special  (10)  are marked with singing and dancing."
-        };
+        Intent intent = getIntent();
+        mExerciseId = intent.getStringExtra("exercise_id");
 
+        //get current exercise by Id
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseConstants.CLASS_FILL_IN_BLANK_EXERCISE);
+        query.getInBackground(mExerciseId, new GetCallback<ParseObject>() {
+            public void done(ParseObject exerciseObj, com.parse.ParseException e) {
+
+                //get exercises of current story
+                ParseQuery<ParseObject> exercises = ParseQuery.getQuery(ParseConstants.CLASS_FILL_IN_BLANK_QUESTION);
+                exercises.whereEqualTo(ParseConstants.RELATION_BELONG_TO, exerciseObj);
+
+                exercises.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> object, ParseException e) {
+                        if (e == null) {
+                            mQuestionList = object;
+                            setmQuestionListView(mQuestionList);
+                        } else {}
+                    }
+                });
+            }
+        });
+    }
+
+    private void setmQuestionListView(List<ParseObject> questions){
         mAdapter = new FillInBlankAdapter(FillInBlanksActivity.this,
                 R.layout.fill_in_blanks_item,
                 questions);
 
-        mQuestionList.setAdapter(mAdapter);
+        mQuestionListView.setAdapter(mAdapter);
     }
 }

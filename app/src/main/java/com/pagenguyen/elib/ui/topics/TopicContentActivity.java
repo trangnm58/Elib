@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.OneTextviewAdapter;
 import com.pagenguyen.elib.ui.dictionary.VocabContentActivity;
-import com.pagenguyen.elib.ui.exercise.ExerciseListActivity;
+import com.pagenguyen.elib.ui.exercise.FillInBlankListActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -158,7 +158,7 @@ public class TopicContentActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         switch (id) {
             case (R.id.action_exercises):{
-                Intent intent = new Intent(TopicContentActivity.this, ExerciseListActivity.class);
+                Intent intent = new Intent(TopicContentActivity.this, FillInBlankListActivity.class);
                 startActivity(intent);
             }
         }

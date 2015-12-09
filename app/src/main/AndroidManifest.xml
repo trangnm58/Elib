@@ -84,7 +84,7 @@
                 android:value=".ui.stories.StoryListActivity" />
         </activity>
         <activity
-            android:name=".ui.exercise.ExerciseListActivity"
+            android:name=".ui.exercise.FillInBlankListActivity"
             android:label="@string/title_activity_list_exercise"
             android:parentActivityName=".ui.main.HomeActivity" >
             <meta-data
@@ -94,11 +94,11 @@
         <activity
             android:name=".ui.exercise.FillInBlanksActivity"
             android:label="@string/title_activity_exercise_content"
-            android:parentActivityName=".ui.exercise.ExerciseListActivity"
+            android:parentActivityName=".ui.exercise.FillInBlankListActivity"
             android:windowSoftInputMode="adjustResize|stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.exercise.ExerciseListActivity" />
+                android:value=".ui.exercise.FillInBlankListActivity" />
         </activity>
         <activity
             android:name=".ui.topics.TopicListActivity"
@@ -119,11 +119,11 @@
         <activity
             android:name=".ui.exercise.MultipleChoiceActivity"
             android:label="@string/title_activity_multiple_choice"
-            android:parentActivityName=".ui.exercise.ExerciseListActivity"
+            android:parentActivityName=".ui.exercise.FillInBlankListActivity"
             android:windowSoftInputMode="adjustResize|stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pagenguyen.elib.ui.exercise.ExerciseListActivity" />
+                android:value=".ui.exercise.FillInBlankListActivity" />
         </activity>
     </application>
 

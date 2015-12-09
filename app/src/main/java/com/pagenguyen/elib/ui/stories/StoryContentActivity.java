@@ -21,7 +21,7 @@ import com.pagenguyen.elib.adapter.OneTextviewAdapter;
 import com.pagenguyen.elib.model.ParseConstants;
 import com.pagenguyen.elib.model.Story;
 import com.pagenguyen.elib.ui.dictionary.VocabContentActivity;
-import com.pagenguyen.elib.ui.exercise.ExerciseListActivity;
+import com.pagenguyen.elib.ui.exercise.FillInBlankListActivity;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -40,6 +40,7 @@ public class StoryContentActivity extends AppCompatActivity {
     @Bind(R.id.loadStoryContentView) ProgressBar mLoadContent;
 
     public Story mStory;
+    public String mStoryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,12 @@ public class StoryContentActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         switch (id) {
             case (R.id.action_exercises):{
-                Intent intent = new Intent(StoryContentActivity.this, ExerciseListActivity.class);
+                ParseQuery<ParseObject> exercises = ParseQuery.getQuery(ParseConstants.CLASS_FILL_IN_BLANK_EXERCISE);
+                exercises.whereEqualTo("belongTo",mStory);
+
+
+                Intent intent = new Intent(StoryContentActivity.this, FillInBlankListActivity.class);
+                intent.putExtra("story_id",mStoryId);
                 startActivity(intent);
             }
         }
@@ -153,12 +159,12 @@ public class StoryContentActivity extends AppCompatActivity {
 
     public void getStoryFromId() {
         Intent intent = getIntent();
-        String storyId = intent.getStringExtra("story_id");
+        mStoryId = intent.getStringExtra("story_id");
 
         mStory = new Story();
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseConstants.CLASS_STORY);
-        query.getInBackground(storyId, new GetCallback<ParseObject>() {
+        query.getInBackground(mStoryId, new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
                     mStory.setTitle(object.getString(ParseConstants.TITLE));

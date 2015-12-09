@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.pagenguyen.elib.ui.exercise.ExerciseListActivity">
+    tools:context="com.pagenguyen.elib.ui.exercise.FillInBlankListActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"

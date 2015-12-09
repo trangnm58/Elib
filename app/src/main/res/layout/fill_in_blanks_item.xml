@@ -10,7 +10,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@id/linearLayout"
+        android:id="@+id/linearLayoutParent"
         android:weightSum="1">
 
         <TextView
@@ -18,36 +18,43 @@
             android:layout_height="wrap_content"
             android:text="Large Text"
             android:textSize="16dp"
-            android:layout_gravity="center_vertical|right"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:id="@+id/questionTextView"
-            android:layout_toEndOf="@+id/answerInputField"
-            android:layout_weight="0.7"/>
+            android:layout_toEndOf="@+id/linearLayoutChild"
+            android:layout_weight="0.8"/>
 
-        <EditText
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/answerInputField"
-            android:textSize="16dp"
-            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.2"
             android:layout_marginRight="16dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="0.3" />
+            android:layout_marginLeft="16dp"
+            android:id="@+id/linearLayoutChild" >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/answerInputField"
+                android:textSize="16dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="True"
+                android:textSize="14dp"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/resultTextView"
+                android:layout_below="@+id/answerInputField"/>
+        </LinearLayout>
 
     </LinearLayout>
-
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="True"
-        android:gravity="center"
-        android:id="@+id/resultTextView"
-        android:layout_marginRight="16dp"
-        android:layout_below="@id/linearLayout"
-        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

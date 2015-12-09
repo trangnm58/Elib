@@ -140,7 +140,7 @@ public class MultipleChoiceActivity extends AppCompatActivity {
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
+   /* public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
 
@@ -148,13 +148,11 @@ public class MultipleChoiceActivity extends AppCompatActivity {
             case (R.id.action_done):{
                 // call function to compute result:
 
-                Intent intent = new Intent(MultipleChoiceActivity.this, ExerciseResultActivity.class);
-                startActivity(intent);
             }
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     // function to show key of exercise:
 

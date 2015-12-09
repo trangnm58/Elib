@@ -27,7 +27,6 @@ public class StoryListActivity extends AppCompatActivity {
     @Bind(R.id.storyListView) ListView mListStories;
     @Bind(R.id.loadStoryListView) ProgressBar mLoadList;
 
-    public Intent mIntent;
     public StoryAdapter mAdapter;
     public List<ParseObject> mStoryList;
 

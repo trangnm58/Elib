@@ -13,34 +13,38 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
+import com.pagenguyen.elib.model.ParseConstants;
+import com.parse.ParseObject;
+
+import java.util.List;
 
 /**
  * Created by Kira on 12/8/2015.
  */
 public class FillInBlankAdapter extends BaseAdapter{
 
-    private String[] mList;
+    private List<ParseObject> mList;
     private Context mContext;
     private int mLayoutResourceId;
 
     //Array of user's answers
     private String[] uListAnswers;
 
-    public FillInBlankAdapter(Context context, int layoutId, String[] questions){
+    public FillInBlankAdapter(Context context, int layoutId, List<ParseObject> questions){
         mContext = context;
         mLayoutResourceId = layoutId;
         mList = questions;
-        uListAnswers = new String[questions.length];
+        uListAnswers = new String[questions.size()];
     }
 
     @Override
     public int getCount() {
-        return mList.length;
+        return mList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mList[position];
+        return mList.get(position);
     }
 
     @Override
@@ -72,24 +76,18 @@ public class FillInBlankAdapter extends BaseAdapter{
         }
 
         //setting data
-        holder.question.setText(mList[position]);
+        holder.question.setText(mList.get(position).getString(ParseConstants.EXERCISE_QUESTION));
         holder.uAnswer.setText("");
-        holder.rAnswer.setText("True");
+        holder.rAnswer.setText(mList.get(position).getString(ParseConstants.EXERCISE_KEY));
         holder.rAnswer.setVisibility(View.GONE);
 
         //setting TextWatcher to EditText
         holder.uAnswer.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                //code
-                //nothing
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //code
-                //nothing
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
