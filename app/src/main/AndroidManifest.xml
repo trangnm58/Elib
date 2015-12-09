@@ -125,6 +125,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.exercise.FillInBlankListActivity" />
         </activity>
+        <activity
+            android:name=".ui.pronounce.PronouncePracticeActivity"
+            android:label="@string/title_activity_pronounce_practice"
+            android:parentActivityName=".ui.main.HomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pagenguyen.elib.ui.main.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".ui.notebook.MyNotebookActivity"
+            android:label="@string/title_activity_my_notebook"
+            android:parentActivityName=".ui.main.HomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pagenguyen.elib.ui.main.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

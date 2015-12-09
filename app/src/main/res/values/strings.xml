@@ -74,4 +74,10 @@
     <string name="search_button_label">Tìm kiếm</string>
     <string name="voice_search_description">Voice search</string>
     <string name="fill_in_blanks_title">Điền từ vào chỗ trống</string>
+
+    <!-- pronounce practice -->
+    <string name="title_activity_pronounce_practice">Luyện Phát Âm</string>
+
+    <!-- my notebook -->
+    <string name="title_activity_my_notebook">Sổ tay của tôi</string>
 </resources>
