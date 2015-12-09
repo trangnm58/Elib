@@ -13,29 +13,56 @@
         android:id="@+id/my_toolbar"
         layout="@layout/tool_bar"/>
 
-    <EditText
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/meditText"
+        android:layout_height="match_parent"
         android:layout_below="@+id/my_toolbar"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignParentStart="true">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="en-vi"
-        android:id="@+id/enviButton"
-        android:layout_marginTop="31dp"
-        android:layout_below="@+id/meditText"
-        android:layout_alignParentStart="true"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:text="@string/translator_ouput_label"
+            android:id="@+id/outputTranslator"
+            android:layout_weight="45"
+            android:padding="@dimen/padding_inner_button"
+            android:scrollbars="vertical"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Vi-en"
-        android:id="@+id/vienButton"
-        android:layout_alignTop="@+id/enviButton"
-        android:layout_alignParentEnd="true"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:text="@string/language_demo_label"
+            android:id="@+id/translatorLanguage"
+            android:layout_weight="6"
+            android:gravity="bottom|right"
+            android:paddingStart="@dimen/margin_obj_space"
+            android:paddingEnd="@dimen/margin_obj_space"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:text="@string/yandex_refer"
+            android:id="@+id/textView"
+            android:layout_weight="4"
+            android:textSize="@dimen/font_size_tiny"
+            android:alpha="0.4"
+            android:gravity="right|top"
+            android:paddingStart="@dimen/margin_obj_space"
+            android:paddingEnd="@dimen/margin_obj_space"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:inputType="textMultiLine"
+            android:id="@+id/inputTranslator"
+            android:hint="@string/translator_input_instruction"
+            android:layout_weight="45"
+            android:padding="@dimen/padding_inner_button"
+            android:gravity="bottom"
+            android:focusable="true"/>
+
+    </LinearLayout>
 
 
 </RelativeLayout>

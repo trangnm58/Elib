@@ -9,7 +9,7 @@
         <item name="android:textColor">@color/TextColorBlack</item>
         <item name="android:editTextColor">@color/TextColorBlack</item>
         <item name="android:editTextStyle">@style/AppEditTextStyle</item>
-        <item name="android:textSize">@dimen/font_size_small</item>
+        <item name="android:textSize">@dimen/font_size_basic</item>
 
     </style>
     <!-- Background for some activities. -->

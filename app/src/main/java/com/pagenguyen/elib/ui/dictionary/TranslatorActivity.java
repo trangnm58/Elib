@@ -4,10 +4,14 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.Button;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.api.YandexApi;
@@ -20,10 +24,18 @@ import butterknife.ButterKnife;
  * Created by Can on 09-Dec-15.
  */
 public class TranslatorActivity extends AppCompatActivity {
-    @Bind(R.id.meditText) EditText mEditText;
-    @Bind(R.id.enviButton) Button mEnviButton;
-    @Bind(R.id.vienButton) Button mVienButton;
+    @Bind(R.id.inputTranslator) EditText mEditText;
+    @Bind(R.id.outputTranslator) TextView mOutputText;
+    @Bind(R.id.translatorLanguage) TextView mLanguageText;
     @Bind(R.id.my_toolbar) Toolbar mToolbar;
+
+    private String mFrom;
+    private String mTo;
+
+    private boolean onUpdate;
+
+    private String mPrevInput;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,75 +43,105 @@ public class TranslatorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_translator);
         ButterKnife.bind(this);
 
+        setSourceEnglish();
+        stopUpdate();
         setupToolbar();
-        setupSeachButton();
+        mOutputText.setMovementMethod(new ScrollingMovementMethod());
+
+        mEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!onUpdate) {
+                    updateOutputTranslator();
+                }
+            }
+        });
     }
 
-    private void setupSeachButton() {
-        mVienButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String text = mEditText.getText().toString();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_language, menu);
+        return true;
+    }
 
-                YandexApi.translate(text, "vi", "en", new YandexApi.TranslateCallback() {
-                    @Override
-                    public void onFailure(Response response, Throwable throwable) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(TranslatorActivity.this,
-                                        "Lỗi rồi!",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-                    @Override
-                    public void onSuccess(final String response) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(TranslatorActivity.this,
-                                        "Kết quả là: " + response,
-                                        Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
-                });
+        //noinspection SimplifiableIfStatement
+        switch (id) {
+            case (R.id.action_language):{
+                toogleSource();
             }
-        });
-        mEnviButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String text = mEditText.getText().toString();
+        }
 
-                YandexApi.translate(text, "en", "vi", new YandexApi.TranslateCallback() {
-                    @Override
-                    public void onFailure(Response response, Throwable throwable) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(TranslatorActivity.this,
-                                        "Lỗi rồi!",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+        return super.onOptionsItemSelected(item);
+    }
 
-                    @Override
-                    public void onSuccess(final String response) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(TranslatorActivity.this,
-                                        "Kết quả là: " + response,
-                                        Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
-                });
-            }
-        });
+    private void updateOutputTranslator() {
+        String text = mEditText.getText().toString();
+        if (!text.equals(mPrevInput)) {
+            mPrevInput = text;
+            startUpdate();
+
+            YandexApi.translate(text, mFrom, mTo, new YandexApi.TranslateCallback() {
+                @Override
+                public void onFailure(Response response, Throwable throwable) {
+                    Log.d("Lỗi update", response.toString());
+                    stopUpdate();
+                    updateOutputTranslator();
+                }
+
+                @Override
+                public void onSuccess(final String response) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mOutputText.setText(response);
+                            stopUpdate();
+                            updateOutputTranslator();
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    private void stopUpdate() {
+        onUpdate = false;
+    }
+
+    private void startUpdate() {
+        onUpdate = true;
+    }
+
+    private void toogleSource() {
+        if (mFrom.equals("en")) {
+            setSourceVietnamese();
+        } else {
+            setSourceEnglish();
+        }
+    }
+
+    private void setSourceEnglish() {
+        mFrom = "en";
+        mTo = "vi";
+        mLanguageText.setText("Ngôn ngữ: Anh - Việt");
+    }
+
+    private void setSourceVietnamese() {
+        mFrom = "vi";
+        mTo = "en";
+        mLanguageText.setText("Ngôn ngữ: Việt - Anh");
     }
 
     private void setupToolbar() {
