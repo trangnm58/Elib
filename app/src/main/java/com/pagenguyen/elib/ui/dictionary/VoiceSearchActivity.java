@@ -1,6 +1,7 @@
 package com.pagenguyen.elib.ui.dictionary;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import butterknife.ButterKnife;
 public class VoiceSearchActivity extends AppCompatActivity {
     @Bind(R.id.voiceGuidingText) TextView mGuideText;
     @Bind(R.id.microButton) ImageView mMicroButton;
+    @Bind(R.id.appName)	TextView mAppName;
 
     /* Status of mMicroButton
      * start: click to read
@@ -49,20 +51,6 @@ public class VoiceSearchActivity extends AppCompatActivity {
         });
     }
 
-    private void startRecording() {
-        mOnClickStatus = "record";
-        mGuideText.setText(R.string.speech_waiting_prompt);
-
-        //Start recordinng
-        SpeechRecognitionHelper.onSpeech(VoiceSearchActivity.this);
-        stopReading();
-    }
-
-    private void stopReading() {
-        mOnClickStatus = "start";
-        mGuideText.setText(R.string.voice_guiding_text_1);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -85,5 +73,24 @@ public class VoiceSearchActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    private void startRecording() {
+        mOnClickStatus = "record";
+        mGuideText.setText(R.string.speech_waiting_prompt);
+
+        //Start recordinng
+        SpeechRecognitionHelper.onSpeech(VoiceSearchActivity.this);
+        stopReading();
+    }
+
+    private void stopReading() {
+        mOnClickStatus = "start";
+        mGuideText.setText(R.string.voice_guiding_text_1);
+    }
+
+    private void setAppNameFont() {
+        Typeface customFont = Typeface.createFromAsset(getAssets(), "fonts/the-rave-is-in-your-pants.regular.otf");
+        mAppName.setTypeface(customFont, Typeface.BOLD);
     }
 }

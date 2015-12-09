@@ -3,7 +3,7 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".ui.exercise.ExerciseContentActivity">
       <item android:id="@+id/action_done"
-          android:title="Nộp bài"
+          android:title="@string/menu_done_label"
           android:orderInCategory="1"
           app:showAsAction="ifRoom"/>
 </menu>

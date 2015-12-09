@@ -25,7 +25,7 @@ public class SignUpActivity extends AppCompatActivity {
 	@Bind(R.id.rePasswordField) EditText mRePassword;
 	@Bind(R.id.emailField) EditText mEmail;
 	@Bind(R.id.signUpButton) Button mSignUpButton;
-    @Bind(R.id.logInProgress) ProgressBar mProgressBar;
+    @Bind(R.id.signUpProgress) ProgressBar mProgressBar;
     @Bind(R.id.appName) TextView mAppName;
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -40,7 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
 		ButterKnife.bind(this);
 
         setAppNameFont();
-        changeLoadingState();
+        stopLoading();
         setSignUpButton();
     }
 
@@ -63,7 +63,7 @@ public class SignUpActivity extends AppCompatActivity {
                 password = password.trim();
                 email = email.trim();
 
-                if (username.isEmpty() || !username.matches(USERNAME_PATTERN)){
+                if (username.isEmpty() || !username.matches(USERNAME_PATTERN)) {
                     Toast.makeText(
                             SignUpActivity.this,
                             "Tên đăng nhập không hợp lệ!",
@@ -81,7 +81,7 @@ public class SignUpActivity extends AppCompatActivity {
                             "Mật khẩu không khớp!",
                             Toast.LENGTH_LONG
                     ).show();
-                } else if (email.isEmpty() || !email.matches(EMAIL_PATTERN)){
+                } else if (email.isEmpty() || !email.matches(EMAIL_PATTERN)) {
                     Toast.makeText(
                             SignUpActivity.this,
                             "Email không hợp lệ!",
@@ -89,7 +89,7 @@ public class SignUpActivity extends AppCompatActivity {
                     ).show();
                 } else {
                     // create new user
-                    changeLoadingState();
+                    startLoading();
                     setProgressBarIndeterminateVisibility(true);
 
                     ParseUser newUser = new ParseUser();
@@ -100,7 +100,7 @@ public class SignUpActivity extends AppCompatActivity {
                     newUser.signUpInBackground(new SignUpCallback() {
                         @Override
                         public void done(ParseException e) {
-                            changeLoadingState();
+                            stopLoading();
                             setProgressBarIndeterminateVisibility(false);
 
                             if (e == null) {
@@ -116,8 +116,11 @@ public class SignUpActivity extends AppCompatActivity {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                             } else {
-                                // somethings wrong (checked by Parse)
-                                // display message
+                                Toast.makeText(
+                                        SignUpActivity.this,
+                                        "Đăng ký thất bại!",
+                                        Toast.LENGTH_LONG
+                                ).show();
                             }
                         }
                     });
@@ -132,11 +135,10 @@ public class SignUpActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void changeLoadingState() {
-        if (mProgressBar.getVisibility() == View.VISIBLE) {
-            mProgressBar.setVisibility(View.INVISIBLE);
-        } else {
-            mProgressBar.setVisibility(View.VISIBLE);
-        }
+    private void startLoading() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+    private void stopLoading() {
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 }

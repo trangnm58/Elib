@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="TextColorWhite">#ccffffff</color>
+    <color name="TextColorBlue">#cc5c8b9d</color>
+    <color name="TextColorBlack">#cc000000</color>
+    <color name="TextColorGrey">#cccccccc</color>
+
     <color name="ColorPrimary">#5C8B9D</color>
-    <color name="TextColorPrimary">#ccffffff</color>
-    <color name="TextColorNormal">#cc000000</color>
     <color name="ColorPrimaryDark">#5C8B9D</color>
+
     <color name="Background">#8EB4C1</color>
 </resources>

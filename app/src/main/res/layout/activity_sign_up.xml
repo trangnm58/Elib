@@ -12,28 +12,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:id="@+id/textView"
-        android:textColor="#ccffffff"
-        android:textSize="72sp"
+        android:id="@+id/appName"
+        android:textColor="@color/TextColorWhite"
+        android:textSize="@dimen/font_size_app_name"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="72dp" />
+        android:layout_marginTop="@dimen/margin_app_name" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/appName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15sp"
-        android:padding="16dp">
+        android:layout_marginTop="@dimen/margin_obj_space"
+        android:padding="@dimen/padding_inner_layout">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
             android:id="@+id/usernameField"
             android:hint="@string/username_hint"
-            android:textSize="24sp"
+            android:focusable="true"
+            android:singleLine="true"
             />
 
         <EditText
@@ -43,7 +46,6 @@
             android:ems="10"
             android:id="@+id/passwordField"
             android:hint="@string/password_hint"
-            android:textSize="24sp"
             />
 
         <EditText
@@ -53,8 +55,6 @@
             android:ems="10"
             android:id="@+id/rePasswordField"
             android:hint="@string/re_password_hint"
-            android:textSize="24sp"
-            android:layout_gravity="center_horizontal"
             />
 
         <EditText
@@ -64,7 +64,6 @@
             android:ems="10"
             android:id="@+id/emailField"
             android:hint="@string/email_hint"
-            android:textSize="24sp"
             />
 
         <Button
@@ -72,16 +71,15 @@
             android:layout_height="wrap_content"
             android:text="@string/sign_up_button_label"
             android:id="@+id/signUpButton"
-            android:textSize="24sp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true" />
+            android:paddingTop="@dimen/padding_inner_button"
+            android:paddingBottom="@dimen/padding_inner_button" />
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/signUpProgress"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10sp" />
+            android:layout_marginTop="@dimen/margin_obj_space" />
     </LinearLayout>
 
     <TextView
@@ -89,12 +87,12 @@
         android:layout_height="wrap_content"
         android:text="@string/registered_label"
         android:id="@+id/registeredLink"
-        android:textSize="20sp"
+        android:textSize="@dimen/font_size_small"
         android:clickable="true"
         android:onClick="registered"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:textColor="#ccffffff"/>
+        android:layout_marginBottom="@dimen/margin_obj_space"
+        android:textColor="@color/TextColorWhite" />
 
 </RelativeLayout>

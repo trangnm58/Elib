@@ -46,6 +46,9 @@ public class HomeMenuItem {
             case ("topic"): {
                 return R.mipmap.ic_filter_list_white_24dp;
             }
+            case ("translator"): {
+                return R.mipmap.ic_shuffle_white_24dp;
+            }
             default: {
                 return 0;
             }

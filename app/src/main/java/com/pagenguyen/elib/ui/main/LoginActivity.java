@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 		ButterKnife.bind(this);
 
         setAppNameFont();
-        changeLoadingState();
+		stopLoading();
 		setSignInButton();
 	}
 
@@ -62,11 +62,11 @@ public class LoginActivity extends AppCompatActivity {
 					// display message to warn user
 				} else {
 					// login
-                    changeLoadingState();
+					startLoading();
 					ParseUser.logInInBackground(username, password, new LogInCallback() {
 						@Override
 						public void done(ParseUser user, ParseException e) {
-							changeLoadingState();
+							stopLoading();
 							if (e == null) {
 								// Success
 								// Go to Home Activity
@@ -85,11 +85,10 @@ public class LoginActivity extends AppCompatActivity {
 		});
 	}
 
-	private void changeLoadingState() {
-        if (mProgressBar.getVisibility() == View.VISIBLE) {
-            mProgressBar.setVisibility(View.INVISIBLE);
-        } else {
-            mProgressBar.setVisibility(View.VISIBLE);
-        }
-    }
+	private void startLoading() {
+		mProgressBar.setVisibility(View.VISIBLE);
+	}
+	private void stopLoading() {
+		mProgressBar.setVisibility(View.INVISIBLE);
+	}
 }

@@ -12,11 +12,11 @@
         android:layout_height="wrap_content"
         android:text="@string/app_name"
         android:id="@+id/appName"
-        android:textColor="#ccffffff"
-        android:textSize="72dp"
+        android:textColor="@color/TextColorWhite"
+        android:textSize="@dimen/font_size_app_name"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="72dp" />
+        android:layout_marginTop="@dimen/margin_app_name" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -24,17 +24,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/appName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="@dimen/margin_obj_space"
         android:id="@+id/linearLayout"
-        android:padding="16dp">
+        android:padding="@dimen/padding_inner_layout">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/userNameField"
+            android:inputType="text"
             android:ems="10"
             android:hint="@string/username_hint"
-            android:textSize="24dp"
             android:focusable="true"
             android:singleLine="true"
             />
@@ -46,7 +46,6 @@
             android:ems="10"
             android:id="@+id/passwordField"
             android:hint="@string/password_hint"
-            android:textSize="24dp"
             />
 
         <Button
@@ -54,16 +53,15 @@
             android:layout_height="wrap_content"
             android:id="@+id/loginButton"
             android:text="@string/login_button_label"
-            android:textSize="24sp"
-            android:paddingTop="10sp"
-            android:paddingBottom="10sp" />
+            android:paddingTop="@dimen/padding_inner_button"
+            android:paddingBottom="@dimen/padding_inner_button" />
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/logInProgress"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10sp" />
+            android:layout_marginTop="@dimen/margin_obj_space" />
     </LinearLayout>
 
     <TextView
@@ -71,12 +69,12 @@
         android:layout_height="wrap_content"
         android:text="@string/sign_up_label"
         android:id="@+id/signUpLink"
-        android:textSize="20sp"
+        android:textSize="@dimen/font_size_small"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:clickable="true"
         android:onClick="signUp"
-        android:layout_marginBottom="10dp"
-        android:textColor="#ccffffff"/>
+        android:layout_marginBottom="@dimen/margin_obj_space"
+        android:textColor="@color/TextColorWhite" />
 
 </RelativeLayout>

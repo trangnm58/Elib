@@ -1,6 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -17,10 +16,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/homeMenu"
-        android:divider="#cacaca"
+        android:divider="@color/TextColorGrey"
         android:dividerHeight="1dp"
         android:layout_below="@+id/my_toolbar"
         android:layout_alignParentStart="true"
-        android:padding="10dp"/>
+        android:padding="@dimen/padding_inner_layout"/>
 
 </RelativeLayout>

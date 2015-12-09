@@ -25,7 +25,8 @@
             android:name=".ui.main.LoginActivity"
             android:label="@string/title_activity_login"
             android:parentActivityName=".ui.main.HomeActivity"
-            android:theme="@style/AppTheme.HaveBackground" >
+            android:theme="@style/AppTheme.HaveBackground"
+            android:windowSoftInputMode="adjustResize|stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.main.HomeActivity" />
@@ -34,7 +35,8 @@
             android:name=".ui.main.SignUpActivity"
             android:label="@string/title_activity_sign_up"
             android:parentActivityName=".ui.main.LoginActivity"
-            android:theme="@style/AppTheme.HaveBackground" >
+            android:theme="@style/AppTheme.HaveBackground"
+            android:windowSoftInputMode="adjustResize|stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.main.LoginActivity" />
@@ -42,7 +44,17 @@
         <activity
             android:name=".ui.dictionary.SearchVocabActivity"
             android:label="@string/title_activity_search_vocab"
-            android:parentActivityName=".ui.main.HomeActivity" >
+            android:parentActivityName=".ui.main.HomeActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden|adjustPan" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.main.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".ui.dictionary.TranslatorActivity"
+            android:label="@string/title_activity_translator"
+            android:parentActivityName=".ui.main.HomeActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.main.HomeActivity" />
@@ -54,14 +66,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.dictionary.SearchVocabActivity" />
-        </activity>
-        <activity
-            android:name=".ui.dictionary.VoiceSearchActivity"
-            android:label="@string/title_activity_voice_search"
-            android:parentActivityName=".ui.dictionary.SearchVocabActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pagenguyen.elib.ui.dictionary.SearchVocabActivity" />
         </activity>
         <activity
             android:name=".ui.stories.StoryListActivity"
@@ -88,28 +92,13 @@
                 android:value=".ui.main.HomeActivity" />
         </activity>
         <activity
-            android:name=".ui.dictionary.TranslatorActivity"
-            android:label="@string/title_activity_search_vocab"
-            android:parentActivityName=".ui.main.HomeActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.main.HomeActivity" />
-        </activity>
-        <activity
             android:name=".ui.exercise.FillInBlanksActivity"
             android:label="@string/title_activity_exercise_content"
-            android:parentActivityName=".ui.exercise.ExerciseListActivity" >
+            android:parentActivityName=".ui.exercise.ExerciseListActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.exercise.ExerciseListActivity" />
-        </activity>
-        <activity
-            android:name=".ui.exercise.ExerciseResultActivity"
-            android:label="@string/title_activity_exercise_result"
-            android:parentActivityName=".ui.exercise.FillInBlanksActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.exercise.FillInBlanksActivity" />
         </activity>
         <activity
             android:name=".ui.topics.TopicListActivity"
@@ -130,7 +119,8 @@
         <activity
             android:name=".ui.exercise.MultipleChoiceActivity"
             android:label="@string/title_activity_multiple_choice"
-            android:parentActivityName=".ui.exercise.ExerciseListActivity" >
+            android:parentActivityName=".ui.exercise.ExerciseListActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pagenguyen.elib.ui.exercise.ExerciseListActivity" />

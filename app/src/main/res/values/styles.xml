@@ -5,21 +5,26 @@
         <item name="android:windowFullscreen">true</item>
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="android:buttonStyle">@style/AppButtonStyle</item>
-        <item name="android:textColor">@color/TextColorNormal</item>
-        <item name="android:editTextColor">@color/TextColorNormal</item>
+
+        <item name="android:textColor">@color/TextColorBlack</item>
+        <item name="android:editTextColor">@color/TextColorBlack</item>
         <item name="android:editTextStyle">@style/AppEditTextStyle</item>
+        <item name="android:textSize">@dimen/font_size_small</item>
+
     </style>
     <!-- Background for some activities. -->
     <style name="AppTheme.HaveBackground" parent="AppTheme">
         <item name="android:background">@color/Background</item>
     </style>
 
-
     <style name="AppButtonStyle" parent="Base.Widget.AppCompat.Button.Borderless">
         <item name="android:background">@color/ColorPrimary</item>
-        <item name="android:textColor">@color/TextColorPrimary</item>
+        <item name="android:textColor">@color/TextColorWhite</item>
+        <item name="android:textSize">@dimen/font_size_BASIC</item>
     </style>
+
     <style name="AppEditTextStyle" parent="Base.Widget.AppCompat.EditText">
         <item name="android:alpha">0.8</item>
+        <item name="android:textSize">@dimen/font_size_basic</item>
     </style>
 </resources>

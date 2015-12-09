@@ -39,7 +39,8 @@
     <string name="cancel_button">HỦY BỎ</string>
 
     <!--dictionary -->
-    <string name="title_activity_search_vocab">Từ điển tích hợp</string>
+    <string name="title_activity_search_vocab">Từ điển Anh-Việt</string>
+    <string name="title_activity_translator">Dịch văn bản</string>
     <string name="search_vocab_hint">Nhập từ cần tìm</string>
     <string name="title_activity_vocab_content">Nội dung từ</string>
     <string name="no_vocab_content">Từ hiện không có trong từ điển</string>
@@ -68,4 +69,8 @@
     <string name="title_activity_topic_list">Danh sách chủ đề</string>
     <string name="title_activity_topic_content_actitvity">Danh sách từ vựng</string>
     <string name="title_activity_multiple_choice">Bài tập</string>
+    <string name="menu_done_label">Nộp bài</string>
+    <string name="menu_exercise_label">Bài tập</string>
+    <string name="search_button_label">Tìm kiếm</string>
+    <string name="voice_search_description">Voice search</string>
 </resources>

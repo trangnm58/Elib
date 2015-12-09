@@ -41,7 +41,6 @@ public class HomeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setupToolbar();
-        checkOnFirstOpenApp();
         setHomeMenuAdapter();
         setupHomeMenuClick();
 	}
@@ -50,6 +49,32 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_for_home, menu);
+        if (isNetworkAvailable()) {
+            mCurrentUser = ParseUser.getCurrentUser();
+            if (mCurrentUser == null) {
+                // first time using app or logout
+                // navigateToLogIn();
+                Log.d(TAG, "have not logged in");
+                menu.getItem(0).setVisible(false);
+                menu.getItem(1).setVisible(true);
+                menu.getItem(2).setVisible(true);
+                menu.getItem(3).setVisible(false);
+            } else {
+                // we have current user
+                Log.d(TAG, mCurrentUser.getUsername());
+                menu.getItem(0).setVisible(true);
+                menu.getItem(1).setVisible(true);
+                menu.getItem(2).setVisible(false);
+                menu.getItem(3).setVisible(true);
+            }
+        } else {
+            // display message to user
+            Log.d(TAG, "no internet");
+            menu.getItem(0).setVisible(false);
+            menu.getItem(1).setVisible(true);
+            menu.getItem(2).setVisible(true);
+            menu.getItem(3).setVisible(false);
+        }
         return true;
     }
 
@@ -81,15 +106,31 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             }
             case (R.id.action_login):{
-                // go to login activity
-                navigateToLogIn();
+                if (isNetworkAvailable()) {
+                    // go to login activity
+                    navigateToLogIn();
+                } else {
+                    Toast.makeText(
+                            HomeActivity.this,
+                            "Không có kết nối mạng!",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
                 return true;
             }
             case (R.id.action_logout):{
-                // use ParseUser logout() function
-                ParseUser.logOut();
-                // go to login activity after logout
-                navigateToLogIn();
+                if (isNetworkAvailable()) {
+                    // use ParseUser logout() function
+                    ParseUser.logOut();
+                    // go to login activity after logout
+                    navigateToLogIn();
+                } else {
+                    Toast.makeText(
+                            HomeActivity.this,
+                            "Không có kết nối mạng!",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
                 return true;
             }
         }
@@ -101,30 +142,12 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
     }
 
-    private void checkOnFirstOpenApp() {
-        // TODO check on first
-        if (isNetworkAvailable()) {
-            mCurrentUser = ParseUser.getCurrentUser();
-            if (mCurrentUser == null) {
-                // first time using app or logout
-                //navigateToLogIn();
-                Log.d(TAG, "have not logged in");
-            } else {
-                // we have current user
-                Log.d(TAG, mCurrentUser.getUsername());
-            }
-        } else {
-            // display message to user
-            Log.d(TAG, "no internet");
-        }
-    }
-
     private void setHomeMenuAdapter() {
         mMenuItems = new HomeMenuItem[7];
         mMenuItems[0] = new HomeMenuItem("topic", "Học từ theo chủ đề", "TopicActivity");
         mMenuItems[1] = new HomeMenuItem("book", "Học tiếng Anh qua truyện", "BookActivity");
-        mMenuItems[2] = new HomeMenuItem("dictionary", "Từ điển tích hợp", "DictActivity");
-        mMenuItems[3] = new HomeMenuItem("dictionary", "Từ điển tích hợp 2", "DictActivity");
+        mMenuItems[2] = new HomeMenuItem("dictionary", "Từ điển Anh-Việt", "DictActivity");
+        mMenuItems[3] = new HomeMenuItem("translator", "Dịch văn bản", "TranActivity");
         mMenuItems[4] = new HomeMenuItem("speak", "Luyện phát âm", "SpeakActivity");
         mMenuItems[5] = new HomeMenuItem("game", "Trò chơi", "GameActivity");
         mMenuItems[6] = new HomeMenuItem("favorite", "Danh mục từ yêu thích", "FavActivity");
@@ -172,9 +195,6 @@ public class HomeActivity extends AppCompatActivity {
 
 	private void navigateToLogIn() {
 		Intent intent = new Intent(this, LoginActivity.class);
-		// clear activity stack -> user can't back when in login activity
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		startActivity(intent);
 	}
 

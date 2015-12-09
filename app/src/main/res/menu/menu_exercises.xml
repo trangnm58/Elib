@@ -3,7 +3,7 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".ui.stories.StoryContentActivity">
       <item android:id="@+id/action_exercises"
-          android:title="Bài tập"
+          android:title="@string/menu_exercise_label"
           android:orderInCategory="1"
           app:showAsAction="ifRoom"/>
 </menu>
