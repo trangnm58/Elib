@@ -1,7 +1,5 @@
 package com.pagenguyen.elib.model;
 
-import com.parse.ParseObject;
-
 /**
  * Created by Can on 08-Dec-15.
  */
@@ -48,19 +46,5 @@ public class MultipleChoiceQuestion {
 
     public void setKey(int key) {
         mKey = key;
-    }
-
-    public String createParseObject () {
-        // convert to ParseObject
-        ParseObject object = new ParseObject(ParseConstants.CLASS_MULTIPLE_CHOICE_QUESTION);
-        object.put(ParseConstants.EXERCISE_QUESTION, mQuestion);
-        object.put(ParseConstants.EXERCISE_KEY, mKey);
-	    for (int i=0; i < mOption.length; i++) {
-		    object.add(ParseConstants.EXERCISE_OPTION, mOption[i]);
-	    }
-	    // save to Parse
-	    object.saveInBackground();
-	    // return id
-	    return object.getObjectId();
     }
 }

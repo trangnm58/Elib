@@ -1,7 +1,5 @@
 package com.pagenguyen.elib.model;
 
-import com.parse.ParseObject;
-
 /**
  * Created by Page on 07/12/2015.
  */
@@ -9,6 +7,8 @@ public class Story {
 	private String mContent;
 	private String mTitle;
 	private String[] mNewWords;
+	private MultipleChoiceExercise[] mMultipleChoiceExercises;
+	private FillInBlankExercise[] mFillInBlankExercises;
 
 	public String getContent() {
 		return mContent;
@@ -34,15 +34,19 @@ public class Story {
 		mNewWords = newWords;
 	}
 
-	public void createParseObject() {
-		// convert to ParseObject
-		ParseObject story = new ParseObject(ParseConstants.CLASS_STORY);
-		story.put(ParseConstants.STORY_CONTENT, mContent);
-		story.put(ParseConstants.STORY_TITLE, mTitle);
-		for (int i = 0; i < mNewWords.length; i++) {
-			story.add(ParseConstants.STORY_NEW_WORDS, mNewWords[i]);
-		}
-		// save to Parse
-		story.saveInBackground();
+	public MultipleChoiceExercise[] getMultipleChoiceExercises() {
+		return mMultipleChoiceExercises;
+	}
+
+	public void setMultipleChoiceExercises(MultipleChoiceExercise[] multipleChoiceExercises) {
+		mMultipleChoiceExercises = multipleChoiceExercises;
+	}
+
+	public FillInBlankExercise[] getFillInBlankExercises() {
+		return mFillInBlankExercises;
+	}
+
+	public void setFillInBlankExercises(FillInBlankExercise[] fillInBlankExercises) {
+		mFillInBlankExercises = fillInBlankExercises;
 	}
 }

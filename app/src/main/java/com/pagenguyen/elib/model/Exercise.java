@@ -6,7 +6,4 @@ package com.pagenguyen.elib.model;
 public abstract class Exercise {
 	// putExtra and create intent to exactly exercise page
 	abstract public void doExercise();
-
-	// create exactly data on Parse
-	abstract public void createParseExercise();
 }
