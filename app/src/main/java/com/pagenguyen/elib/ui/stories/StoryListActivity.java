@@ -66,7 +66,7 @@ public class StoryListActivity extends AppCompatActivity {
                     setStoryListView(mStoryList);
 
                     //set demo list view - oflines
-                    setDemoStoryList();
+                    //setDemoStoryList();
 
                     //hide progress bar
                     mLoadList.setVisibility(View.GONE);
@@ -85,7 +85,7 @@ public class StoryListActivity extends AppCompatActivity {
         mListStories.setAdapter(mAdapter);
     }
 
-    private void setDemoStoryList(){
+    /*private void setDemoStoryList(){
         ListView demoListView = (ListView) findViewById(R.id.storyListDemo);
 
         String[] demoStories = {
@@ -106,7 +106,7 @@ public class StoryListActivity extends AppCompatActivity {
                 demoStories);
 
         demoListView.setAdapter(adapter);
-    }
+    }*/
 
     private void setListItemClick() {
         mListStories.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -185,6 +186,12 @@ public class FillInBlanksActivity extends AppCompatActivity {
         //set background color
         View snackBarView = snackbar.getView();
         snackBarView.setBackgroundColor(getResources().getColor(R.color.TextColorBlue));
+
+        //set text view style
+        TextView textView = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(getResources().getColor(R.color.TextColorWhite));
+        textView.setTextSize(20);
+        textView.setGravity(Gravity.CENTER);
 
         snackbar.show();
 
