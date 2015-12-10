@@ -11,7 +11,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:layout_margin="10dp" >
 
         <!-- …Toolbar, other layouts, other elements… -->
         <!-- Score result -->
@@ -19,17 +20,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Score"
-            android:textSize="24dp"
-            android:id="@+id/exerciseScoreView"
-            android:layout_centerHorizontal="true" />
+            android:textSize="@dimen/font_size_small"
+            android:id="@+id/exerciseScoreView" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Status"
-            android:id="@+id/exerciseStatusView"
-            android:layout_below="@+id/exerciseScoreView"
-            android:layout_centerHorizontal="true" />
+            android:textSize="@dimen/font_size_small"
+            android:id="@+id/exerciseStatusView" />
 
     </LinearLayout>
 

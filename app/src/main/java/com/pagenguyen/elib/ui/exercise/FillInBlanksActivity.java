@@ -5,26 +5,27 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.FillInBlankAdapter;
 import com.pagenguyen.elib.model.ExerciseResult;
 import com.pagenguyen.elib.model.FillInBlankExercise;
 import com.pagenguyen.elib.model.ParseConstants;
+import com.pagenguyen.elib.ui.main.HomeActivity;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -41,16 +42,19 @@ import butterknife.ButterKnife;
 public class FillInBlanksActivity extends AppCompatActivity {
     @Bind(R.id.exerciseTitleView) TextView mExerciseTitle;
     @Bind(R.id.questionListView) ListView mQuestionListView;
-    @Bind(R.id.exerciseStatusView) TextView mStatus;
     @Bind(R.id.exerciseScoreView) TextView mScore;
     @Bind(R.id.my_toolbar) Toolbar mToolbar;
+    @Bind(R.id.loadingQuestionView) ProgressBar mLoadQuestion;
+
+    @Bind(R.id.coordinatorLayout) CoordinatorLayout mCoordinatorLayout;
 
     public FillInBlankAdapter mAdapter;
     public FillInBlankExercise mExercise;
     public List<ParseObject> mQuestionList;
     public String mExerciseId;
 
-    public ActionMenuItemView mSubmitItem;
+    public static Menu mFillInBlanksMenu;
+    private int menuItemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +64,8 @@ public class FillInBlanksActivity extends AppCompatActivity {
 
         //hide score and status view
         mScore.setVisibility(View.GONE);
-        mStatus.setVisibility(View.GONE);
+
+        mLoadQuestion.setVisibility(View.VISIBLE);
 
         setupToolbar();
 
@@ -75,6 +80,10 @@ public class FillInBlanksActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_done, menu);
+        mFillInBlanksMenu = menu;
+
+        menu.getItem(0).setEnabled(false);
+
         return true;
     }
 
@@ -88,25 +97,47 @@ public class FillInBlanksActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         switch (id) {
             case (R.id.action_done):{
-                //Dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(FillInBlanksActivity.this);
-                builder.setTitle(R.string.warn_title)
-                        .setMessage(R.string.warn_message)
-                        .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Done and submit user's answers
-                                submitAnswers();
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel_button, null);
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                menuItemId = R.id.action_done;
+                setDialog();
+                return true;
+            }
+            case (R.id.action_home):{
+                menuItemId = R.id.action_home;
+                setDialog();
+                return true;
             }
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+
+    private void setDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(FillInBlanksActivity.this);
+        builder.setTitle(R.string.warn_title)
+                .setMessage(R.string.warn_message)
+                .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(menuItemId == R.id.action_done){
+                            //done and sumbit user's answers
+                            submitAnswers();
+                        } else {
+                            // Back to home page
+                            Intent intent = new Intent(FillInBlanksActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.cancel_button, null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        //set size for text of dialog's button
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(16);
+        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(16);
     }
 
     private void submitAnswers() {
@@ -119,17 +150,20 @@ public class FillInBlanksActivity extends AppCompatActivity {
             boolean check = key.equals(answers);
             EditText editText = (EditText) findViewById(i + 900);
 
-            //show key of question
-            TextView keyView = (TextView) findViewById(i + 1000);
-            keyView.setVisibility(View.VISIBLE);
-
             //disable all edit text
             editText.setEnabled(false);
 
             if(check){
                 rightAnswers++;
+                //Right answer
+                editText.setTextColor(Color.GREEN);
             } else {
+                //Wrong answer
                 editText.setTextColor(Color.RED);
+
+                //show key of question
+                TextView keyView = (TextView) findViewById(i + 1000);
+                keyView.setVisibility(View.VISIBLE);
             }
 
             i++;
@@ -140,17 +174,21 @@ public class FillInBlanksActivity extends AppCompatActivity {
         //Toast.makeText(FillInBlanksActivity.this,rateScore+"",Toast.LENGTH_SHORT).show();
         ExerciseResult result = new ExerciseResult(rateScore);
 
-        /*Snackbar snackbar = Snackbar
-                .make(R.layout.exercise_result_snack_bar, "Welcome to AndroidHive", Snackbar.LENGTH_LONG)
-                .setAction("OK", )
-
-        snackbar.show();*/
-
         mScore.setText(result.getScore() + "%");
-        mStatus.setText(result.getStatus());
+
+        //Set snack bar
+        Snackbar snackbar = Snackbar
+                .make(mCoordinatorLayout, result.getStatus(), Snackbar.LENGTH_LONG)
+                .setAction("OK", null)
+                .setActionTextColor(R.color.TextColorWhite);
+
+        //set background color
+        View snackBarView = snackbar.getView();
+        snackBarView.setBackgroundColor(getResources().getColor(R.color.TextColorBlue));
+
+        snackbar.show();
 
         mScore.setVisibility(View.VISIBLE);
-        mStatus.setVisibility(View.VISIBLE);
     }
 
     private void setupToolbar() {
@@ -182,7 +220,9 @@ public class FillInBlanksActivity extends AppCompatActivity {
                     public void done(List<ParseObject> object, ParseException e) {
                         if (e == null) {
                             mQuestionList = object;
-                            setmQuestionListView(mQuestionList);
+                            setQuestionListView(mQuestionList);
+
+                            mLoadQuestion.setVisibility(View.GONE);
                         } else {
                         }
                     }
@@ -191,7 +231,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
         });
     }
 
-    private void setmQuestionListView(List<ParseObject> questions){
+    private void setQuestionListView(List<ParseObject> questions){
         mAdapter = new FillInBlankAdapter(FillInBlanksActivity.this,
                 R.layout.fill_in_blanks_item,
                 questions);

@@ -7,10 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.pagenguyen.elib.R;
+import com.pagenguyen.elib.adapter.OneTextviewAdapter;
 import com.pagenguyen.elib.adapter.StoryAdapter;
 import com.pagenguyen.elib.model.ParseConstants;
 import com.parse.FindCallback;
@@ -62,6 +64,12 @@ public class StoryListActivity extends AppCompatActivity {
                 if (e == null) {
                     mStoryList = object;
                     setStoryListView(mStoryList);
+
+                    //set demo list view - oflines
+                    setDemoStoryList();
+
+                    //hide progress bar
+                    mLoadList.setVisibility(View.GONE);
                 } else {
 
                 }
@@ -75,8 +83,29 @@ public class StoryListActivity extends AppCompatActivity {
                 stories);
 
         mListStories.setAdapter(mAdapter);
+    }
 
-        mLoadList.setVisibility(View.GONE);
+    private void setDemoStoryList(){
+        ListView demoListView = (ListView) findViewById(R.id.storyListDemo);
+
+        String[] demoStories = {
+                "The God of Love",
+                "The Irreverent Devotee",
+                "The Key to Heaven",
+                "The Man Who Could not Die",
+                "The Origin of Coconut Tree",
+                "The Story of Lord Ganesha",
+                "The Sun-Goddess of Korea",
+                "The Two Bachelors",
+                "Tricksters Humbled",
+                "Why Snakes Have Forked Tongues"
+        };
+        OneTextviewAdapter adapter = new OneTextviewAdapter(StoryListActivity.this,
+                R.layout.item_one_textview,
+                R.id.itemContent,
+                demoStories);
+
+        demoListView.setAdapter(adapter);
     }
 
     private void setListItemClick() {

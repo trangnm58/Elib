@@ -30,6 +30,8 @@ public class StoryExerciseListActivity extends AppCompatActivity {
 
     public List<ParseObject> mExerciseList;
 
+    public String mStoryId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,11 +57,11 @@ public class StoryExerciseListActivity extends AppCompatActivity {
 
     private void setExerciseListView() {
         Intent intent = getIntent();
-        String storyId = intent.getStringExtra("story_id");
+        mStoryId = intent.getStringExtra("story_id");
 
         //get current story by Id
         ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseConstants.CLASS_STORY);
-        query.getInBackground(storyId, new GetCallback<ParseObject>() {
+        query.getInBackground(mStoryId, new GetCallback<ParseObject>() {
             public void done(ParseObject storyObj, ParseException e) {
                 if (e == null) {
                     //get exercises of current story
@@ -98,6 +100,7 @@ public class StoryExerciseListActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(StoryExerciseListActivity.this, FillInBlanksActivity.class);
                 intent.putExtra("exercise_id", exerciseId);
+                intent.putExtra("story_id",mStoryId);
                 startActivity(intent);
             }
         });

@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.model.ParseConstants;
+import com.pagenguyen.elib.ui.exercise.FillInBlanksActivity;
 import com.parse.ParseObject;
 
 import java.util.List;
@@ -94,6 +94,8 @@ public class FillInBlankAdapter extends BaseAdapter{
             @Override
             public void afterTextChanged(Editable s) {
                 uListAnswers[position] = s.toString();
+
+                FillInBlanksActivity.mFillInBlanksMenu.getItem(0).setEnabled(true);
 
             }
         });
