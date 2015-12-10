@@ -8,29 +8,31 @@ import com.pagenguyen.elib.R;
  * Created by Kira on 12/6/2015.
  */
 public class ExerciseResult extends AppCompatActivity {
-    public float mScore;
-    public String mStatus;
+    private int mScore;
+    private String mStatus;
 
     public ExerciseResult(float score){
-        mScore = score;
-        setStatus(score);
+        mScore = Math.round(score*100);
+        setStatusFromScore(mScore);
     }
 
-    public void setStatus(float score){
-        int intScore = Math.round(score);
-
-        if(intScore*100 <= 65){
-            mStatus = getResources().getString(R.string.bad_result_status);
-        } else if (intScore*100 > 65 && intScore <= 85){
-            mStatus = getResources().getString(R.string.normal_result_status);
-        } else if (intScore*100 > 85 && intScore <= 100){
-            mStatus = getResources().getString(R.string.good_result_status);
+    public void setStatusFromScore(int score){
+        if(score <= 65){
+            mStatus = "Bạn cần cố gắng hơn";
+        } else if (score > 65 && score <= 85){
+            mStatus = "Bạn có thể làm tốt hơn nữa!";
+        } else if (score > 85 && score <= 100){
+            mStatus = "Tuyệt vời!";
         } else {
             mStatus = "";
         }
     }
 
-    public float getScore(){
-        return mScore;
+    public int getScore(){
+        return Math.round(mScore);
+    }
+
+    public String getStatus(){
+        return mStatus;
     }
 }

@@ -21,7 +21,7 @@ import com.pagenguyen.elib.adapter.OneTextviewAdapter;
 import com.pagenguyen.elib.model.ParseConstants;
 import com.pagenguyen.elib.model.Story;
 import com.pagenguyen.elib.ui.dictionary.VocabContentActivity;
-import com.pagenguyen.elib.ui.exercise.FillInBlankListActivity;
+import com.pagenguyen.elib.ui.exercise.StoryExerciseListActivity;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -38,6 +38,7 @@ public class StoryContentActivity extends AppCompatActivity {
     @Bind(R.id.tabHostStory) TabHost mTabHost;
     @Bind(R.id.storyWordListView) ListView mWordList;
     @Bind(R.id.loadStoryContentView) ProgressBar mLoadContent;
+    @Bind(R.id.my_toolbar) Toolbar mToolbar;
 
     public Story mStory;
     public String mStoryId;
@@ -80,7 +81,7 @@ public class StoryContentActivity extends AppCompatActivity {
                 exercises.whereEqualTo("belongTo",mStory);
 
 
-                Intent intent = new Intent(StoryContentActivity.this, FillInBlankListActivity.class);
+                Intent intent = new Intent(StoryContentActivity.this, StoryExerciseListActivity.class);
                 intent.putExtra("story_id",mStoryId);
                 startActivity(intent);
             }
@@ -90,8 +91,7 @@ public class StoryContentActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        setSupportActionBar(mToolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
     }

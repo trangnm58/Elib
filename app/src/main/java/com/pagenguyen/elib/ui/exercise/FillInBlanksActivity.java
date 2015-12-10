@@ -3,18 +3,26 @@ package com.pagenguyen.elib.ui.exercise;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.FillInBlankAdapter;
+import com.pagenguyen.elib.model.ExerciseResult;
 import com.pagenguyen.elib.model.FillInBlankExercise;
 import com.pagenguyen.elib.model.ParseConstants;
 import com.parse.FindCallback;
@@ -22,6 +30,8 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -33,11 +43,14 @@ public class FillInBlanksActivity extends AppCompatActivity {
     @Bind(R.id.questionListView) ListView mQuestionListView;
     @Bind(R.id.exerciseStatusView) TextView mStatus;
     @Bind(R.id.exerciseScoreView) TextView mScore;
+    @Bind(R.id.my_toolbar) Toolbar mToolbar;
 
     public FillInBlankAdapter mAdapter;
     public FillInBlankExercise mExercise;
     public List<ParseObject> mQuestionList;
     public String mExerciseId;
+
+    public ActionMenuItemView mSubmitItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,20 +112,49 @@ public class FillInBlanksActivity extends AppCompatActivity {
     private void submitAnswers() {
         String[] uAnswers = mAdapter.getUAnswers();
 
-        for(String s:uAnswers){
+        int i=0;
+        int rightAnswers = 0;
+        for(String answers:uAnswers){
+            String key = mQuestionList.get(i).getString(ParseConstants.EXERCISE_KEY);
+            boolean check = key.equals(answers);
+            EditText editText = (EditText) findViewById(i + 900);
 
+            //show key of question
+            TextView keyView = (TextView) findViewById(i + 1000);
+            keyView.setVisibility(View.VISIBLE);
+
+            //disable all edit text
+            editText.setEnabled(false);
+
+            if(check){
+                rightAnswers++;
+            } else {
+                editText.setTextColor(Color.RED);
+            }
+
+            i++;
         }
 
-        mScore.setText("50%");
-        mStatus.setText(R.string.bad_result_status);
+        float rateScore = ((float)rightAnswers)/i;
+
+        //Toast.makeText(FillInBlanksActivity.this,rateScore+"",Toast.LENGTH_SHORT).show();
+        ExerciseResult result = new ExerciseResult(rateScore);
+
+        /*Snackbar snackbar = Snackbar
+                .make(R.layout.exercise_result_snack_bar, "Welcome to AndroidHive", Snackbar.LENGTH_LONG)
+                .setAction("OK", )
+
+        snackbar.show();*/
+
+        mScore.setText(result.getScore() + "%");
+        mStatus.setText(result.getStatus());
 
         mScore.setVisibility(View.VISIBLE);
         mStatus.setVisibility(View.VISIBLE);
     }
 
     private void setupToolbar() {
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        setSupportActionBar(mToolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
     }
@@ -141,7 +183,8 @@ public class FillInBlanksActivity extends AppCompatActivity {
                         if (e == null) {
                             mQuestionList = object;
                             setmQuestionListView(mQuestionList);
-                        } else {}
+                        } else {
+                        }
                     }
                 });
             }
@@ -154,5 +197,31 @@ public class FillInBlanksActivity extends AppCompatActivity {
                 questions);
 
         mQuestionListView.setAdapter(mAdapter);
+        getListViewSize(mQuestionListView);
+    }
+
+    private void getListViewSize(ListView listView) {
+        FillInBlankAdapter myListAdapter = (FillInBlankAdapter) listView.getAdapter();
+        if (myListAdapter == null) {
+            //do nothing return null
+            return;
+        }
+        //set listAdapter in loop for getting final size
+        int totalHeight = 0;
+        for (int size = 0; size < myListAdapter.getCount(); size++) {
+            View listItem = myListAdapter.getView(size, null, listView);
+            if (listItem instanceof ViewGroup) {
+                listItem.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT,
+                        AbsListView.LayoutParams.MATCH_PARENT));
+
+            }
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        //setting listview item in adapter
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight*2 + 230 + (listView.getDividerHeight() * (myListAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
     }
 }

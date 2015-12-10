@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.OneTextviewAdapter;
 import com.pagenguyen.elib.ui.dictionary.VocabContentActivity;
-import com.pagenguyen.elib.ui.exercise.FillInBlankListActivity;
 import com.pagenguyen.elib.ui.exercise.MultipleChoiceListActivity;
 
 import butterknife.Bind;

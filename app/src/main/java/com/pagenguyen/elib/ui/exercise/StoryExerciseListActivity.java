@@ -24,7 +24,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class FillInBlankListActivity extends AppCompatActivity {
+public class StoryExerciseListActivity extends AppCompatActivity {
     @Bind(R.id.exerciseListView) ListView mListExercise;
     @Bind(R.id.loadExerciseListView) ProgressBar mLoadList;
 
@@ -81,7 +81,7 @@ public class FillInBlankListActivity extends AppCompatActivity {
     }
 
     private void setStoryListView(List<ParseObject> exercises){
-        StoryAdapter adapter = new StoryAdapter(FillInBlankListActivity.this,
+        StoryAdapter adapter = new StoryAdapter(StoryExerciseListActivity.this,
                 R.layout.item_one_textview,
                 exercises);
 
@@ -96,7 +96,7 @@ public class FillInBlankListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String exerciseId = mExerciseList.get(position).getObjectId();
 
-                Intent intent = new Intent(FillInBlankListActivity.this, FillInBlanksActivity.class);
+                Intent intent = new Intent(StoryExerciseListActivity.this, FillInBlanksActivity.class);
                 intent.putExtra("exercise_id", exerciseId);
                 startActivity(intent);
             }

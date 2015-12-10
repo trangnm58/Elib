@@ -77,11 +77,13 @@ public class FillInBlankAdapter extends BaseAdapter{
 
         //setting data
         holder.question.setText(mList.get(position).getString(ParseConstants.EXERCISE_QUESTION));
-        holder.uAnswer.setText("");
         holder.rAnswer.setText(mList.get(position).getString(ParseConstants.EXERCISE_KEY));
         holder.rAnswer.setVisibility(View.GONE);
 
-        //setting TextWatcher to EditText
+        //set Id for edit text and key text view
+        holder.rAnswer.setId(position + 1000);
+        holder.uAnswer.setId(position + 900);
+
         holder.uAnswer.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -92,8 +94,11 @@ public class FillInBlankAdapter extends BaseAdapter{
             @Override
             public void afterTextChanged(Editable s) {
                 uListAnswers[position] = s.toString();
+
             }
         });
+
+        //setting TextWatcher to EditText
 
         return convertView;
     }

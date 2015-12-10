@@ -1,9 +1,13 @@
 package com.pagenguyen.elib.model;
 
+import android.support.v7.app.AppCompatActivity;
+
+import com.pagenguyen.elib.R;
+
 /**
  * Created by Can on 08-Dec-15.
  */
-public class FillInBlankQuestion {
+public class FillInBlankQuestion extends AppCompatActivity {
     private String mQuestion;
     private String mKey;
 
@@ -18,7 +22,6 @@ public class FillInBlankQuestion {
     }
 
     public boolean checkKey(String key){
-        // TODO Định nghĩa hàm chấm điểm ở đây nhé Dũng
         return mKey.equals(key);
     }
 
