@@ -5,9 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,14 +18,17 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.MultipleChoiceAdapter;
+import com.pagenguyen.elib.model.ExerciseResult;
 import com.pagenguyen.elib.model.MultipleChoiceExercise;
 import com.pagenguyen.elib.model.MultipleChoiceQuestion;
 import com.pagenguyen.elib.model.ParseConstants;
+import com.pagenguyen.elib.ui.main.HomeActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -39,10 +45,17 @@ public class MultipleChoiceActivity extends AppCompatActivity {
     @Bind(R.id.my_toolbar) Toolbar mToolbar;
     @Bind(R.id.listQuestion) ListView mList;
     @Bind(R.id.title) TextView mExerciseTitle;
+    @Bind(R.id.loadingQuestionView) ProgressBar mLoadQuestion;
+    @Bind(R.id.scoreTextView) TextView  mScore;
+    @Bind(R.id.coordinatorLayout) CoordinatorLayout mCoordinatorLayout;
 
     String title;
 
     MultipleChoiceExercise mExercises;
+
+    public static Menu mMultipleChoiceMenu;
+    private int menuItemId;
+    private boolean finnish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +64,17 @@ public class MultipleChoiceActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        mScore.setVisibility(View.GONE);
+
+        mLoadQuestion.setVisibility(View.VISIBLE);
+
         setupToolbar();
 
         title = getIntent().getStringExtra("topic_name");
 
         fetchData();
+
+        finnish= false;
 
     }
 
@@ -78,17 +97,17 @@ public class MultipleChoiceActivity extends AppCompatActivity {
 
             public void done(List<ParseObject> objects, com.parse.ParseException e) {
                 if (e == null && objects.size() != 0) {
-                    ParseObject there=null;
+                    ParseObject there = null;
 
-                    boolean found= false;
+                    boolean found = false;
 
-                    for (int i=0; i<objects.size(); i++){
+                    for (int i = 0; i < objects.size(); i++) {
                         ParseObject here = objects.get(i);
-                        String title=here.getString(ParseConstants.TITLE);
+                        String title = here.getString(ParseConstants.TITLE);
 
-                        if (title.toLowerCase().equals(type.toLowerCase())){
-                            there= here;
-                            found= true;
+                        if (title.toLowerCase().equals(type.toLowerCase())) {
+                            there = here;
+                            found = true;
                             break;
                         }
                     }
@@ -109,12 +128,12 @@ public class MultipleChoiceActivity extends AppCompatActivity {
                                     question.findInBackground(new FindCallback<ParseObject>() {
                                         @Override
                                         public void done(List<ParseObject> list, ParseException e) {
-                                            if (e == null && list.size() != 0){
+                                            if (e == null && list.size() != 0) {
 
                                                 MultipleChoiceQuestion[] questions = new MultipleChoiceQuestion[list.size()];
 
-                                                for (int i=0; i< list.size(); i++){
-                                                    ParseObject data=list.get(i);
+                                                for (int i = 0; i < list.size(); i++) {
+                                                    ParseObject data = list.get(i);
 
                                                     int tempKey = data.getInt(ParseConstants.EXERCISE_KEY);
                                                     String tempQuestion = data.getString(ParseConstants.EXERCISE_QUESTION);
@@ -122,7 +141,7 @@ public class MultipleChoiceActivity extends AppCompatActivity {
                                                     ArrayList<String> tempOption = (ArrayList<String>) data.get(ParseConstants.EXERCISE_OPTION);
                                                     String[] listOption = new String[tempOption.size()];
 
-                                                    for (int k=0; k< tempOption.size();k++){
+                                                    for (int k = 0; k < tempOption.size(); k++) {
                                                         listOption[k] = tempOption.get(k);
                                                     }
 
@@ -130,27 +149,30 @@ public class MultipleChoiceActivity extends AppCompatActivity {
                                                     questions[i] = temptemp;
                                                 }
 
-                                                mExercises= new MultipleChoiceExercise("Chọn phương án đúng: ", questions);
+                                                mExercises = new MultipleChoiceExercise("Chọn phương án đúng: ", questions);
 
                                                 setExerciseTitle();
 
                                                 setListQuestion();
 
+                                                mMultipleChoiceMenu.getItem(0).setVisible(true);
+                                                mMultipleChoiceMenu.getItem(0).setEnabled(true);
 
-                                            } else{
+                                                mLoadQuestion.setVisibility(View.GONE);
+
+
+                                            } else {
 
                                             }
                                         }
                                     });
 
-                                }else{
+                                } else {
 
                                 }
                             }
                         });
-                    }
-
-                    else {
+                    } else {
 
                     }
 
@@ -175,6 +197,11 @@ public class MultipleChoiceActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_done, menu);
+        mMultipleChoiceMenu=menu;
+
+        menu.getItem(0).setVisible(false);
+        menu.getItem(0).setEnabled(false);
+
         return true;
     }
 
@@ -184,25 +211,54 @@ public class MultipleChoiceActivity extends AppCompatActivity {
 
         switch (id) {
             case (R.id.action_done):{
-                AlertDialog.Builder builder = new AlertDialog.Builder(MultipleChoiceActivity.this);
-                builder.setTitle(R.string.warn_title)
-                        .setMessage(R.string.warn_message)
-                        .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Done and submit user's answers
-                                showResult();
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel_button, null);
+                menuItemId = R.id.action_done;
+                setDialog();
+                return true;
+            }
 
-                AlertDialog dialog = builder.create();
-                dialog.show();
+            case (R.id.action_home):{
+                menuItemId = R.id.action_home;
+                if (finnish==false) {
+                    setDialog();
+                }
 
+                else{
+                    Intent intent = new Intent(MultipleChoiceActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                }
+
+                return true;
             }
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MultipleChoiceActivity.this);
+        builder.setTitle(R.string.warn_title)
+                .setMessage(R.string.warn_message)
+                .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(menuItemId == R.id.action_done){
+                            //done and sumbit user's answers
+                            showResult();
+                        } else {
+                            // Back to home page
+                            Intent intent = new Intent(MultipleChoiceActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.cancel_button, null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        //set size for text of dialog's button
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(16);
+        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(16);
     }
 
     // function to show key of exercise:
@@ -285,7 +341,35 @@ public class MultipleChoiceActivity extends AppCompatActivity {
             }
         }
 
-        Toast.makeText(MultipleChoiceActivity.this, "Điểm của bạn là: "+ (tempMark*10) + "/100" , Toast.LENGTH_SHORT).show();
+        float rateScore = (float) (tempMark / ans.getCount());
+
+        ExerciseResult result = new ExerciseResult(rateScore);
+
+        mScore.setText("Kết quả: " + result.getScore() + "%");
+
+        Snackbar snackbar = Snackbar
+                .make(mCoordinatorLayout, result.getStatus(), Snackbar.LENGTH_LONG)
+                .setAction("OK", null)
+                .setActionTextColor(R.color.TextColorWhite);
+
+        //set background color
+        View snackBarView = snackbar.getView();
+        snackBarView.setBackgroundColor(getResources().getColor(R.color.TextColorBlue));
+
+        //set text view style
+        TextView textView = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(getResources().getColor(R.color.TextColorWhite));
+        textView.setTextSize(20);
+        textView.setGravity(Gravity.CENTER);
+
+        snackbar.show();
+
+        mMultipleChoiceMenu.getItem(0).setVisible(false);
+        mMultipleChoiceMenu.getItem(0).setEnabled(false);
+
+        mScore.setVisibility(View.VISIBLE);
+        finnish=true;
+
         return tempMark;
     }
 

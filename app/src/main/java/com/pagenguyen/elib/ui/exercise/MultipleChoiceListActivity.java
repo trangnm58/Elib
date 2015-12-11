@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
@@ -19,6 +20,7 @@ import butterknife.ButterKnife;
 
 public class MultipleChoiceListActivity extends AppCompatActivity {
     @Bind(R.id.exerciseLView) ListView mListExercise;
+    @Bind(R.id.loadExerciseListView) ProgressBar mLoadList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +28,12 @@ public class MultipleChoiceListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_multiple_choice_list);
         ButterKnife.bind(this);
 
+        mLoadList.setVisibility(View.VISIBLE);
+
         setupToolbar();
 
         //set list of exercises view
         setExerciseListView();
-
-        setListItemClick();
     }
 
     private void setupToolbar() {
@@ -42,7 +44,7 @@ public class MultipleChoiceListActivity extends AppCompatActivity {
     }
 
     private void setExerciseListView() {
-        String[] mExercises = { "Bài tập trắc nghiệm"};
+        String[] mExercises = { "Bài tập trắc nghiệm 1","Bài tập trắc nghiệm 2","Bài tập trắc nghiệm 3","Bài tập trắc nghiệm 4","Bài tập trắc nghiệm 5" };
 
         OneTextviewAdapter adapter = new OneTextviewAdapter(MultipleChoiceListActivity.this,
                 R.layout.item_one_textview,
@@ -50,6 +52,11 @@ public class MultipleChoiceListActivity extends AppCompatActivity {
                 mExercises);
 
         mListExercise.setAdapter(adapter);
+
+        setListItemClick();
+
+        mLoadList.setVisibility(View.GONE);
+
     }
 
     private void setListItemClick() {
