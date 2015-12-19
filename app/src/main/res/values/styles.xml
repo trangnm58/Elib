@@ -2,7 +2,7 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowFullscreen">true</item>
+        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="android:buttonStyle">@style/AppButtonStyle</item>
 
@@ -11,10 +11,6 @@
         <item name="android:editTextStyle">@style/AppEditTextStyle</item>
         <item name="android:textSize">@dimen/font_size_basic</item>
 
-    </style>
-    <!-- Background for some activities. -->
-    <style name="AppTheme.HaveBackground" parent="AppTheme">
-        <item name="android:background">@color/Background</item>
     </style>
 
     <style name="AppButtonStyle" parent="Base.Widget.AppCompat.Button.Borderless">

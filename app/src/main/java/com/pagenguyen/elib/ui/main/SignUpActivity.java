@@ -3,7 +3,10 @@ package com.pagenguyen.elib.ui.main;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +23,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SignUpActivity extends AppCompatActivity {
+    @Bind(R.id.my_toolbar) Toolbar mToolbar;
 	@Bind(R.id.usernameField) EditText mUsername;
 	@Bind(R.id.passwordField) EditText mPassword;
 	@Bind(R.id.rePasswordField) EditText mRePassword;
@@ -39,9 +43,34 @@ public class SignUpActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_sign_up);
 		ButterKnife.bind(this);
 
+        setupToolbar();
         setAppNameFont();
         stopLoading();
         setSignUpButton();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        switch (id) {
+            case (android.R.id.home): {
+                onBackPressed();
+                return true;
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setupToolbar() {
+        setSupportActionBar(mToolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
     private void setAppNameFont() {
@@ -127,12 +156,6 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    public void registered(View v) {
-        // go to sign up activity
-        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-        startActivity(intent);
     }
 
     private void startLoading() {
