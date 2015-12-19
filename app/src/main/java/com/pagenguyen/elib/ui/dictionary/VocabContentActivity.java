@@ -82,6 +82,7 @@ public class VocabContentActivity extends AppCompatActivity {
         switch (id) {
             case (R.id.action_home):{
                 Intent intent = new Intent(VocabContentActivity.this, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
             case (android.R.id.home): {

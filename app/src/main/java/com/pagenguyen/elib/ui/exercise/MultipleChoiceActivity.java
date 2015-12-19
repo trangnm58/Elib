@@ -253,6 +253,7 @@ public class MultipleChoiceActivity extends AppCompatActivity {
                         } else {
                             // Back to home page
                             Intent intent = new Intent(MultipleChoiceActivity.this, HomeActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         }
                     }
