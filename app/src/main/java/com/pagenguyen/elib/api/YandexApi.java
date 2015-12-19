@@ -9,6 +9,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -53,7 +54,8 @@ public class YandexApi {
                 String jsonData = response.body().string();
                 try {
                     JSONObject data = new JSONObject(jsonData);
-                    String outText = data.getString("text");
+                    JSONArray outAray = data.getJSONArray("text");
+                    String outText = outAray.getString(0);
                     cb.onSuccess(outText);
                 } catch (JSONException e) {
                     Log.e(TAG, "Exception caught: ", e);

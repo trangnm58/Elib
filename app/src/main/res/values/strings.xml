@@ -82,7 +82,7 @@
     <string name="yandex_refer">Powered by Yandex.Translate</string>
     <string name="translator_input_instruction">Nhập đoạn văn để dịch</string>
     <string name="translator_ouput_label">Kết quả dịch.</string>
-    <string name="language_demo_label">Ngôn ngữ: Anh - Việt</string>
+    <string name="language_demo_label">Chọn ngôn ngữ: Anh - Việt</string>
     <string name="menu_language_label">Ngôn ngữ</string>
 
     <!-- multiple choice list -->

@@ -8,8 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -63,30 +62,6 @@ public class TranslatorActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_language, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        switch (id) {
-            case (R.id.action_language):{
-                toogleSource();
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private void updateOutputTranslator() {
         String text = mEditText.getText().toString();
         if (!text.equals(mPrevInput)) {
@@ -124,7 +99,7 @@ public class TranslatorActivity extends AppCompatActivity {
         onUpdate = true;
     }
 
-    private void toogleSource() {
+    public void toogleSource(View v) {
         if (mFrom.equals("en")) {
             setSourceVietnamese();
         } else {
@@ -135,13 +110,13 @@ public class TranslatorActivity extends AppCompatActivity {
     private void setSourceEnglish() {
         mFrom = "en";
         mTo = "vi";
-        mLanguageText.setText("Ngôn ngữ: Anh - Việt");
+        mLanguageText.setText("Chọn ngôn ngữ: Anh - Việt");
     }
 
     private void setSourceVietnamese() {
         mFrom = "vi";
         mTo = "en";
-        mLanguageText.setText("Ngôn ngữ: Việt - Anh");
+        mLanguageText.setText("Chọn ngôn ngữ: Việt - Anh");
     }
 
     private void setupToolbar() {
