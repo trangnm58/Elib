@@ -4,11 +4,20 @@ package com.pagenguyen.elib.model;
  * Created by Can on 08/12/2015.
  */
 public class FillInBlankExercise extends Exercise {
+	private String mId;
 	private String mTitle;
 	private FillInBlankQuestion[] mQuestionList;
 
 	public FillInBlankExercise() {
 		this.mTitle = "";
+	}
+
+	public String getId() {
+		return mId;
+	}
+
+	public void setId(String id) {
+		mId = id;
 	}
 
 	public FillInBlankExercise(String title) {

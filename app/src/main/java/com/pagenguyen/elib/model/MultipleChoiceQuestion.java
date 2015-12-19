@@ -4,6 +4,7 @@ package com.pagenguyen.elib.model;
  * Created by Can on 08-Dec-15.
  */
 public class MultipleChoiceQuestion {
+    private String mId;
     private String mQuestion;
     private String[] mOption;
     private int mKey; // key là 0, 1, 2, 3... tương ứng với đáp án đúng trong option
@@ -22,6 +23,14 @@ public class MultipleChoiceQuestion {
     public boolean checkKey(int key){
         // TODO Định nghĩa hàm chấm điểm ở đây nhé Duy
         return mKey == key;
+    }
+
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String id) {
+        mId = id;
     }
 
     public String getQuestion() {

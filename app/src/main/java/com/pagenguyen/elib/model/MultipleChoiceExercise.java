@@ -4,6 +4,7 @@ package com.pagenguyen.elib.model;
  * Created by Can on 08/12/2015.
  */
 public class MultipleChoiceExercise extends Exercise {
+	private String mId;
 	private String mTitle;
 	private MultipleChoiceQuestion[] mQuestionList;
 
@@ -23,6 +24,14 @@ public class MultipleChoiceExercise extends Exercise {
     @Override
 	public void doExercise() {
         // TODO đến trang làm bài tập
+	}
+
+	public String getId() {
+		return mId;
+	}
+
+	public void setId(String id) {
+		mId = id;
 	}
 
 	public String getTitle() {
