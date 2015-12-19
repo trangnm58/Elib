@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.model.ParseConstants;
+import com.pagenguyen.elib.database.ParseConstants;
 import com.pagenguyen.elib.ui.exercise.FillInBlanksActivity;
 import com.parse.ParseObject;
 

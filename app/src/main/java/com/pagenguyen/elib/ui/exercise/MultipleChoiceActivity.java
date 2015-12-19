@@ -20,14 +20,13 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.MultipleChoiceAdapter;
 import com.pagenguyen.elib.model.ExerciseResult;
 import com.pagenguyen.elib.model.MultipleChoiceExercise;
 import com.pagenguyen.elib.model.MultipleChoiceQuestion;
-import com.pagenguyen.elib.model.ParseConstants;
+import com.pagenguyen.elib.database.ParseConstants;
 import com.pagenguyen.elib.ui.main.HomeActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;

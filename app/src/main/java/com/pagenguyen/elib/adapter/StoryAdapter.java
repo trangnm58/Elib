@@ -9,8 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.model.ParseConstants;
-import com.pagenguyen.elib.model.Story;
+import com.pagenguyen.elib.database.ParseConstants;
 import com.parse.ParseObject;
 
 import java.util.List;

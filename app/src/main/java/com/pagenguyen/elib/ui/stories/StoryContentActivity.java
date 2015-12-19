@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.OneTextviewAdapter;
-import com.pagenguyen.elib.model.ParseConstants;
+import com.pagenguyen.elib.database.ParseConstants;
 import com.pagenguyen.elib.model.Story;
 import com.pagenguyen.elib.ui.dictionary.VocabContentActivity;
 import com.pagenguyen.elib.ui.exercise.StoryExerciseListActivity;

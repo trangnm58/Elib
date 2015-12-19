@@ -25,15 +25,13 @@ import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.FillInBlankAdapter;
 import com.pagenguyen.elib.model.ExerciseResult;
 import com.pagenguyen.elib.model.FillInBlankExercise;
-import com.pagenguyen.elib.model.ParseConstants;
+import com.pagenguyen.elib.database.ParseConstants;
 import com.pagenguyen.elib.ui.main.HomeActivity;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

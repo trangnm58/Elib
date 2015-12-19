@@ -1,4 +1,4 @@
-package com.pagenguyen.elib.model;
+package com.pagenguyen.elib.database;
 
 /**
  * Created by Page on 30/11/2015.

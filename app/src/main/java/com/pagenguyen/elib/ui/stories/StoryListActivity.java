@@ -7,14 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.adapter.OneTextviewAdapter;
 import com.pagenguyen.elib.adapter.StoryAdapter;
-import com.pagenguyen.elib.model.ParseConstants;
+import com.pagenguyen.elib.database.ParseConstants;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;

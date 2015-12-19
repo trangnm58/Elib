@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.StoryAdapter;
-import com.pagenguyen.elib.model.ParseConstants;
+import com.pagenguyen.elib.database.ParseConstants;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
