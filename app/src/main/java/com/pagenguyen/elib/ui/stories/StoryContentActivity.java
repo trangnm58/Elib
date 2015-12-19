@@ -84,6 +84,11 @@ public class StoryContentActivity extends AppCompatActivity {
                 Intent intent = new Intent(StoryContentActivity.this, StoryExerciseListActivity.class);
                 intent.putExtra("story_id",mStoryId);
                 startActivity(intent);
+                return true;
+            }
+            case (android.R.id.home): {
+                onBackPressed();
+                return true;
             }
         }
 

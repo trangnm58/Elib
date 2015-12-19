@@ -77,6 +77,53 @@ public class MultipleChoiceActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_done, menu);
+        mMultipleChoiceMenu=menu;
+
+        menu.getItem(0).setVisible(false);
+        menu.getItem(0).setEnabled(false);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        switch (id) {
+            case (R.id.action_done):{
+                menuItemId = R.id.action_done;
+                setDialog();
+                return true;
+            }
+
+            case (R.id.action_home):{
+                menuItemId = R.id.action_home;
+                if (finnish==false) {
+                    setDialog();
+                }
+
+                else{
+                    Intent intent = new Intent(MultipleChoiceActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                }
+
+                return true;
+            }
+
+            case (android.R.id.home): {
+                onBackPressed();
+                return true;
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     // set data to mExercises:
 
     private void fetchData(){
@@ -191,46 +238,6 @@ public class MultipleChoiceActivity extends AppCompatActivity {
     private void setExerciseTitle() {
         String title=mExercises.getTitle();
         mExerciseTitle.setText(title);
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_done, menu);
-        mMultipleChoiceMenu=menu;
-
-        menu.getItem(0).setVisible(false);
-        menu.getItem(0).setEnabled(false);
-
-        return true;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        switch (id) {
-            case (R.id.action_done):{
-                menuItemId = R.id.action_done;
-                setDialog();
-                return true;
-            }
-
-            case (R.id.action_home):{
-                menuItemId = R.id.action_home;
-                if (finnish==false) {
-                    setDialog();
-                }
-
-                else{
-                    Intent intent = new Intent(MultipleChoiceActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                }
-
-                return true;
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void setDialog() {

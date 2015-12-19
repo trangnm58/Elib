@@ -84,6 +84,10 @@ public class VocabContentActivity extends AppCompatActivity {
                 Intent intent = new Intent(VocabContentActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
+            case (android.R.id.home): {
+                onBackPressed();
+                return true;
+            }
         }
 
         return super.onOptionsItemSelected(item);

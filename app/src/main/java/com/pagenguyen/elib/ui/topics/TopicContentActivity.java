@@ -161,6 +161,11 @@ public class TopicContentActivity extends AppCompatActivity {
                 Intent intent = new Intent(TopicContentActivity.this, MultipleChoiceListActivity.class);
                 intent.putExtra("topic_name", mTopicName);
                 startActivity(intent);
+                return true;
+            }
+            case (android.R.id.home): {
+                onBackPressed();
+                return true;
             }
         }
 
