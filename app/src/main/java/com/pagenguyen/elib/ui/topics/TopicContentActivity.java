@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.OneTextviewAdapter;
+import com.pagenguyen.elib.adapter.TopicAdapter;
 import com.pagenguyen.elib.ui.dictionary.VocabContentActivity;
 import com.pagenguyen.elib.ui.exercise.MultipleChoiceListActivity;
 
@@ -22,7 +23,6 @@ import butterknife.ButterKnife;
 
 public class TopicContentActivity extends AppCompatActivity {
 
-    @Bind(R.id.topicNameView) TextView mTopicNameView;
     @Bind(R.id.vocabularyListView) ListView mVocabularyListView;
     @Bind(R.id.my_toolbar) Toolbar mToolbar;
 
@@ -50,7 +50,6 @@ public class TopicContentActivity extends AppCompatActivity {
             "classroom",
             "library",
             "playground",
-            "cloakroom",
             "laboratory",
             "professor",
             "headmaster",
@@ -59,7 +58,39 @@ public class TopicContentActivity extends AppCompatActivity {
             "notebook"
             };
 
+    private String[] mean_giao_duc={
+            "giáo viên",
+            "tình bạn",
+            "trường học",
+            "đại học",
+            "học bổng",
+            "cao đẳng",
+            "toán",
+            "vật lý",
+            "địa lý",
+            "sinh học",
+            "kỳ thi",
+            "bài tập",
+            "câu hỏi",
+            "bài về nhà",
+            "bảng đen",
+            "bàn học",
+            "sách",
+            "bút chì",
+            "căng-tin",
+            "lớp học",
+            "thư viện",
+            "sân chơi",
+            "phòng thí nghiệm",
+            "giáo sư",
+            "hiệu trưởng",
+            "phấn",
+            "sách giáo khoa",
+            "vở"
+    };
+
     private String[] gia_dinh = {   "family",
+            "mother",
             "father",
             "son",
             "daughter",
@@ -87,9 +118,39 @@ public class TopicContentActivity extends AppCompatActivity {
             "wedding",
             "divorcement",
             "separation",
-            "half-sister",
-            "half-brother"
             };
+
+    private String[] mean_gia_dinh = {
+            "gia đình",
+            "mẹ",
+            "bố (cha)",
+            "con trai",
+            "con gái",
+            "bố mẹ",
+            "nhà",
+            "anh(em) họ",
+            "ông",
+            "bà",
+            "ông bà",
+            "anh(em) trai kế",
+            "chị(em) gái kế",
+            "con trai kế",
+            "con gái kế",
+            "mẹ kế",
+            "cha kế",
+            "con trai đỡ đầu",
+            "con gái đỡ đầu",
+            "mẹ đỡ đầu",
+            "cha đỡ đầu",
+            "cháu trai",
+            "chú (cậu)",
+            "cô (dì)",
+            "cháu gái",
+            "tuần trăng mật",
+            "đám cưới",
+            "ly hôn",
+            "ly thân",
+    };
 
     private String[] tinh_cach = {  "aggressive",
             "beneficent",
@@ -100,6 +161,15 @@ public class TopicContentActivity extends AppCompatActivity {
             "polite",
             "sensitive"    };
 
+    private String[] mean_tinh_cach = {  "năng nổ",
+            "từ thiện",
+            "lanh lợi",
+            "dối trá",
+            "bao dung",
+            "đáng tin",
+            "tử tế",
+            "nhạy cảm"    };
+
     private String[] nghe_nghiep = {    "doctor",
             "teacher",
             "worker",
@@ -109,14 +179,32 @@ public class TopicContentActivity extends AppCompatActivity {
             "athlete",
             "president"    };
 
+    private String[] mean_nghe_nghiep = {    "bác sĩ",
+            "giáo viên",
+            "công nhân",
+            "hacker",
+            "nhà thiết kế",
+            "kĩ sư",
+            "vận động viên",
+            "tổng thống"    };
+
     private String[] nau_an = {         "food",
-            "stuffed",
+            "stuff",
             "fried",
             "dressed",
             "cured",
             "steamed",
             "pan",
             "marinated"    };
+
+    private String[] mean_nau_an = {         "thức ăn",
+            "chất liệu",
+            "đồ chiên",
+            "làm tưởi",
+            "đồ hộp",
+            "đồ hấp",
+            "cái chảo",
+            "ướp"    };
 
     private String[] the_thao = {       "athlete",
             "sport",
@@ -127,6 +215,15 @@ public class TopicContentActivity extends AppCompatActivity {
             "coach",
             "champion"    };
 
+    private String[] mean_the_thao = {       "vận động viên",
+            "môn thể thao",
+            "bóng chuyền",
+            "cầu lông",
+            "bóng đá",
+            "tennis",
+            "sân bóng",
+            "vô địch"    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -134,8 +231,6 @@ public class TopicContentActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setupToolbar();
-
-        loadTopicName();
 
         setVocabularyListView();
 
@@ -176,38 +271,53 @@ public class TopicContentActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void loadTopicName(){
         Intent intent=getIntent();
         mTopicName=intent.getStringExtra("topic_name");
 
-        mTopicNameView.setText("Chủ đề: " + mTopicName);
+        ab.setTitle("Chủ đề: " + mTopicName);
     }
 
     private void setVocabularyListView(){
         String[] mTopics={"GIÁO DỤC", "GIA ĐÌNH", "TÍNH CÁCH", "NGHỀ NGHIỆP", "NẤU ĂN", "THỂ THAO"};;
-        String[] temp=new String[20];
+        String[] tempVoca=new String[30];
+        String[] tempMean=new String[30];
 
         int i;
 
         for (i=0; i<6; i++){
-            if (mTopics[i].equals(mTopicName)){
+            if (mTopics[i].toLowerCase().equals(mTopicName.toLowerCase())){
                 break;
             }
         }
 
-        if (i==0)   temp=giao_duc;
-        else if (i==1)  temp=gia_dinh;
-        else if (i==2)  temp=tinh_cach;
-        else if (i==3)  temp=nghe_nghiep;
-        else if (i==4)  temp=nau_an;
-        else if (i==5)  temp=the_thao;
+        if (i==0){
+            tempVoca=giao_duc;
+            tempMean=mean_giao_duc;
+        }
+        else if (i==1){
+            tempVoca=gia_dinh;
+            tempMean=mean_gia_dinh;
+        }
+        else if (i==2){
+            tempVoca=tinh_cach;
+            tempMean=mean_tinh_cach;
+        }
+        else if (i==3){
+            tempVoca=nghe_nghiep;
+            tempMean=mean_nghe_nghiep;
+        }
+        else if (i==4){
+            tempVoca=nau_an;
+            tempMean=mean_nau_an;
+        }
+        else if (i==5){
+            tempVoca=the_thao;
+            tempMean=mean_the_thao;
+        }
 
-        OneTextviewAdapter adapter=new OneTextviewAdapter(TopicContentActivity.this,
-                R.layout.item_one_textview,
-                R.id.itemContent,
-                temp);
+        TopicAdapter adapter=new TopicAdapter(TopicContentActivity.this,
+                tempVoca,
+                tempMean);
 
         mVocabularyListView.setAdapter(adapter);
 
@@ -217,7 +327,7 @@ public class TopicContentActivity extends AppCompatActivity {
     private void setItemOnClick(){
         mVocabularyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView vocabText = (TextView) view.findViewById(R.id.itemContent);
+                TextView vocabText = (TextView) view.findViewById(R.id.itemVocabulary);
                 String name = vocabText.getText().toString().toLowerCase();
 
                 Intent intent = new Intent(TopicContentActivity.this, VocabContentActivity.class);

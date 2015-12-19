@@ -14,18 +14,6 @@
         android:id="@+id/my_toolbar"
         layout="@layout/tool_bar"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Chủ đề: GIÁO DỤC"
-        android:id="@+id/topicNameView"
-        android:textStyle="bold"
-        android:layout_below="@+id/my_toolbar"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="5dp" />
-
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,7 +22,7 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginBottom="5dp"
-        android:layout_below="@+id/topicNameView"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/my_toolbar" />
 
 </RelativeLayout>

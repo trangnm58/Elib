@@ -57,7 +57,7 @@ public class TopicListActivity extends AppCompatActivity {
     }
 
     private void setTopicListView() {
-        String[] mTopics={"GIÁO DỤC", "GIA ĐÌNH", "TÍNH CÁCH", "NGHỀ NGHIỆP", "NẤU ĂN", "THỂ THAO"};
+        String[] mTopics={"Giáo dục", "Gia đình", "Tính cách", "Nghề nghiệp", "Nấu ăn", "Thể thao"};
 
         OneTextviewAdapter adapter=new OneTextviewAdapter(TopicListActivity.this,
                 R.layout.item_one_textview,
