@@ -88,4 +88,8 @@
     <!-- multiple choice list -->
 
     <string name="title_activity_multiple_choice_list">Danh sách bài tập</string>
+    <string name="next_button_label">Câu tiếp</string>
+    <string name="bad_status_result">Chưa đạt ! Bạn cần cố gắng hơn</string>
+    <string name="normal_status_result">Bạn có thể làm tốt hơn nữa</string>
+    <string name="good_status_result">Tuyệt vời !</string>
 </resources>

@@ -5,25 +5,22 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.adapter.FillInBlankAdapter;
-import com.pagenguyen.elib.model.ExerciseResult;
 import com.pagenguyen.elib.model.FillInBlankExercise;
 import com.pagenguyen.elib.database.ParseConstants;
 import com.pagenguyen.elib.ui.main.HomeActivity;
@@ -40,14 +37,16 @@ import butterknife.ButterKnife;
 
 public class FillInBlanksActivity extends AppCompatActivity {
     @Bind(R.id.exerciseTitleView) TextView mExerciseTitle;
-    @Bind(R.id.questionListView) ListView mQuestionListView;
-    @Bind(R.id.exerciseScoreView) TextView mScore;
     @Bind(R.id.my_toolbar) Toolbar mToolbar;
     @Bind(R.id.loadingQuestionView) ProgressBar mLoadQuestion;
+    @Bind(R.id.nextQuestionButton) Button mNextQuestion;
 
-    @Bind(R.id.coordinatorLayout) CoordinatorLayout mCoordinatorLayout;
+    @Bind(R.id.questionContentLayout) LinearLayout mQuestionContent;
 
-    public FillInBlankAdapter mAdapter;
+    @Bind(R.id.questionTextView) TextView mQuestionText;
+    @Bind(R.id.answerInputField) EditText mAnswerInput;
+    @Bind(R.id.resultTextView) TextView mKeyText;
+
     public FillInBlankExercise mExercise;
     public List<ParseObject> mQuestionList;
     public String mExerciseId;
@@ -55,24 +54,31 @@ public class FillInBlanksActivity extends AppCompatActivity {
     public static Menu mFillInBlanksMenu;
     private int menuItemId;
 
+    private int questPos;
+    private int rightAnswers;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fill_in_blanks);
         ButterKnife.bind(this);
 
-        //hide score and status view
-        mScore.setVisibility(View.GONE);
-
         mLoadQuestion.setVisibility(View.VISIBLE);
 
         setupToolbar();
 
+        //position of 1st question
+        questPos = 0;
+        //number of user's right answers
+        rightAnswers = 0;
         //set exercise's title
-        setExerciseTitle();
+        setExerciseTitle(questPos);
 
         //set exercise content
         setExcerciseContent();
+
+        //set next question button action
+        setNextButtonClick();
     }
 
     @Override
@@ -97,7 +103,15 @@ public class FillInBlanksActivity extends AppCompatActivity {
         switch (id) {
             case (R.id.action_done):{
                 menuItemId = R.id.action_done;
-                setDialog();
+
+                if (questPos + 1 < mQuestionList.size()) {
+                    submitAnswers();
+                }
+                //ask when user done the last question
+                else if (questPos + 1 == mQuestionList.size()) {
+                    setDialog();
+                }
+
                 return true;
             }
             case (R.id.action_home):{
@@ -114,8 +128,6 @@ public class FillInBlanksActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
     private void setDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(FillInBlanksActivity.this);
         builder.setTitle(R.string.warn_title)
@@ -123,7 +135,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(menuItemId == R.id.action_done){
+                        if (menuItemId == R.id.action_done) {
                             //done and sumbit user's answers
                             submitAnswers();
                         } else {
@@ -145,61 +157,69 @@ public class FillInBlanksActivity extends AppCompatActivity {
     }
 
     private void submitAnswers() {
-        String[] uAnswers = mAdapter.getUAnswers();
+        FillInBlanksActivity.mFillInBlanksMenu.getItem(0).setEnabled(false);
 
-        int i=0;
-        int rightAnswers = 0;
-        for(String answers:uAnswers){
-            String key = mQuestionList.get(i).getString(ParseConstants.EXERCISE_KEY);
-            boolean check = key.equals(answers);
-            EditText editText = (EditText) findViewById(i + 900);
+        //get user's answer
+        String answers = mAnswerInput.getText().toString();
 
-            //disable all edit text
-            editText.setEnabled(false);
+        String key = mQuestionList.get(questPos).getString(ParseConstants.EXERCISE_KEY);
+        boolean check = key.equals(answers);
 
-            if(check){
-                rightAnswers++;
-                //Right answer
-                editText.setTextColor(Color.GREEN);
-            } else {
-                //Wrong answer
-                editText.setTextColor(Color.RED);
+        //disable edit text
+        mAnswerInput.setEnabled(false);
 
-                //show key of question
-                TextView keyView = (TextView) findViewById(i + 1000);
-                keyView.setVisibility(View.VISIBLE);
+        //increase position of question - go to next question
+        questPos++;
+
+        if(check) {
+            rightAnswers++;
+            //Right answer
+            mAnswerInput.setTextColor(Color.GREEN);
+
+            //auto change question after 1.5 seconds if user's answer is correct
+
+            new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        if (questPos + 1 <= mQuestionList.size()) { nextQuestion(); }
+                        else {
+                            //move to result activity if user done all questions
+                            Intent intent = new Intent(FillInBlanksActivity.this, ExerciseResultActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("right_answers", rightAnswers);
+                            intent.putExtra("num_questions", mQuestionList.size());
+                            startActivity(intent);
+                        }
+                    }
+                }, 1500);
+        } else {
+            //Wrong answer
+            mAnswerInput.setTextColor(Color.RED);
+
+            mKeyText.setVisibility(View.VISIBLE);
+
+            //show next question button
+            if(questPos + 1 <= mQuestionList.size()){
+                mNextQuestion.setVisibility(View.VISIBLE);
             }
+            else {
+                mNextQuestion.setVisibility(View.GONE);
 
-            i++;
+                new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            //move to result activity if user done all questions
+                            Intent intent = new Intent(FillInBlanksActivity.this, ExerciseResultActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("right_answers", rightAnswers);
+                            intent.putExtra("num_questions", mQuestionList.size());
+                            startActivity(intent);
+                            }
+                    }, 1500);
+            }
         }
-
-        float rateScore = ((float)rightAnswers)/i;
-
-        //Toast.makeText(FillInBlanksActivity.this,rateScore+"",Toast.LENGTH_SHORT).show();
-        ExerciseResult result = new ExerciseResult(rateScore);
-
-        mScore.setText(result.getScore() + "%");
-
-        //Set snack bar
-        Snackbar snackbar = Snackbar
-                .make(mCoordinatorLayout, result.getStatus(), Snackbar.LENGTH_LONG)
-                .setAction("OK", null)
-                .setActionTextColor(R.color.TextColorWhite);
-
-        //set background color
-        View snackBarView = snackbar.getView();
-        snackBarView.setBackgroundColor(getResources().getColor(R.color.TextColorBlue));
-
-        //set text view style
-        TextView textView = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(getResources().getColor(R.color.TextColorWhite));
-        textView.setTextSize(20);
-        textView.setGravity(Gravity.CENTER);
-
-        snackbar.show();
-
-        mScore.setVisibility(View.VISIBLE);
     }
+
 
     private void setupToolbar() {
         setSupportActionBar(mToolbar);
@@ -207,8 +227,9 @@ public class FillInBlanksActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
-    private void setExerciseTitle() {
-        mExercise = new FillInBlankExercise("Điền từ vào chỗ trống");
+    private void setExerciseTitle(int number) {
+        number = number + 1;
+        mExercise = new FillInBlankExercise("Câu " + number + ":");
         mExerciseTitle.setText(mExercise.getTitle());
     }
 
@@ -230,7 +251,8 @@ public class FillInBlanksActivity extends AppCompatActivity {
                     public void done(List<ParseObject> object, ParseException e) {
                         if (e == null) {
                             mQuestionList = object;
-                            setQuestionListView(mQuestionList);
+
+                            setQuestionView(mQuestionList, 0);
 
                             mLoadQuestion.setVisibility(View.GONE);
                         } else {
@@ -241,37 +263,50 @@ public class FillInBlanksActivity extends AppCompatActivity {
         });
     }
 
-    private void setQuestionListView(List<ParseObject> questions){
-        mAdapter = new FillInBlankAdapter(FillInBlanksActivity.this,
-                R.layout.fill_in_blanks_item,
-                questions);
+    private void setQuestionView(List<ParseObject> questions,int position){
+        //set content for question view
+        mQuestionText.setText(questions.get(position).getString(ParseConstants.EXERCISE_QUESTION));
+        mAnswerInput.setText("");
 
-        mQuestionListView.setAdapter(mAdapter);
-        getListViewSize(mQuestionListView);
+        if(position == 0){
+            mAnswerInput.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    FillInBlanksActivity.mFillInBlanksMenu.getItem(0).setEnabled(true);
+                }
+            });
+        }
+
+        mKeyText.setText(questions.get(position).getString(ParseConstants.EXERCISE_KEY));
+        mKeyText.setVisibility(View.GONE);
+
+        //hide next button when do exercise
+        mNextQuestion.setVisibility(View.GONE);
     }
 
-    private void getListViewSize(ListView listView) {
-        FillInBlankAdapter myListAdapter = (FillInBlankAdapter) listView.getAdapter();
-        if (myListAdapter == null) {
-            //do nothing return null
-            return;
-        }
-        //set listAdapter in loop for getting final size
-        int totalHeight = 0;
-        for (int size = 0; size < myListAdapter.getCount(); size++) {
-            View listItem = myListAdapter.getView(size, null, listView);
-            if (listItem instanceof ViewGroup) {
-                listItem.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT,
-                        AbsListView.LayoutParams.MATCH_PARENT));
-
+    private void setNextButtonClick() {
+        mNextQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextQuestion();
             }
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
+        });
+    }
 
-        //setting listview item in adapter
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight*2 + 230 + (listView.getDividerHeight() * (myListAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
+    private void nextQuestion() {
+        setExerciseTitle(questPos);
+
+        setQuestionView(mQuestionList, questPos);
+
+        mAnswerInput.setEnabled(true);
+        mAnswerInput.setTextColor(Color.BLACK);
     }
 }
