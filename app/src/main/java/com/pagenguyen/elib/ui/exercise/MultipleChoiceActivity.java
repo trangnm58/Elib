@@ -5,8 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,14 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.adapter.MultipleChoiceAdapter;
-import com.pagenguyen.elib.model.ExerciseResult;
 import com.pagenguyen.elib.model.MultipleChoiceExercise;
 import com.pagenguyen.elib.model.MultipleChoiceQuestion;
 import com.pagenguyen.elib.database.ParseConstants;
@@ -40,13 +37,15 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MultipleChoiceActivity extends AppCompatActivity {
-
+    @Bind(R.id.exerciseTitleView) TextView mExerciseTitle;
     @Bind(R.id.my_toolbar) Toolbar mToolbar;
-    @Bind(R.id.listQuestion) ListView mList;
-    @Bind(R.id.title) TextView mExerciseTitle;
     @Bind(R.id.loadingQuestionView) ProgressBar mLoadQuestion;
-    @Bind(R.id.scoreTextView) TextView  mScore;
-    @Bind(R.id.coordinatorLayout) CoordinatorLayout mCoordinatorLayout;
+    @Bind(R.id.nextQuestionButton) Button mNextQuestion;
+    @Bind(R.id.questionTextView) TextView mQuestionText;
+    @Bind(R.id.answer_1) CheckBox answer_1;
+    @Bind(R.id.answer_2) CheckBox answer_2;
+    @Bind(R.id.answer_3) CheckBox answer_3;
+    @Bind(R.id.answer_4) CheckBox answer_4;
 
     String title;
 
@@ -56,6 +55,9 @@ public class MultipleChoiceActivity extends AppCompatActivity {
     private int menuItemId;
     private boolean finnish;
 
+    private int questPos;
+    private int rightAnswers;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,17 +65,20 @@ public class MultipleChoiceActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        mScore.setVisibility(View.GONE);
-
         mLoadQuestion.setVisibility(View.VISIBLE);
+        mQuestionText.setVisibility(View.INVISIBLE);
+        mNextQuestion.setVisibility(View.INVISIBLE);
+
+        answer_1.setVisibility(View.INVISIBLE);
+        answer_2.setVisibility(View.INVISIBLE);
+        answer_3.setVisibility(View.INVISIBLE);
+        answer_4.setVisibility(View.INVISIBLE);
 
         setupToolbar();
 
         title = getIntent().getStringExtra("topic_name");
 
         fetchData();
-
-        finnish= false;
 
     }
 
@@ -97,20 +102,13 @@ public class MultipleChoiceActivity extends AppCompatActivity {
         switch (id) {
             case (R.id.action_done):{
                 menuItemId = R.id.action_done;
-                setDialog();
+                showResult();
                 return true;
             }
 
             case (R.id.action_home):{
                 menuItemId = R.id.action_home;
-                if (finnish==false) {
-                    setDialog();
-                }
-
-                else{
-                    Intent intent = new Intent(MultipleChoiceActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                }
+                setDialog();
 
                 return true;
             }
@@ -130,7 +128,7 @@ public class MultipleChoiceActivity extends AppCompatActivity {
 
         // official:
 
-        if (!title.equals("GIÁO DỤC") && !title.equals("GIA ĐÌNH")){
+        if (!title.equals("Giáo dục") && !title.equals("Gia đình")){
             title="Giáo Dục";
         }
 
@@ -199,7 +197,7 @@ public class MultipleChoiceActivity extends AppCompatActivity {
 
                                                 setExerciseTitle();
 
-                                                setListQuestion();
+                                                setFirstQuestion();
 
                                                 mMultipleChoiceMenu.getItem(0).setVisible(true);
                                                 mMultipleChoiceMenu.getItem(0).setEnabled(true);
@@ -236,7 +234,6 @@ public class MultipleChoiceActivity extends AppCompatActivity {
     }
 
     private void setExerciseTitle() {
-        String title=mExercises.getTitle();
         mExerciseTitle.setText(title);
     }
 
@@ -247,11 +244,8 @@ public class MultipleChoiceActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(menuItemId == R.id.action_done){
-                            //done and sumbit user's answers
-                            showResult();
-                        } else {
-                            // Back to home page
+                        if (menuItemId != R.id.action_done) {
+
                             Intent intent = new Intent(MultipleChoiceActivity.this, HomeActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
@@ -270,143 +264,202 @@ public class MultipleChoiceActivity extends AppCompatActivity {
 
     // function to show key of exercise:
 
-    private int showResult(){
-        MultipleChoiceAdapter ans=(MultipleChoiceAdapter) mList.getAdapter();
-        Integer[] userAnswer=ans.getUserAnswer();
-        mExerciseTitle.setText("ĐÁP ÁN: ");
-
-        int tempMark=0;
-
-        // test user answer:
-
-        /*String kq="Your answer is: ";
-        for (int i=0; i<userAnswer.length; i++){
-            int j=i+1;
-            if (userAnswer[i] == 0) kq+=(""+j+".A  ");
-            else if (userAnswer[i] == 1) kq+=(""+j+".B  ");
-            else if (userAnswer[i] == 2) kq+=(""+j+".C  ");
-            else if (userAnswer[i] == 3) kq+=(""+j+".D  ");
-            else if (userAnswer[i] == -1) kq+=(""+j+".No_Answer  ");
-        }*/
-
-        //Toast.makeText(MultipleChoiceExercise.this, ""+ans.getCount(), Toast.LENGTH_SHORT).show();
-
-        // set color of key and user answer:
-
-        for (int i=0; i< ans.getCount(); i++) {
-            View currentView = mList.getChildAt(i);
-            MultipleChoiceQuestion currentQuestion = mExercises.getQuestionList()[i];
-
-            if (currentView==null || currentQuestion==null) continue;
-
-            CheckBox ans_1 = (CheckBox) currentView.findViewById(R.id.answer_1);
-            CheckBox ans_2 = (CheckBox) currentView.findViewById(R.id.answer_2);
-            CheckBox ans_3 = (CheckBox) currentView.findViewById(R.id.answer_3);
-            CheckBox ans_4 = (CheckBox) currentView.findViewById(R.id.answer_4);
-
-            ans_1.setClickable(false);
-            ans_2.setClickable(false);
-            ans_4.setClickable(false);
-            ans_3.setClickable(false);
-
-            if (currentQuestion.checkKey(userAnswer[i])){
-                // normal: mark plus plus:
-
-                tempMark++;
-
-                // extend:
-            }
-
-            else{
-                if (userAnswer[i] == 0){
-                    ans_1.setTextColor(Color.RED);
-                }
-                else if (userAnswer[i] == 1){
-                    ans_2.setTextColor(Color.RED);
-                }
-                else if (userAnswer[i] == 2){
-                    ans_3.setTextColor(Color.RED);
-                }
-                else if (userAnswer[i] == 3){
-                    ans_4.setTextColor(Color.RED);
-                }
-            }
-
-            int key=currentQuestion.getKey();
-
-            if (key == 0){
-                ans_1.setTextColor(Color.BLUE);
-            }
-            else if (key == 1){
-                ans_2.setTextColor(Color.BLUE);
-            }
-            else if (key == 2){
-                ans_3.setTextColor(Color.BLUE);
-            }
-            else if (key == 3){
-                ans_4.setTextColor(Color.BLUE);
-            }
-        }
-
-        float rateScore = (float) (tempMark / ans.getCount());
-
-        ExerciseResult result = new ExerciseResult(rateScore);
-
-        mScore.setText("Kết quả: " + result.getScore() + "%");
-
-        Snackbar snackbar = Snackbar
-                .make(mCoordinatorLayout, result.getStatus(), Snackbar.LENGTH_LONG)
-                .setAction("OK", null)
-                .setActionTextColor(R.color.TextColorWhite);
-
-        //set background color
-        View snackBarView = snackbar.getView();
-        snackBarView.setBackgroundColor(getResources().getColor(R.color.TextColorBlue));
-
-        //set text view style
-        TextView textView = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
-        textView.setTextColor(getResources().getColor(R.color.TextColorWhite));
-        textView.setTextSize(20);
-        textView.setGravity(Gravity.CENTER);
-
-        snackbar.show();
-
-        mMultipleChoiceMenu.getItem(0).setVisible(false);
+    private void showResult(){
         mMultipleChoiceMenu.getItem(0).setEnabled(false);
 
-        mScore.setVisibility(View.VISIBLE);
-        finnish=true;
+        int userAnswer=-1;
 
-        return tempMark;
-    }
-
-    private void setListQuestion(){
-        mList.setDividerHeight(0);
-        MultipleChoiceAdapter mMCA=new MultipleChoiceAdapter(MultipleChoiceActivity.this, mExercises);
-        mList.setAdapter(mMCA);
-        setListViewHeightBasedOnChildren(mList);
-    }
-
-    private void setListViewHeightBasedOnChildren(ListView listView) {
-        MultipleChoiceAdapter listAdapter = (MultipleChoiceAdapter) listView.getAdapter();
-        if (listAdapter == null) {
-            // pre-condition
-            return;
+        if (answer_1.isChecked()) {
+            userAnswer=0;
         }
 
-        int totalHeight = listView.getPaddingTop() + listView.getPaddingBottom();
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            if (listItem instanceof ViewGroup) {
-                listItem.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, AbsListView.LayoutParams.WRAP_CONTENT));
+        else if (answer_2.isChecked()) {
+            userAnswer=1;
+        }
 
+        else if (answer_3.isChecked()) {
+            userAnswer=2;
+        }
+
+        else if (answer_4.isChecked()) {
+            userAnswer=3;
+        }
+
+        answer_1.setClickable(false);
+        answer_2.setClickable(false);
+        answer_3.setClickable(false);
+        answer_4.setClickable(false);
+
+        if (mExercises.getQuestionList()[questPos-1].checkKey(userAnswer)){
+            // normal: mark plus plus:
+
+            rightAnswers++;
+
+            // extend:
+        }
+
+        else{
+            if (userAnswer == 0){
+                answer_1.setTextColor(Color.RED);
             }
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
+            else if (userAnswer == 1){
+                answer_2.setTextColor(Color.RED);
+            }
+            else if (userAnswer == 2){
+                answer_3.setTextColor(Color.RED);
+            }
+            else if (userAnswer == 3){
+                answer_4.setTextColor(Color.RED);
+            }
         }
 
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
+        int key=mExercises.getQuestionList()[questPos-1].getKey();
+
+        if (key == 0){
+            answer_1.setTextColor(Color.BLUE);
+        }
+        else if (key == 1){
+            answer_2.setTextColor(Color.BLUE);
+        }
+        else if (key == 2){
+            answer_3.setTextColor(Color.BLUE);
+        }
+        else if (key == 3){
+            answer_4.setTextColor(Color.BLUE);
+        }
+
+        mNextQuestion.setVisibility(View.VISIBLE);
+    }
+
+    private void setFirstQuestion(){
+        mNextQuestion.setVisibility(View.INVISIBLE);
+
+        rightAnswers=0;
+        questPos = 1;
+
+        title="Câu " + questPos +": Chọn phương án đúng";
+
+        setExerciseTitle();
+
+        MultipleChoiceQuestion here=mExercises.getQuestionList()[0];
+
+        mQuestionText.setVisibility(View.VISIBLE);
+        answer_1.setVisibility(View.VISIBLE);
+        answer_2.setVisibility(View.VISIBLE);
+        answer_3.setVisibility(View.VISIBLE);
+        answer_4.setVisibility(View.VISIBLE);
+
+        mQuestionText.setText(here.getQuestion()+"?");
+
+        answer_1.setText(here.getOption()[0]);
+        answer_2.setText(here.getOption()[1]);
+        answer_3.setText(here.getOption()[2]);
+        answer_4.setText(here.getOption()[3]);
+
+        answer_1.setChecked(false);
+        answer_2.setChecked(false);
+        answer_3.setChecked(false);
+        answer_4.setChecked(false);
+
+        setOnlyOneSelected();
+        setNextButtonClick();
+    }
+
+    private void setNextButtonClick() {
+        mNextQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setNextQuestion();
+            }
+        });
+    }
+
+    private void setNextQuestion(){
+        mNextQuestion.setVisibility(View.INVISIBLE);
+        mMultipleChoiceMenu.getItem(0).setEnabled(true);
+
+        if (questPos == mExercises.getQuestionList().length){
+
+            finnishExercise();
+            return;
+
+        }
+
+        setOnlyOneSelected();
+
+        questPos++ ;
+
+        title="Câu " + questPos +": Chọn phương án đúng";
+
+        setExerciseTitle();
+
+        MultipleChoiceQuestion here=mExercises.getQuestionList()[questPos-1];
+
+        mQuestionText.setText(here.getQuestion()+"?");
+
+        answer_1.setText(here.getOption()[0]);
+        answer_2.setText(here.getOption()[1]);
+        answer_3.setText(here.getOption()[2]);
+        answer_4.setText(here.getOption()[3]);
+
+        answer_1.setChecked(false);
+        answer_2.setChecked(false);
+        answer_3.setChecked(false);
+        answer_4.setChecked(false);
+
+        setNextButtonClick();
+    }
+
+    private void setOnlyOneSelected(){
+
+        answer_1.setTextColor(Color.BLACK);
+        answer_2.setTextColor(Color.BLACK);
+        answer_3.setTextColor(Color.BLACK);
+        answer_4.setTextColor(Color.BLACK);
+
+
+        answer_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                answer_2.setChecked(false);
+                answer_3.setChecked(false);
+                answer_4.setChecked(false);
+            }
+        });
+
+        answer_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                answer_1.setChecked(false);
+                answer_3.setChecked(false);
+                answer_4.setChecked(false);
+            }
+        });
+
+        answer_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                answer_2.setChecked(false);
+                answer_1.setChecked(false);
+                answer_4.setChecked(false);
+            }
+        });
+
+        answer_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                answer_2.setChecked(false);
+                answer_3.setChecked(false);
+                answer_1.setChecked(false);
+            }
+        });
+    }
+
+    private void finnishExercise(){
+        Intent intent = new Intent(MultipleChoiceActivity.this, ExerciseResultActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("right_answers", rightAnswers);
+        intent.putExtra("num_questions", mExercises.getQuestionList().length);
+        startActivity(intent);
     }
 }
