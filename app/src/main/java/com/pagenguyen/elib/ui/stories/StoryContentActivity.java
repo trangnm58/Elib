@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.adapter.OneTextviewAdapter;
+import com.pagenguyen.elib.adapter.TopicAdapter;
 import com.pagenguyen.elib.database.ParseConstants;
 import com.pagenguyen.elib.model.Story;
 import com.pagenguyen.elib.ui.dictionary.VocabContentActivity;
@@ -132,16 +132,26 @@ public class StoryContentActivity extends AppCompatActivity {
     private void setWordListView(List<String> words){
         String[] mWords = new String[words.size()];
 
+        String[] mStoryNameText = { "dây leo",
+                                    "hân hoan",
+                                    "làm chán nản",
+                                    "bà tiên",
+                                    "số kiếp",
+                                    "dịp",
+                                    "lan khắp",
+                                    "việc cưới xin",
+                                    "binh lính",
+                                    "sợi len, chỉ" };
+
         int i = 0;
         for(Object s:words){
             mWords[i] = s.toString();
             i++;
         }
 
-        OneTextviewAdapter adapter = new OneTextviewAdapter(StoryContentActivity.this,
-                R.layout.item_one_textview,
-                R.id.itemContent,
-                mWords);
+        TopicAdapter adapter = new TopicAdapter(StoryContentActivity.this,
+                mWords,
+                mStoryNameText);
 
         mWordList.setAdapter(adapter);
 

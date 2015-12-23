@@ -45,7 +45,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Large Text"
+            tools:text="Large Text"
             android:textSize="16dp"
             android:layout_gravity="center"
             android:id="@+id/questionTextView"
@@ -66,7 +66,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="True"
+            tools:text="True"
             android:textSize="14dp"
             android:gravity="center"
             android:layout_gravity="center"
@@ -79,7 +79,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/next_button_label"
+        tools:text="@string/next_button_label"
         android:id="@+id/nextQuestionButton"
         android:padding="@dimen/padding_inner_button"
         android:layout_alignTop="@+id/exerciseTitleView"
