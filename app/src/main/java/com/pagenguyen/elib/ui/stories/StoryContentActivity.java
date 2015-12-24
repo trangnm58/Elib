@@ -215,8 +215,8 @@ public class StoryContentActivity extends AppCompatActivity {
                             if (e == null) {
                                 FillInBlankExercise[] exercises = new FillInBlankExercise[obj.size()];
 
-                                int i=0;
-                                for(ParseObject o:obj){
+                                int i = 0;
+                                for (ParseObject o : obj) {
                                     exercises[i] = new FillInBlankExercise();
                                     exercises[i].setId(o.getObjectId());
                                     exercises[i].setTitle(o.getString(ParseConstants.TITLE));
@@ -224,7 +224,8 @@ public class StoryContentActivity extends AppCompatActivity {
                                 }
 
                                 mStory.setFillInBlankExercises(exercises);
-                            } else {}
+                            } else {
+                            }
                         }
                     });
 
@@ -239,8 +240,8 @@ public class StoryContentActivity extends AppCompatActivity {
                             if (e == null) {
                                 MultipleChoiceExercise[] exercises = new MultipleChoiceExercise[obj.size()];
 
-                                int i=0;
-                                for(ParseObject o:obj){
+                                int i = 0;
+                                for (ParseObject o : obj) {
                                     exercises[i] = new MultipleChoiceExercise();
                                     exercises[i].setId(o.getObjectId());
                                     exercises[i].setTitle(o.getString(ParseConstants.TITLE));
@@ -248,11 +249,13 @@ public class StoryContentActivity extends AppCompatActivity {
                                 }
 
                                 mStory.setMultipleChoiceExercises(exercises);
-                            } else {}
+
+                                mStoryMenuBar.getItem(0).setEnabled(true);
+                            } else {
+                            }
                         }
                     });
 
-                    mStoryMenuBar.getItem(0).setEnabled(true);
                 }
                 else {
                     Toast.makeText(StoryContentActivity.this,

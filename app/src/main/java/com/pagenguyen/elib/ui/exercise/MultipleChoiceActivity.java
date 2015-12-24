@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.model.MultipleChoiceExercise;
@@ -26,6 +27,7 @@ import com.pagenguyen.elib.model.MultipleChoiceQuestion;
 import com.pagenguyen.elib.database.ParseConstants;
 import com.pagenguyen.elib.ui.main.HomeActivity;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -76,8 +78,6 @@ public class MultipleChoiceActivity extends AppCompatActivity {
 
         setupToolbar();
 
-        title = getIntent().getStringExtra("topic_name");
-
         fetchData();
 
     }
@@ -126,105 +126,53 @@ public class MultipleChoiceActivity extends AppCompatActivity {
 
     private void fetchData(){
 
-        // official:
+        Intent intent = getIntent();
+        final String mExerciseId = intent.getStringExtra("exercise_id");
 
-        if (!title.equals("Giáo dục") && !title.equals("Gia đình")){
-            title="Giáo Dục";
-        }
+        ParseQuery<ParseObject> question = ParseQuery.getQuery(ParseConstants.CLASS_MULTIPLE_CHOICE_EXERCISE);
+        question.getInBackground(mExerciseId, new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject exerciseObj, ParseException e) {
+                ParseQuery<ParseObject> exercises = ParseQuery.getQuery(ParseConstants.CLASS_MULTIPLE_CHOICE_QUESTION);
+                exercises.whereEqualTo(ParseConstants.RELATION_BELONG_TO, exerciseObj);
 
-        final String type=title;
+                exercises.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> object, ParseException e) {
+                    MultipleChoiceQuestion[] questions = new MultipleChoiceQuestion[object.size()];
 
-        mExercises = null;
+                        for (int i = 0; i < object.size(); i++) {
+                            ParseObject data = object.get(i);
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseConstants.CLASS_TOPIC);
-        query.findInBackground(new FindCallback<ParseObject>() {
+                            int tempKey = data.getInt(ParseConstants.EXERCISE_KEY);
+                            String tempQuestion = data.getString(ParseConstants.EXERCISE_QUESTION);
 
-            public void done(List<ParseObject> objects, com.parse.ParseException e) {
-                if (e == null && objects.size() != 0) {
-                    ParseObject there = null;
+                            ArrayList<String> tempOption = (ArrayList<String>) data.get(ParseConstants.EXERCISE_OPTION);
+                            String[] listOption = new String[tempOption.size()];
 
-                    boolean found = false;
-
-                    for (int i = 0; i < objects.size(); i++) {
-                        ParseObject here = objects.get(i);
-                        String title = here.getString(ParseConstants.TITLE);
-
-                        if (title.toLowerCase().equals(type.toLowerCase())) {
-                            there = here;
-                            found = true;
-                            break;
-                        }
-                    }
-
-                    if (found) {
-                        ParseQuery<ParseObject> exercises = ParseQuery.getQuery(ParseConstants.CLASS_MULTIPLE_CHOICE_EXERCISE);
-                        exercises.whereEqualTo(ParseConstants.RELATION_BELONG_TO, there);
-
-                        exercises.findInBackground(new FindCallback<ParseObject>() {
-                            @Override
-                            public void done(List<ParseObject> list, ParseException e) {
-                                if (e == null && list.size() != 0) {
-                                    ParseObject there = list.get(0);
-
-                                    ParseQuery<ParseObject> question = ParseQuery.getQuery(ParseConstants.CLASS_MULTIPLE_CHOICE_QUESTION);
-                                    question.whereEqualTo(ParseConstants.RELATION_BELONG_TO, there);
-
-                                    question.findInBackground(new FindCallback<ParseObject>() {
-                                        @Override
-                                        public void done(List<ParseObject> list, ParseException e) {
-                                            if (e == null && list.size() != 0) {
-
-                                                MultipleChoiceQuestion[] questions = new MultipleChoiceQuestion[list.size()];
-
-                                                for (int i = 0; i < list.size(); i++) {
-                                                    ParseObject data = list.get(i);
-
-                                                    int tempKey = data.getInt(ParseConstants.EXERCISE_KEY);
-                                                    String tempQuestion = data.getString(ParseConstants.EXERCISE_QUESTION);
-
-                                                    ArrayList<String> tempOption = (ArrayList<String>) data.get(ParseConstants.EXERCISE_OPTION);
-                                                    String[] listOption = new String[tempOption.size()];
-
-                                                    for (int k = 0; k < tempOption.size(); k++) {
-                                                        listOption[k] = tempOption.get(k);
-                                                    }
-
-                                                    MultipleChoiceQuestion temptemp = new MultipleChoiceQuestion(tempQuestion, listOption, tempKey);
-                                                    questions[i] = temptemp;
-                                                }
-
-                                                mExercises = new MultipleChoiceExercise("Chọn phương án đúng: ", questions);
-
-                                                setExerciseTitle();
-
-                                                setFirstQuestion();
-
-                                                mMultipleChoiceMenu.getItem(0).setVisible(true);
-                                                mMultipleChoiceMenu.getItem(0).setEnabled(true);
-
-                                                mLoadQuestion.setVisibility(View.GONE);
-
-
-                                            } else {
-
-                                            }
-                                        }
-                                    });
-
-                                } else {
-
-                                }
+                            for (int k = 0; k < tempOption.size(); k++) {
+                                listOption[k] = tempOption.get(k);
                             }
-                        });
-                    } else {
 
+                            MultipleChoiceQuestion temptemp = new MultipleChoiceQuestion(tempQuestion, listOption, tempKey);
+                            questions[i] = temptemp;
+                        }
+
+                        mExercises = new MultipleChoiceExercise("Chọn phương án đúng: ", questions);
+
+                        setExerciseTitle();
+
+                        setFirstQuestion();
+
+                        mMultipleChoiceMenu.getItem(0).setVisible(true);
+                        mMultipleChoiceMenu.getItem(0).setEnabled(true);
+
+                        mLoadQuestion.setVisibility(View.GONE);
                     }
-
-                } else {
-
-                }
+                });
             }
         });
+
     }
 
     private void setupToolbar() {
@@ -337,7 +285,7 @@ public class MultipleChoiceActivity extends AppCompatActivity {
         rightAnswers=0;
         questPos = 1;
 
-        title="Câu " + questPos +": Chọn phương án đúng";
+        title="Câu " + questPos +": Chọn phương án đúng:";
 
         setExerciseTitle();
 

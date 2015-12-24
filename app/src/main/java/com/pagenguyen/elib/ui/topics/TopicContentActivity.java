@@ -11,12 +11,23 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.OneTextviewAdapter;
 import com.pagenguyen.elib.adapter.TopicAdapter;
+import com.pagenguyen.elib.database.ParseConstants;
+import com.pagenguyen.elib.model.FillInBlankExercise;
+import com.pagenguyen.elib.model.MultipleChoiceExercise;
+import com.pagenguyen.elib.model.Topic;
 import com.pagenguyen.elib.ui.dictionary.VocabContentActivity;
-import com.pagenguyen.elib.ui.exercise.MultipleChoiceListActivity;
+import com.pagenguyen.elib.ui.exercise.ExerciseListActivity;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,6 +38,9 @@ public class TopicContentActivity extends AppCompatActivity {
     @Bind(R.id.my_toolbar) Toolbar mToolbar;
 
     public String mTopicName;
+    public Topic mTopic;
+    public String mTopicId;
+    public Menu mTopicMenuBar;
 
     private String[] giao_duc = {   "teacher",
             "friendship",
@@ -234,12 +248,17 @@ public class TopicContentActivity extends AppCompatActivity {
 
         setVocabularyListView();
 
+        setTopicFromServer();
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_exercises, menu);
+        mTopicMenuBar = menu;
+        menu.getItem(0).setEnabled(false);
+
         return true;
     }
 
@@ -253,8 +272,8 @@ public class TopicContentActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         switch (id) {
             case (R.id.action_exercises):{
-                Intent intent = new Intent(TopicContentActivity.this, MultipleChoiceListActivity.class);
-                intent.putExtra("topic_name", mTopicName);
+                Intent intent = new Intent(TopicContentActivity.this, ExerciseListActivity.class);
+                intent.putExtra("MyObj", mTopic);
                 startActivity(intent);
                 return true;
             }
@@ -275,6 +294,130 @@ public class TopicContentActivity extends AppCompatActivity {
         mTopicName=intent.getStringExtra("topic_name");
 
         ab.setTitle("Chủ đề: " + mTopicName);
+    }
+
+    private void setTopicFromServer(){
+        mTopic=new Topic();
+
+        if (!mTopicName.equals("Gia đình") && !mTopicName.equals("Giáo dục")){
+            mTopicName="Gia Đình";
+        }
+
+        final String type=mTopicName;
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseConstants.CLASS_TOPIC);
+        query.findInBackground(new FindCallback<ParseObject>() {
+
+            public void done(List<ParseObject> objects, com.parse.ParseException e) {
+                if (e == null && objects.size() != 0) {
+                    ParseObject there = null;
+
+                    boolean found = false;
+
+                    for (int i = 0; i < objects.size(); i++) {
+                        ParseObject here = objects.get(i);
+                        String title = here.getString(ParseConstants.TITLE);
+
+                        if (title.toLowerCase().equals(type.toLowerCase())) {
+                            mTopic.setId(here.getObjectId());
+                            mTopic.setTitle(title);
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (found==true){
+                        ParseQuery<ParseObject> fillInBlanks = ParseQuery.getQuery(ParseConstants.CLASS_FILL_IN_BLANK_EXERCISE);
+                        fillInBlanks.whereEqualTo("belongType", "topic");
+                        fillInBlanks.whereEqualTo("belongTo", mTopic.getId());
+
+                        //get fill in blanks exercises
+                        fillInBlanks.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> obj, ParseException e) {
+                                if (e == null) {
+                                    FillInBlankExercise[] exercises;
+
+                                    if (obj.size()!=0) {
+                                        exercises = new FillInBlankExercise[obj.size()];
+                                        int i=0;
+                                        for(ParseObject o:obj){
+                                            exercises[i] = new FillInBlankExercise();
+                                            exercises[i].setId(o.getObjectId());
+                                            exercises[i].setTitle(o.getString(ParseConstants.TITLE));
+                                            i++;
+                                        }
+
+                                        mTopic.setFillInBlankExercises(exercises);
+
+                                        mTopicMenuBar.getItem(0).setEnabled(true);
+                                    }
+                                    /*
+                                    else{
+                                        // hash code:
+
+                                        ParseQuery<ParseObject> fillInBlanks = ParseQuery.getQuery(ParseConstants.CLASS_FILL_IN_BLANK_EXERCISE);
+                                        fillInBlanks.whereEqualTo("belongType", "story");
+                                        fillInBlanks.whereEqualTo("belongTo", "1puSAlm7xJ");
+
+                                        //get fill in blanks exercises
+                                        fillInBlanks.findInBackground(new FindCallback<ParseObject>() {
+                                            @Override
+                                            public void done(List<ParseObject> obj, ParseException e) {
+                                                if (e == null) {
+
+                                                    FillInBlankExercise[] exercises = new FillInBlankExercise[obj.size()];
+
+                                                    int i = 0;
+                                                    for (ParseObject o : obj) {
+                                                        exercises[i] = new FillInBlankExercise();
+                                                        exercises[i].setId(o.getObjectId());
+                                                        exercises[i].setTitle(o.getString(ParseConstants.TITLE));
+                                                        i++;
+                                                    }
+
+                                                    mTopic.setFillInBlankExercises(exercises);
+                                                }
+                                            }
+                                        });
+                                    }*/
+
+                                } else {}
+                            }
+                        });
+
+                        ParseQuery<ParseObject> multipleChoice = ParseQuery.getQuery(ParseConstants.CLASS_MULTIPLE_CHOICE_EXERCISE);
+                        multipleChoice.whereEqualTo("belongType", "topic");
+                        multipleChoice.whereEqualTo("belongTo", mTopic.getId());
+
+                        //get multiple choice exercises
+                        multipleChoice.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> obj, ParseException e) {
+                                if (e == null) {
+                                    MultipleChoiceExercise[] exercises = new MultipleChoiceExercise[obj.size()];
+
+                                    int i=0;
+                                    for(ParseObject o:obj){
+                                        exercises[i] = new MultipleChoiceExercise();
+                                        exercises[i].setId(o.getObjectId());
+                                        exercises[i].setTitle(o.getString(ParseConstants.TITLE));
+                                        i++;
+                                    }
+
+                                    mTopic.setMultipleChoiceExercises(exercises);
+
+                                } else {}
+                            }
+                        });
+                    }
+                } else{
+                    Toast.makeText(TopicContentActivity.this,
+                            "Tai khong thanh cong",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void setVocabularyListView(){
