@@ -12,7 +12,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.adapter.StoryAdapter;
+import com.pagenguyen.elib.adapter.ExerciseListAdapter;
+import com.pagenguyen.elib.adapter.OneTextviewAdapter;
 import com.pagenguyen.elib.database.ParseConstants;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -29,7 +30,7 @@ public class StoryListActivity extends AppCompatActivity {
     @Bind(R.id.loadStoryListView) ProgressBar mLoadList;
     @Bind(R.id.my_toolbar) Toolbar mToolbar;
 
-    public StoryAdapter mAdapter;
+    public OneTextviewAdapter mAdapter;
     public List<ParseObject> mStoryList;
 
     @Override
@@ -95,9 +96,18 @@ public class StoryListActivity extends AppCompatActivity {
     }
 
     private void setStoryListView(List<ParseObject> stories){
-        mAdapter = new StoryAdapter(StoryListActivity.this,
+        String[] storyTitles = new String[stories.size()];
+
+        int i = 0;
+        for(ParseObject story:stories){
+            storyTitles[i] = story.getString(ParseConstants.TITLE);
+            i++;
+        }
+
+        mAdapter = new OneTextviewAdapter(StoryListActivity.this,
                 R.layout.item_one_textview,
-                stories);
+                R.id.itemContent,
+                storyTitles);
 
         mListStories.setAdapter(mAdapter);
     }

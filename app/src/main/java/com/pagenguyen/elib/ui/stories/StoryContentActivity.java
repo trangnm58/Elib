@@ -19,9 +19,12 @@ import android.widget.Toast;
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.TopicAdapter;
 import com.pagenguyen.elib.database.ParseConstants;
+import com.pagenguyen.elib.model.FillInBlankExercise;
+import com.pagenguyen.elib.model.MultipleChoiceExercise;
 import com.pagenguyen.elib.model.Story;
 import com.pagenguyen.elib.ui.dictionary.VocabContentActivity;
-import com.pagenguyen.elib.ui.exercise.StoryExerciseListActivity;
+import com.pagenguyen.elib.ui.exercise.ExerciseListActivity;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -42,6 +45,8 @@ public class StoryContentActivity extends AppCompatActivity {
 
     public Story mStory;
     public String mStoryId;
+
+    public Menu mStoryMenuBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +69,8 @@ public class StoryContentActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_exercises, menu);
+        mStoryMenuBar = menu;
+        menu.getItem(0).setEnabled(false);
         return true;
     }
 
@@ -77,13 +84,11 @@ public class StoryContentActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         switch (id) {
             case (R.id.action_exercises):{
-                ParseQuery<ParseObject> exercises = ParseQuery.getQuery(ParseConstants.CLASS_FILL_IN_BLANK_EXERCISE);
-                exercises.whereEqualTo("belongTo",mStory);
+                Intent intent = new Intent(StoryContentActivity.this, ExerciseListActivity.class);
+                intent.putExtra("MyObj", mStory);
 
-
-                Intent intent = new Intent(StoryContentActivity.this, StoryExerciseListActivity.class);
-                intent.putExtra("story_id",mStoryId);
                 startActivity(intent);
+
                 return true;
             }
             case (android.R.id.home): {
@@ -163,7 +168,7 @@ public class StoryContentActivity extends AppCompatActivity {
         mWordList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView vocabText = (TextView) view.findViewById(R.id.itemContent);
+                TextView vocabText = (TextView) view.findViewById(R.id.itemVocabulary);
 
                 Intent intent = new Intent(StoryContentActivity.this, VocabContentActivity.class);
                 intent.putExtra("vocab", vocabText.getText().toString().toLowerCase());
@@ -182,6 +187,7 @@ public class StoryContentActivity extends AppCompatActivity {
         query.getInBackground(mStoryId, new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
+                    mStory.setId(object.getObjectId());
                     mStory.setTitle(object.getString(ParseConstants.TITLE));
                     mStory.setContent(object.getString(ParseConstants.CONTENT));
 
@@ -196,7 +202,59 @@ public class StoryContentActivity extends AppCompatActivity {
                     //set word list view
                     List<String> words = object.getList(ParseConstants.NEW_WORDS);
                     setWordListView(words);
-                } else {
+
+                    //get exercises of current story
+                    ParseQuery<ParseObject> fillInBlanks = ParseQuery.getQuery(ParseConstants.CLASS_FILL_IN_BLANK_EXERCISE);
+                    fillInBlanks.whereEqualTo("belongType", "story");
+                    fillInBlanks.whereEqualTo("belongTo", mStoryId);
+
+                    //get fill in blanks exercises
+                    fillInBlanks.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> obj, ParseException e) {
+                            if (e == null) {
+                                FillInBlankExercise[] exercises = new FillInBlankExercise[obj.size()];
+
+                                int i=0;
+                                for(ParseObject o:obj){
+                                    exercises[i] = new FillInBlankExercise();
+                                    exercises[i].setId(o.getObjectId());
+                                    exercises[i].setTitle(o.getString(ParseConstants.TITLE));
+                                    i++;
+                                }
+
+                                mStory.setFillInBlankExercises(exercises);
+                            } else {}
+                        }
+                    });
+
+                    ParseQuery<ParseObject> multipleChoice = ParseQuery.getQuery(ParseConstants.CLASS_MULTIPLE_CHOICE_EXERCISE);
+                    multipleChoice.whereEqualTo("belongType", "story");
+                    multipleChoice.whereEqualTo("belongTo", mStoryId);
+
+                    //get multiple choice exercises
+                    multipleChoice.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> obj, ParseException e) {
+                            if (e == null) {
+                                MultipleChoiceExercise[] exercises = new MultipleChoiceExercise[obj.size()];
+
+                                int i=0;
+                                for(ParseObject o:obj){
+                                    exercises[i] = new MultipleChoiceExercise();
+                                    exercises[i].setId(o.getObjectId());
+                                    exercises[i].setTitle(o.getString(ParseConstants.TITLE));
+                                    i++;
+                                }
+
+                                mStory.setMultipleChoiceExercises(exercises);
+                            } else {}
+                        }
+                    });
+
+                    mStoryMenuBar.getItem(0).setEnabled(true);
+                }
+                else {
                     Toast.makeText(StoryContentActivity.this,
                             "Tai khong thanh cong",
                             Toast.LENGTH_SHORT).show();

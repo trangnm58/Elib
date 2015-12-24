@@ -79,7 +79,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="@string/next_button_label"
+        android:text="@string/next_button_label"
         android:id="@+id/nextQuestionButton"
         android:padding="@dimen/padding_inner_button"
         android:layout_alignTop="@+id/exerciseTitleView"

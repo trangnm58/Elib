@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.database.ParseConstants;
+import com.pagenguyen.elib.model.Exercise;
 import com.parse.ParseObject;
 
 import java.util.List;
@@ -17,12 +18,12 @@ import java.util.List;
 /**
  * Created by Kira on 12/9/2015.
  */
-public class StoryAdapter extends BaseAdapter{
-    private List<ParseObject> mList;
+public class ExerciseListAdapter extends BaseAdapter{
+    private Exercise[] mList;
     private Context mContext;
     private int mLayoutResourceId;
 
-    public StoryAdapter(Context context, int layoutId, List<ParseObject> array){
+    public ExerciseListAdapter(Context context, int layoutId, Exercise[] array){
         mContext = context;
         mLayoutResourceId = layoutId;
         mList = array;
@@ -30,12 +31,12 @@ public class StoryAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return mList.size();
+        return mList.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return mList.get(position);
+        return mList[position];
     }
 
     @Override
@@ -65,7 +66,7 @@ public class StoryAdapter extends BaseAdapter{
         }
 
         //setting data
-        holder.text.setText(mList.get(position).getString(ParseConstants.TITLE));
+        holder.text.setText(mList[position].getTitle());
 
         return convertView;
     }

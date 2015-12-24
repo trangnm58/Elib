@@ -64,6 +64,8 @@ public class FillInBlanksActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         mLoadQuestion.setVisibility(View.VISIBLE);
+        mAnswerInput.setVisibility(View.GONE);
+        mNextQuestion.setVisibility(View.GONE);
 
         setupToolbar();
 
@@ -191,7 +193,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                     }
-                }, 1500);
+                }, 1200);
         } else {
             //Wrong answer
             mAnswerInput.setTextColor(Color.RED);
@@ -215,7 +217,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
                             intent.putExtra("num_questions", mQuestionList.size());
                             startActivity(intent);
                             }
-                    }, 1500);
+                    }, 1200);
             }
         }
     }
@@ -266,6 +268,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
     private void setQuestionView(List<ParseObject> questions,int position){
         //set content for question view
         mQuestionText.setText(questions.get(position).getString(ParseConstants.EXERCISE_QUESTION));
+        mAnswerInput.setVisibility(View.VISIBLE);
         mAnswerInput.setText("");
 
         if(position == 0){
