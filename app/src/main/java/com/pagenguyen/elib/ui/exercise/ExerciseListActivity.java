@@ -1,4 +1,4 @@
-﻿package com.pagenguyen.elib.ui.exercise;
+package com.pagenguyen.elib.ui.exercise;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.ExerciseListAdapter;
@@ -99,24 +98,33 @@ public class ExerciseListActivity extends AppCompatActivity {
     }
 
     private void setListView(){
-        mAllExercises = new Exercise[mFillInBlanks.length + mMultipleChoices.length];
+        int filLength = (mFillInBlanks != null ? mFillInBlanks.length:0);
+        int mulLength = (mMultipleChoices != null ? mMultipleChoices.length:0);
+
+        mAllExercises = new Exercise[filLength + mulLength];
 
         int i = 0;
-        for(int j=0; j < mFillInBlanks.length;){
-            mAllExercises[2*i] = new Exercise();
-            mAllExercises[2*i].setId(j);
-            mAllExercises[2*i].setTitle("Bài tập " + (2 * i + 1));
-            i++;
-            j++;
+        //If have fill in blank exercises
+        if(filLength != 0){
+            for(int j=0; j < mFillInBlanks.length;){
+                mAllExercises[2*i] = new Exercise();
+                mAllExercises[2*i].setId(j);
+                mAllExercises[2*i].setTitle("Bài tập " + (2 * i + 1));
+                i++;
+                j++;
+            }
         }
 
         i = 0;
-        for(int j=0; j < mMultipleChoices.length;){
-            mAllExercises[2*i+1] = new Exercise();
-            mAllExercises[2*i+1].setId(j);
-            mAllExercises[2*i+1].setTitle("Bài tập " + (2 * i + 2));
-            i++;
-            j++;
+        //If have fill in blank exercises
+        if(mulLength != 0) {
+            for (int j = 0; j < mMultipleChoices.length; ) {
+                mAllExercises[2 * i + 1] = new Exercise();
+                mAllExercises[2 * i + 1].setId(j);
+                mAllExercises[2 * i + 1].setTitle("Bài tập " + (2 * i + 2));
+                i++;
+                j++;
+            }
         }
 
         ExerciseListAdapter adapter = new ExerciseListAdapter(ExerciseListActivity.this,
