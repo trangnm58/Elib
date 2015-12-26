@@ -201,6 +201,7 @@ public class VocabContentActivity extends AppCompatActivity {
                     setVocabView();
                     //get definition and examples of the vocabulary
                     setVocabContentView();
+                    mMenu.getItem(0).collapseActionView();
                 } else {
                     // Do nothing
                 }
