@@ -39,6 +39,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
     @Bind(R.id.exerciseTitleView) TextView mExerciseTitle;
     @Bind(R.id.my_toolbar) Toolbar mToolbar;
     @Bind(R.id.loadingQuestionView) ProgressBar mLoadQuestion;
+    @Bind(R.id.fibProgressBar) ProgressBar mFipProgressBar;
     @Bind(R.id.nextQuestionButton) Button mNextQuestion;
 
     @Bind(R.id.questionContentLayout) LinearLayout mQuestionContent;
@@ -46,6 +47,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
     @Bind(R.id.questionTextView) TextView mQuestionText;
     @Bind(R.id.answerInputField) EditText mAnswerInput;
     @Bind(R.id.resultTextView) TextView mKeyText;
+    @Bind(R.id.fibProgressText) TextView mFipProgressText;
 
     public FillInBlankExercise mExercise;
     public List<ParseObject> mQuestionList;
@@ -54,8 +56,8 @@ public class FillInBlanksActivity extends AppCompatActivity {
     public static Menu mFillInBlanksMenu;
     private int menuItemId;
 
-    private int questPos;
-    private int rightAnswers;
+    private int mQuestPos;
+    private int mRightAnswers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +72,11 @@ public class FillInBlanksActivity extends AppCompatActivity {
         setupToolbar();
 
         //position of 1st question
-        questPos = 0;
+        mQuestPos = 0;
         //number of user's right answers
-        rightAnswers = 0;
+        mRightAnswers = 0;
         //set exercise's title
-        setExerciseTitle(questPos);
+        setExerciseTitle(mQuestPos);
 
         //set exercise content
         setExcerciseContent();
@@ -106,11 +108,11 @@ public class FillInBlanksActivity extends AppCompatActivity {
             case (R.id.action_done):{
                 menuItemId = R.id.action_done;
 
-                if (questPos + 1 < mQuestionList.size()) {
+                if (mQuestPos + 1 < mQuestionList.size()) {
                     submitAnswers();
                 }
                 //ask when user done the last question
-                else if (questPos + 1 == mQuestionList.size()) {
+                else if (mQuestPos + 1 == mQuestionList.size()) {
                     setDialog();
                 }
 
@@ -164,17 +166,20 @@ public class FillInBlanksActivity extends AppCompatActivity {
         //get user's answer
         String answers = mAnswerInput.getText().toString();
 
-        String key = mQuestionList.get(questPos).getString(ParseConstants.EXERCISE_KEY);
+        String key = mQuestionList.get(mQuestPos).getString(ParseConstants.EXERCISE_KEY);
         boolean check = key.equals(answers);
 
         //disable edit text
         mAnswerInput.setEnabled(false);
 
         //increase position of question - go to next question
-        questPos++;
+        mQuestPos++;
+
+        //update progress bar
+        setFipProgressBar();
 
         if(check) {
-            rightAnswers++;
+            mRightAnswers++;
             //Right answer
             mAnswerInput.setTextColor(Color.GREEN);
 
@@ -183,12 +188,12 @@ public class FillInBlanksActivity extends AppCompatActivity {
             new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
-                        if (questPos + 1 <= mQuestionList.size()) { nextQuestion(); }
+                        if (mQuestPos + 1 <= mQuestionList.size()) { nextQuestion(); }
                         else {
                             //move to result activity if user done all questions
                             Intent intent = new Intent(FillInBlanksActivity.this, ExerciseResultActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra("right_answers", rightAnswers);
+                            intent.putExtra("right_answers", mRightAnswers);
                             intent.putExtra("num_questions", mQuestionList.size());
                             startActivity(intent);
                         }
@@ -201,7 +206,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
             mKeyText.setVisibility(View.VISIBLE);
 
             //show next question button
-            if(questPos + 1 <= mQuestionList.size()){
+            if(mQuestPos + 1 <= mQuestionList.size()){
                 mNextQuestion.setVisibility(View.VISIBLE);
             }
             else {
@@ -213,7 +218,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
                             //move to result activity if user done all questions
                             Intent intent = new Intent(FillInBlanksActivity.this, ExerciseResultActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra("right_answers", rightAnswers);
+                            intent.putExtra("right_answers", mRightAnswers);
                             intent.putExtra("num_questions", mQuestionList.size());
                             startActivity(intent);
                             }
@@ -257,6 +262,10 @@ public class FillInBlanksActivity extends AppCompatActivity {
                             setQuestionView(mQuestionList, 0);
 
                             mLoadQuestion.setVisibility(View.GONE);
+
+                            mFipProgressBar.setMax(mQuestionList.size());
+                            //update progress bar
+                            setFipProgressBar();
                         } else {
                         }
                     }
@@ -295,6 +304,11 @@ public class FillInBlanksActivity extends AppCompatActivity {
         mNextQuestion.setVisibility(View.GONE);
     }
 
+    private void setFipProgressBar(){
+        mFipProgressBar.setProgress(mQuestPos);
+        mFipProgressText.setText(mQuestPos + "/" + mQuestionList.size());
+    }
+
     private void setNextButtonClick() {
         mNextQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -305,9 +319,9 @@ public class FillInBlanksActivity extends AppCompatActivity {
     }
 
     private void nextQuestion() {
-        setExerciseTitle(questPos);
+        setExerciseTitle(mQuestPos);
 
-        setQuestionView(mQuestionList, questPos);
+        setQuestionView(mQuestionList, mQuestPos);
 
         mAnswerInput.setEnabled(true);
         mAnswerInput.setTextColor(Color.BLACK);

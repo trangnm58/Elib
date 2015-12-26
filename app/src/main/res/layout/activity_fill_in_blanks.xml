@@ -85,4 +85,25 @@
         android:layout_alignTop="@+id/exerciseTitleView"
         android:layout_alignEnd="@+id/questionContentLayout" />
 
+    <ProgressBar
+        android:id="@+id/fibProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="25dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="0" />
+
+    <TextView
+        android:id="@+id/fibProgressText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="0/10"
+        android:textSize="16dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignBottom="@+id/fibProgressBar"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

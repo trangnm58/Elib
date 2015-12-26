@@ -103,7 +103,7 @@ public class ExerciseResultActivity extends AppCompatActivity {
          else {}
 
          mScoreView.setText(Math.round(score) + "%");
-         mRightAnswers.setText("Số câu đúng: " + rightAnswers + " / " + numQuestion);
+         mRightAnswers.setText("Số câu đúng: " + rightAnswers + "/" + numQuestion);
          mStatusView.setText(status);
     }
 }
