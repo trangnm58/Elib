@@ -42,6 +42,9 @@ public class MultipleChoiceActivity extends AppCompatActivity {
     @Bind(R.id.exerciseTitleView) TextView mExerciseTitle;
     @Bind(R.id.my_toolbar) Toolbar mToolbar;
     @Bind(R.id.loadingQuestionView) ProgressBar mLoadQuestion;
+    @Bind(R.id.fibProgressBar) ProgressBar mFipProgressBar;
+    @Bind(R.id.fibProgressText) TextView mFipProgressText;
+
     @Bind(R.id.nextQuestionButton) Button mNextQuestion;
     @Bind(R.id.questionTextView) TextView mQuestionText;
     @Bind(R.id.answer_1) CheckBox answer_1;
@@ -207,6 +210,11 @@ public class MultipleChoiceActivity extends AppCompatActivity {
         dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(16);
     }
 
+    private void setFipProgressBar(){
+        mFipProgressBar.setProgress(questPos);
+        mFipProgressText.setText(questPos + "/" + mExercises.getQuestionList().length);
+    }
+
     // function to show key of exercise:
 
     private void showResult(){
@@ -277,6 +285,8 @@ public class MultipleChoiceActivity extends AppCompatActivity {
 
     private void setFirstQuestion(){
         mNextQuestion.setVisibility(View.INVISIBLE);
+        mFipProgressBar.setMax(mExercises.getQuestionList().length);
+        setFipProgressBar();
 
         rightAnswers=0;
         questPos = 1;
@@ -320,6 +330,7 @@ public class MultipleChoiceActivity extends AppCompatActivity {
 
     private void setNextQuestion(){
         mNextQuestion.setVisibility(View.INVISIBLE);
+        setFipProgressBar();
         mMultipleChoiceMenu.getItem(0).setEnabled(true);
 
         if (questPos == mExercises.getQuestionList().length){
