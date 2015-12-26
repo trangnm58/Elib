@@ -106,4 +106,15 @@
         android:layout_marginBottom="20dp"
         android:layout_alignBottom="@+id/fibProgressBar"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nộp"
+        android:padding="@dimen/padding_inner_button"
+        android:id="@+id/submitExerciseButton"
+        android:layout_below="@+id/questionContentLayout"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

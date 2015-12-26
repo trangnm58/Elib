@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -21,7 +22,6 @@ import android.widget.TextView;
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.model.FillInBlankExercise;
 import com.pagenguyen.elib.database.ParseConstants;
-import com.pagenguyen.elib.model.Story;
 import com.pagenguyen.elib.ui.main.HomeActivity;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -40,8 +40,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
     @Bind(R.id.loadingQuestionView) ProgressBar mLoadQuestion;
     @Bind(R.id.fibProgressBar) ProgressBar mFipProgressBar;
     @Bind(R.id.nextQuestionButton) Button mNextQuestion;
-
-    @Bind(R.id.questionContentLayout) LinearLayout mQuestionContent;
+    @Bind(R.id.submitExerciseButton) Button mSubmitButton;
 
     @Bind(R.id.questionTextView) TextView mQuestionText;
     @Bind(R.id.answerInputField) EditText mAnswerInput;
@@ -66,6 +65,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
         mLoadQuestion.setVisibility(View.VISIBLE);
         mAnswerInput.setVisibility(View.GONE);
         mNextQuestion.setVisibility(View.GONE);
+        mSubmitButton.setVisibility(View.GONE);
 
         setupToolbar();
 
@@ -84,25 +84,34 @@ public class FillInBlanksActivity extends AppCompatActivity {
 
         //press enter on keyboard to submit answer
         submitExerciseByEnter();
+
+        setSubmitButtonClick();
+    }
+
+    private void setSubmitButtonClick() {
+        mSubmitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mQuestPos + 1 <= mQuestionList.size()) {
+                    submitAnswers();
+                }
+            }
+        });
     }
 
     private void submitExerciseByEnter() {
-        //To receive a keyboard event, a View must have focus
-        mAnswerInput.setFocusableInTouchMode(true);
-        mAnswerInput.requestFocus();
-
-        mAnswerInput.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // If the event is a key-down event on the "enter" button
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        mAnswerInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     // Perform action on key press
                     if (mQuestPos + 1 <= mQuestionList.size()) {
                         submitAnswers();
                     }
-                    return true;
+                    handled = true;
                 }
-                return false;
+                return handled;
             }
         });
     }
@@ -170,7 +179,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
     }
 
     private void submitAnswers() {
-        //FillInBlanksActivity.mFillInBlanksMenu.getItem(0).setEnabled(false);
+        mSubmitButton.setVisibility(View.GONE);
 
         //get user's answer
         String answers = mAnswerInput.getText().toString();
@@ -294,6 +303,8 @@ public class FillInBlanksActivity extends AppCompatActivity {
 
         //hide next button when do exercise
         mNextQuestion.setVisibility(View.GONE);
+
+        mSubmitButton.setVisibility(View.VISIBLE);
     }
 
     private void setFipProgressBar(){
