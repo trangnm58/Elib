@@ -8,23 +8,20 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.model.FillInBlankExercise;
 import com.pagenguyen.elib.database.ParseConstants;
+import com.pagenguyen.elib.model.Story;
 import com.pagenguyen.elib.ui.main.HomeActivity;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -55,7 +52,6 @@ public class FillInBlanksActivity extends AppCompatActivity {
     public List<ParseObject> mQuestionList;
     public String mExerciseId;
 
-    public static Menu mFillInBlanksMenu;
     private int menuItemId;
 
     private int mQuestPos;
@@ -115,9 +111,6 @@ public class FillInBlanksActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_done, menu);
-        //mFillInBlanksMenu = menu;
-
-        //menu.getItem(0).setEnabled(false);
 
         return true;
     }
@@ -295,23 +288,6 @@ public class FillInBlanksActivity extends AppCompatActivity {
         mQuestionText.setText(questions.get(position).getString(ParseConstants.EXERCISE_QUESTION));
         mAnswerInput.setVisibility(View.VISIBLE);
         mAnswerInput.setText("");
-
-        /*if(position == 0){
-            mAnswerInput.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    FillInBlanksActivity.mFillInBlanksMenu.getItem(0).setEnabled(true);
-                }
-            });
-        }*/
 
         mKeyText.setText(questions.get(position).getString(ParseConstants.EXERCISE_KEY));
         mKeyText.setVisibility(View.GONE);

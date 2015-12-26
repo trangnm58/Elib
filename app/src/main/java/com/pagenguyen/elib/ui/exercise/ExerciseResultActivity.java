@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
+import com.pagenguyen.elib.model.Story;
+import com.pagenguyen.elib.model.Topic;
 import com.pagenguyen.elib.ui.main.HomeActivity;
 
 import butterknife.Bind;
@@ -41,8 +43,6 @@ public class ExerciseResultActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_done, menu);
 
-        menu.getItem(0).setVisible(false);
-
         return true;
     }
 
@@ -63,7 +63,9 @@ public class ExerciseResultActivity extends AppCompatActivity {
                 return true;
             }
             case (android.R.id.home): {
-                onBackPressed();
+                Intent intent = new Intent(ExerciseResultActivity.this, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 return true;
             }
         }
@@ -74,7 +76,7 @@ public class ExerciseResultActivity extends AppCompatActivity {
     private void setupToolbar() {
         setSupportActionBar(mToolbar);
         ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setDisplayHomeAsUpEnabled(false);
     }
 
     private void setResultView() {
