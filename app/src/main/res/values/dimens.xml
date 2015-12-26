@@ -11,6 +11,8 @@
     <dimen name="font_size_BASIC">20sp</dimen>
     <dimen name="font_size_SMALL">16sp</dimen>
 
+    <dimen name="padding_inner_item">16dp</dimen>
+    <dimen name="padding_inner_item_small">14dp</dimen>
     <dimen name="padding_inner_layout">10dp</dimen>
     <dimen name="padding_inner_button">10dp</dimen>
 

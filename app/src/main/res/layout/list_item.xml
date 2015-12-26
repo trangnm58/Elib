@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_size_small"
         android:textColor="@color/TextColorDarkGrey"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
+        android:paddingTop="@dimen/padding_inner_item_small"
+        android:paddingBottom="@dimen/padding_inner_item_small"
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft" />
 
 </LinearLayout>
