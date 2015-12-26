@@ -7,12 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
+import com.pagenguyen.elib.ui.main.HomeActivity;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
@@ -54,6 +56,14 @@ public class GrammarDetailActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_grammar_detail, menu);
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -62,6 +72,29 @@ public class GrammarDetailActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         switch (id) {
+            case (R.id.action_download):{
+                Toast.makeText(
+                        GrammarDetailActivity.this,
+                        "Chức năng chưa hỗ trợ!",
+                        Toast.LENGTH_SHORT
+                ).show();
+                // TODO intent to my profile
+                return true;
+            }
+            case (R.id.action_favorite):{
+                Toast.makeText(
+                        GrammarDetailActivity.this,
+                        "Chức năng chưa hỗ trợ!",
+                        Toast.LENGTH_SHORT
+                ).show();
+                // TODO intent to settings
+                return true;
+            }
+            case (R.id.action_home):{
+                Intent intent = new Intent(GrammarDetailActivity.this, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
             case (android.R.id.home): {
                 onBackPressed();
                 return true;
