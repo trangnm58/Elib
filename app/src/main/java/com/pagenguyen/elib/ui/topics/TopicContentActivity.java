@@ -350,7 +350,6 @@ public class TopicContentActivity extends AppCompatActivity {
 
                                         mTopic.setFillInBlankExercises(exercises);
 
-                                        mTopicMenuBar.getItem(0).setEnabled(true);
                                     }
                                     /*
                                     else{
@@ -406,6 +405,8 @@ public class TopicContentActivity extends AppCompatActivity {
                                     }
 
                                     mTopic.setMultipleChoiceExercises(exercises);
+
+                                    mTopicMenuBar.getItem(0).setEnabled(true);
 
                                 } else {}
                             }
