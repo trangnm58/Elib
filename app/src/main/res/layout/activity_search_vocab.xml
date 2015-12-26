@@ -38,7 +38,10 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:id="@+id/searchVocabField"
-            android:hint="@string/search_vocab_hint"/>
+            android:hint="@string/search_vocab_hint"
+            android:layout_marginRight="36dp"
+            android:singleLine="true"
+            android:imeOptions="actionDone"/>
 
         <ImageButton
             android:layout_width="wrap_content"
