@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.model.FillInBlankExercise;
@@ -83,15 +85,39 @@ public class FillInBlanksActivity extends AppCompatActivity {
 
         //set next question button action
         setNextButtonClick();
+
+        //press enter on keyboard to submit answer
+        submitExerciseByEnter();
+    }
+
+    private void submitExerciseByEnter() {
+        //To receive a keyboard event, a View must have focus
+        mAnswerInput.setFocusableInTouchMode(true);
+        mAnswerInput.requestFocus();
+
+        mAnswerInput.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+                    if (mQuestPos + 1 <= mQuestionList.size()) {
+                        submitAnswers();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_done, menu);
-        mFillInBlanksMenu = menu;
+        //mFillInBlanksMenu = menu;
 
-        menu.getItem(0).setEnabled(false);
+        //menu.getItem(0).setEnabled(false);
 
         return true;
     }
@@ -105,26 +131,14 @@ public class FillInBlanksActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         switch (id) {
-            case (R.id.action_done):{
-                menuItemId = R.id.action_done;
-
-                if (mQuestPos + 1 < mQuestionList.size()) {
-                    submitAnswers();
-                }
-                //ask when user done the last question
-                else if (mQuestPos + 1 == mQuestionList.size()) {
-                    setDialog();
-                }
-
-                return true;
-            }
             case (R.id.action_home):{
                 menuItemId = R.id.action_home;
                 setDialog();
                 return true;
             }
             case (android.R.id.home): {
-                onBackPressed();
+                menuItemId = R.id.home;
+                setDialog();
                 return true;
             }
         }
@@ -139,14 +153,16 @@ public class FillInBlanksActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (menuItemId == R.id.action_done) {
+                        /*if (menuItemId == R.id.action_done) {
                             //done and sumbit user's answers
                             submitAnswers();
-                        } else {
+                        } else */if (menuItemId == R.id.action_home) {
                             // Back to home page
                             Intent intent = new Intent(FillInBlanksActivity.this, HomeActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
+                        } else {
+                            onBackPressed();
                         }
                     }
                 })
@@ -161,7 +177,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
     }
 
     private void submitAnswers() {
-        FillInBlanksActivity.mFillInBlanksMenu.getItem(0).setEnabled(false);
+        //FillInBlanksActivity.mFillInBlanksMenu.getItem(0).setEnabled(false);
 
         //get user's answer
         String answers = mAnswerInput.getText().toString();
@@ -280,7 +296,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
         mAnswerInput.setVisibility(View.VISIBLE);
         mAnswerInput.setText("");
 
-        if(position == 0){
+        /*if(position == 0){
             mAnswerInput.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -295,7 +311,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
                     FillInBlanksActivity.mFillInBlanksMenu.getItem(0).setEnabled(true);
                 }
             });
-        }
+        }*/
 
         mKeyText.setText(questions.get(position).getString(ParseConstants.EXERCISE_KEY));
         mKeyText.setVisibility(View.GONE);

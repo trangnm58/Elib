@@ -7,6 +7,7 @@ import android.speech.RecognizerIntent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -47,6 +48,7 @@ public class SearchVocabActivity extends AppCompatActivity {
         setupToolbar();
         setupVoiceSearchButton();
         setupSeachButton();
+        startSearchingByEnter();
     }
 
     @Override
@@ -91,33 +93,56 @@ public class SearchVocabActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void startSearchingByEnter() {
+        //To receive a keyboard event, a View must have focus
+        mSearchField.setFocusableInTouchMode(true);
+        mSearchField.requestFocus();
+
+        mSearchField.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+                    startSearching();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
     private void setupSeachButton() {
         //Go to the vocabulary result
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String vocab = mSearchField.getText().toString();
-
-                //Nhap tu
-                if (vocab.length() > 0) {
-                    Intent intent = new Intent(SearchVocabActivity.this, VocabContentActivity.class);
-                    // Success
-                    // Go to Vocab Content Activity
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("vocab", mSearchField.getText().toString().toLowerCase());
-                    startActivity(intent);
-
-                    //Reset search field
-                    mSearchField.setText("");
-                }
-                //Chua nhap tu
-                else {
-                    Toast.makeText(SearchVocabActivity.this,
-                            "Hãy nhập từ cần tìm!",
-                            Toast.LENGTH_SHORT).show();
-                }
+                startSearching();
             }
         });
+    }
+
+    private void startSearching(){
+        String vocab = mSearchField.getText().toString();
+
+        //Nhap tu
+        if (vocab.length() > 0) {
+            Intent intent = new Intent(SearchVocabActivity.this, VocabContentActivity.class);
+            // Success
+            // Go to Vocab Content Activity
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("vocab", mSearchField.getText().toString().toLowerCase());
+            startActivity(intent);
+
+            //Reset search field
+            mSearchField.setText("");
+        }
+        //Chua nhap tu
+        else {
+            Toast.makeText(SearchVocabActivity.this,
+                    "Hãy nhập từ cần tìm!",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setupVoiceSearchButton() {
