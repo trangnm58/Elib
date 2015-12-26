@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/padding_inner_layout"
-    android:paddingRight="@dimen/padding_inner_layout"
-    android:paddingTop="@dimen/padding_inner_layout"
-    android:paddingBottom="@dimen/padding_inner_layout"
-    tools:background="#44000000">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_inner_layout"
+                android:paddingRight="@dimen/padding_inner_layout"
+                android:paddingTop="@dimen/padding_inner_layout"
+                android:paddingBottom="@dimen/padding_inner_layout"
+                android:descendantFocusability="blocksDescendants"
+                tools:background="#44000000">
 
     <TextView
         android:layout_width="match_parent"
