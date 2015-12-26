@@ -14,8 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.adapter.OneTextviewAdapter;
-import com.pagenguyen.elib.adapter.TopicAdapter;
+import com.pagenguyen.elib.adapter.WordListAdapter;
 import com.pagenguyen.elib.database.ParseConstants;
 import com.pagenguyen.elib.model.FillInBlankExercise;
 import com.pagenguyen.elib.model.MultipleChoiceExercise;
@@ -459,7 +458,7 @@ public class TopicContentActivity extends AppCompatActivity {
             tempMean=mean_the_thao;
         }
 
-        TopicAdapter adapter=new TopicAdapter(TopicContentActivity.this,
+        WordListAdapter adapter=new WordListAdapter(TopicContentActivity.this,
                 tempVoca,
                 tempMean);
 

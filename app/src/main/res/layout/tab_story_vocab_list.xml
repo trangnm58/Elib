@@ -6,13 +6,13 @@
     android:layout_height="match_parent">
 
     <ListView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/storyWordListView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:divider="#cacaca"
+        android:divider="@color/TextColorGrey"
         android:dividerHeight="1dp"
-        android:padding="10dp" />
+        android:layout_alignParentStart="true"
+        android:padding="@dimen/padding_inner_layout"
+        android:layout_alignParentTop="true"/>
 
 </RelativeLayout>

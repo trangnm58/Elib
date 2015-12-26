@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.adapter.TopicAdapter;
+import com.pagenguyen.elib.adapter.WordListAdapter;
 import com.pagenguyen.elib.database.ParseConstants;
 import com.pagenguyen.elib.model.FillInBlankExercise;
 import com.pagenguyen.elib.model.MultipleChoiceExercise;
@@ -154,7 +154,7 @@ public class StoryContentActivity extends AppCompatActivity {
             i++;
         }
 
-        TopicAdapter adapter = new TopicAdapter(StoryContentActivity.this,
+        WordListAdapter adapter = new WordListAdapter(StoryContentActivity.this,
                 mWords,
                 mStoryNameText);
 

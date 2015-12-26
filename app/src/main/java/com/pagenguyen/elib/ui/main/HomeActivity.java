@@ -83,12 +83,6 @@ public class HomeActivity extends AppCompatActivity {
                 mMenu.getItem(3).setVisible(false);
                 mMenu.getItem(4).setVisible(false);
                 mMenu.getItem(5).setVisible(false);
-                mMenu.getItem(0).setEnabled(true);
-                mMenu.getItem(1).setEnabled(true);
-                mMenu.getItem(2).setEnabled(false);
-                mMenu.getItem(3).setEnabled(false);
-                mMenu.getItem(4).setEnabled(false);
-                mMenu.getItem(5).setEnabled(false);
                 return true;  // Return true to expand action view
             }
         };
@@ -291,12 +285,6 @@ public class HomeActivity extends AppCompatActivity {
                 mMenu.getItem(3).setVisible(true);
                 mMenu.getItem(4).setVisible(true);
                 mMenu.getItem(5).setVisible(false);
-                mMenu.getItem(0).setEnabled(true);
-                mMenu.getItem(1).setEnabled(false);
-                mMenu.getItem(2).setEnabled(false);
-                mMenu.getItem(3).setEnabled(true);
-                mMenu.getItem(4).setEnabled(true);
-                mMenu.getItem(5).setEnabled(false);
             } else {
                 // we have current user
                 Log.d(TAG, mCurrentUser.getUsername());
@@ -306,12 +294,6 @@ public class HomeActivity extends AppCompatActivity {
                 mMenu.getItem(3).setVisible(true);
                 mMenu.getItem(4).setVisible(false);
                 mMenu.getItem(5).setVisible(true);
-                mMenu.getItem(0).setEnabled(true);
-                mMenu.getItem(1).setEnabled(false);
-                mMenu.getItem(2).setEnabled(false);
-                mMenu.getItem(3).setEnabled(true);
-                mMenu.getItem(4).setEnabled(true);
-                mMenu.getItem(5).setEnabled(false);
             }
         } else {
             // display message to user
@@ -322,12 +304,6 @@ public class HomeActivity extends AppCompatActivity {
             mMenu.getItem(3).setVisible(true);
             mMenu.getItem(4).setVisible(true);
             mMenu.getItem(5).setVisible(false);
-            mMenu.getItem(0).setEnabled(true);
-            mMenu.getItem(1).setEnabled(false);
-            mMenu.getItem(2).setEnabled(false);
-            mMenu.getItem(3).setEnabled(true);
-            mMenu.getItem(4).setEnabled(true);
-            mMenu.getItem(5).setEnabled(false);
         }
     }
 

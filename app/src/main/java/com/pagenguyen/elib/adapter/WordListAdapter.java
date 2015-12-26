@@ -6,23 +6,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.database.ParseConstants;
-import com.parse.ParseObject;
-
-import java.util.List;
 
 /**
  * Created by Numady Kuteko on 19/12/2015.
  */
-public class TopicAdapter extends BaseAdapter{
+public class WordListAdapter extends BaseAdapter{
     private String[] mVocabulary;
     private String[] mMeaning;
     private Context mContext;
+    private boolean del = false;
 
-    public TopicAdapter(Context context, String[] vocabulary, String[] meaning){
+    public WordListAdapter(Context context, String[] vocabulary, String[] meaning){
         mContext=context;
         mMeaning=meaning;
         mVocabulary=vocabulary;
@@ -52,15 +50,27 @@ public class TopicAdapter extends BaseAdapter{
             a layout inflater is an Android obj that takes x amount of layouts and
             turns them into views in code */
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
-            rowView = inflater.inflate(R.layout.item_topic_content, parent, false);
+            rowView = inflater.inflate(R.layout.item_word_list, parent, false);
 
             TextView voca = (TextView) rowView.findViewById(R.id.itemVocabulary);
             TextView mean = (TextView) rowView.findViewById(R.id.itemMeaning);
+            ImageButton button = (ImageButton) rowView.findViewById(R.id.favButton);
 
             voca.setText(mVocabulary[position]);
             mean.setText(mMeaning[position]);
+            if(isDel()) {
+                button.setImageResource(R.mipmap.ic_delete_white_24dp);
+            }
         }
 
         return rowView;
+    }
+
+    public boolean isDel() {
+        return del;
+    }
+
+    public void setDel(boolean del) {
+        this.del = del;
     }
 }
