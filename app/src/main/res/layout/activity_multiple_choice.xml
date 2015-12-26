@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/exerciseTitleView"
         android:id="@+id/questionContentLayout"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="14dp"
         android:layout_marginRight="14dp">
 
@@ -52,75 +52,49 @@
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="20dp" />
 
-        <RelativeLayout
-            android:orientation="horizontal"
+        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:weightSum="1"
-            android:focusableInTouchMode="true"
-            android:layout_marginTop="22dp">
+            android:text="answer 1"
+            android:id="@+id/answer_1"
+            android:layout_weight="0.43"
+            android:checked="false"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="12dp"
+            android:textSize="18dp" />
 
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="answer 1"
-                android:id="@+id/answer_1"
-                android:layout_weight="0.43"
-                android:checked="false"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_alignParentLeft="true"
-                android:textSize="18dp" />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="answer 2"
-                android:id="@+id/answer_2"
-                android:checked="false"
-                android:layout_marginTop="5dp"
-                android:layout_weight="0.46"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="220dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:textSize="18dp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:orientation="horizontal"
+        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:weightSum="1"
-            android:layout_weight="0.00"
-            android:layout_marginTop="2dp">
+            android:text="answer 2"
+            android:id="@+id/answer_2"
+            android:checked="false"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.46"
+            android:layout_marginLeft="20dp"
+            android:textSize="18dp" />
 
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="answer 3"
-                android:id="@+id/answer_3"
-                android:layout_weight="0.43"
-                android:checked="false"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
-                android:textSize="18dp"  />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="answer 3"
+            android:id="@+id/answer_3"
+            android:layout_weight="0.43"
+            android:checked="false"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:textSize="18dp"  />
 
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="answer 4"
-                android:id="@+id/answer_4"
-                android:checked="false"
-                android:layout_marginTop="5dp"
-                android:layout_weight="0.45"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="220dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:textSize="18dp" />
-        </RelativeLayout>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="answer 4"
+            android:id="@+id/answer_4"
+            android:checked="false"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.45"
+            android:layout_marginLeft="20dp"
+            android:textSize="18dp" />
 
     </LinearLayout>
 
@@ -130,7 +104,8 @@
         android:text="@string/next_button_label"
         android:id="@+id/nextQuestionButton"
         android:padding="@dimen/padding_inner_button"
-        android:layout_alignTop="@+id/exerciseTitleView"
-        android:layout_alignEnd="@+id/questionContentLayout" />
+        android:layout_below="@+id/questionContentLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp" />
 
 </RelativeLayout>

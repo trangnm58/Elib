@@ -100,11 +100,6 @@ public class MultipleChoiceActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         switch (id) {
-            case (R.id.action_done):{
-                menuItemId = R.id.action_done;
-                showResult();
-                return true;
-            }
 
             case (R.id.action_home):{
                 menuItemId = R.id.action_home;
@@ -114,7 +109,9 @@ public class MultipleChoiceActivity extends AppCompatActivity {
             }
 
             case (android.R.id.home): {
-                onBackPressed();
+                menuItemId = R.id.home;
+                setDialog();
+
                 return true;
             }
         }
@@ -139,7 +136,7 @@ public class MultipleChoiceActivity extends AppCompatActivity {
                 exercises.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> object, ParseException e) {
-                    MultipleChoiceQuestion[] questions = new MultipleChoiceQuestion[object.size()];
+                        MultipleChoiceQuestion[] questions = new MultipleChoiceQuestion[object.size()];
 
                         for (int i = 0; i < object.size(); i++) {
                             ParseObject data = object.get(i);
@@ -163,9 +160,6 @@ public class MultipleChoiceActivity extends AppCompatActivity {
                         setExerciseTitle();
 
                         setFirstQuestion();
-
-                        mMultipleChoiceMenu.getItem(0).setVisible(true);
-                        mMultipleChoiceMenu.getItem(0).setEnabled(true);
 
                         mLoadQuestion.setVisibility(View.GONE);
                     }
@@ -192,11 +186,14 @@ public class MultipleChoiceActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (menuItemId != R.id.action_done) {
-
+                        if (menuItemId == R.id.action_home) {
                             Intent intent = new Intent(MultipleChoiceActivity.this, HomeActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
+                        }
+
+                        else if (menuItemId == R.id.home){
+                            onBackPressed();
                         }
                     }
                 })
@@ -213,7 +210,6 @@ public class MultipleChoiceActivity extends AppCompatActivity {
     // function to show key of exercise:
 
     private void showResult(){
-        mMultipleChoiceMenu.getItem(0).setEnabled(false);
 
         int userAnswer=-1;
 
@@ -285,7 +281,7 @@ public class MultipleChoiceActivity extends AppCompatActivity {
         rightAnswers=0;
         questPos = 1;
 
-        title="Câu " + questPos +": Chọn phương án đúng:";
+        title="Câu " + questPos +": Chọn phương án đúng: ";
 
         setExerciseTitle();
 
@@ -337,7 +333,7 @@ public class MultipleChoiceActivity extends AppCompatActivity {
 
         questPos++ ;
 
-        title="Câu " + questPos +": Chọn phương án đúng";
+        title="Câu " + questPos +": Chọn phương án đúng: ";
 
         setExerciseTitle();
 
@@ -369,36 +365,28 @@ public class MultipleChoiceActivity extends AppCompatActivity {
         answer_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                answer_2.setChecked(false);
-                answer_3.setChecked(false);
-                answer_4.setChecked(false);
+                showResult();
             }
         });
 
         answer_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                answer_1.setChecked(false);
-                answer_3.setChecked(false);
-                answer_4.setChecked(false);
+                showResult();
             }
         });
 
         answer_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                answer_2.setChecked(false);
-                answer_1.setChecked(false);
-                answer_4.setChecked(false);
+                showResult();
             }
         });
 
         answer_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                answer_2.setChecked(false);
-                answer_3.setChecked(false);
-                answer_1.setChecked(false);
+                showResult();
             }
         });
     }

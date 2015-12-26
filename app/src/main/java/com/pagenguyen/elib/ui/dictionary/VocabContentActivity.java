@@ -12,11 +12,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.OneTextviewAdapter;
 import com.pagenguyen.elib.api.GlosbeApi;
+import com.pagenguyen.elib.api.TextToSpeechHelper;
 import com.pagenguyen.elib.model.GlosbeResult;
 import com.pagenguyen.elib.ui.main.HomeActivity;
 import com.squareup.okhttp.Callback;
@@ -42,12 +42,15 @@ public class VocabContentActivity extends AppCompatActivity {
     public String[] mVocabExamples;
     public Intent mIntent;
 
+	private TextToSpeechHelper textToSpeech = new TextToSpeechHelper();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vocab_content);
         ButterKnife.bind(this);
         setupToolbar();
+	    textToSpeech.initialize(VocabContentActivity.this);
 
         mIntent = getIntent();
         mVocab = mIntent.getStringExtra("vocab");
@@ -64,7 +67,13 @@ public class VocabContentActivity extends AppCompatActivity {
         setVolumeIconClick();
     }
 
-    @Override
+	@Override
+	protected void onPause() {
+		textToSpeech.onPause();
+		super.onPause();
+	}
+
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_home, menu);
@@ -173,9 +182,7 @@ public class VocabContentActivity extends AppCompatActivity {
         mVolumeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(VocabContentActivity.this,
-                        "Đang đọc phát âm",
-                        Toast.LENGTH_SHORT).show();
+	            textToSpeech.speak(mVocab);
             }
         });
     }
