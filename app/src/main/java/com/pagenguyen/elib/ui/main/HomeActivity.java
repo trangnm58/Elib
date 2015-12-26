@@ -6,27 +6,35 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.RecognizerIntent;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.HomeMenuAdapter;
+import com.pagenguyen.elib.api.SpeechRecognitionHelper;
 import com.pagenguyen.elib.model.HomeMenuItem;
 import com.pagenguyen.elib.ui.dictionary.SearchVocabActivity;
 import com.pagenguyen.elib.ui.dictionary.TranslatorActivity;
+import com.pagenguyen.elib.ui.dictionary.VocabContentActivity;
 import com.pagenguyen.elib.ui.grammar.GrammarActivity;
 import com.pagenguyen.elib.ui.notebook.MyNotebookActivity;
 import com.pagenguyen.elib.ui.pronounce.PronouncePracticeActivity;
 import com.pagenguyen.elib.ui.stories.StoryListActivity;
 import com.pagenguyen.elib.ui.topics.TopicListActivity;
 import com.parse.ParseUser;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,6 +46,8 @@ public class HomeActivity extends AppCompatActivity {
 	private ParseUser mCurrentUser;
     private HomeMenuItem[] mMenuItems;
     private boolean doubleBackToExitPressedOnce = false;
+    private boolean isListening = false;
+    private Menu mMenu;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,35 +62,79 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        mMenu = menu;
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_for_home, menu);
-        if (isNetworkAvailable()) {
-            mCurrentUser = ParseUser.getCurrentUser();
-            if (mCurrentUser == null) {
-                // first time using app or logout
-                // navigateToLogIn();
-                Log.d(TAG, "have not logged in");
-                menu.getItem(0).setVisible(false);
-                menu.getItem(1).setVisible(true);
-                menu.getItem(2).setVisible(true);
-                menu.getItem(3).setVisible(false);
-            } else {
-                // we have current user
-                Log.d(TAG, mCurrentUser.getUsername());
-                menu.getItem(0).setVisible(true);
-                menu.getItem(1).setVisible(true);
-                menu.getItem(2).setVisible(false);
-                menu.getItem(3).setVisible(true);
+        getMenuInflater().inflate(R.menu.menu_for_home, mMenu);
+        setVisibleMenuItem();
+
+        // Define the listener
+        MenuItemCompat.OnActionExpandListener expandListener = new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                setVisibleMenuItem();
+                return true;  // Return true to collapse action view
             }
-        } else {
-            // display message to user
-            Log.d(TAG, "no internet");
-            menu.getItem(0).setVisible(false);
-            menu.getItem(1).setVisible(true);
-            menu.getItem(2).setVisible(true);
-            menu.getItem(3).setVisible(false);
-        }
-        return true;
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                mMenu.getItem(0).setVisible(true);
+                mMenu.getItem(1).setVisible(true);
+                mMenu.getItem(2).setVisible(false);
+                mMenu.getItem(3).setVisible(false);
+                mMenu.getItem(4).setVisible(false);
+                mMenu.getItem(5).setVisible(false);
+                mMenu.getItem(0).setEnabled(true);
+                mMenu.getItem(1).setEnabled(true);
+                mMenu.getItem(2).setEnabled(false);
+                mMenu.getItem(3).setEnabled(false);
+                mMenu.getItem(4).setEnabled(false);
+                mMenu.getItem(5).setEnabled(false);
+                return true;  // Return true to expand action view
+            }
+        };
+
+        // Get the MenuItem for the action item
+        MenuItem searchItem = mMenu.findItem(R.id.action_search);
+        // Assign the listener to that action item
+        MenuItemCompat.setOnActionExpandListener(searchItem, expandListener);
+
+        // Associate searchable configuration with the SearchView
+        final SearchView searchView =
+                (SearchView) MenuItemCompat.getActionView(searchItem);
+        // Configure the search info and add any event listeners...
+        searchView.setQueryHint("Nhập từ cần tìm...");
+
+        // set text color
+        // traverse the view to the widget containing the hint text
+        LinearLayout ll = (LinearLayout)searchView.getChildAt(0);
+        LinearLayout ll2 = (LinearLayout)ll.getChildAt(2);
+        LinearLayout ll3 = (LinearLayout)ll2.getChildAt(1);
+        SearchView.SearchAutoComplete autoComplete = (SearchView.SearchAutoComplete)ll3.getChildAt(0);
+        // set the text color
+        autoComplete.setTextColor(getResources().getColor(R.color.TextColorWhite));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                String vocab = "" + searchView.getQuery();
+
+                //Go to vocabulary search result
+                Intent intent = new Intent(HomeActivity.this, VocabContentActivity.class);
+                intent.putExtra("vocab", vocab);
+                startActivity(intent);
+
+                mMenu.getItem(0).collapseActionView();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Do nothing
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(mMenu);
     }
 
     @Override
@@ -92,6 +146,14 @@ public class HomeActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         switch (id) {
+            case (R.id.action_voice):{
+                if(!isListening) {
+                    startListening();
+                } else {
+                    stopListening();
+                }
+                return true;
+            }
             case (R.id.action_my_profile):{
                 Toast.makeText(
                         HomeActivity.this,
@@ -162,6 +224,41 @@ public class HomeActivity extends AppCompatActivity {
         }, 2000);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SpeechRecognitionHelper.SPEECH_REQUEST_CODE) {
+            if (resultCode == RESULT_OK && null != data) {
+                // results là mảng string các kết quả trả về
+                ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
+                if(results != null){
+                    //get the first vocabulary in result
+                    String vocab = results.get(0);
+
+                    //Go to vocabulary search result
+                    Intent intent = new Intent(HomeActivity.this, VocabContentActivity.class);
+                    intent.putExtra("vocab", vocab);
+                    startActivity(intent);
+                } else {
+                    //Code
+                }
+            }
+        }
+    }
+
+    private void startListening() {
+        isListening = true;
+
+        //Start listening
+        SpeechRecognitionHelper.onSpeech(HomeActivity.this);
+        stopListening();
+    }
+
+    private void stopListening() {
+        isListening = false;
+    }
+
     private void setupToolbar() {
         setSupportActionBar(mToolbar);
     }
@@ -179,6 +276,59 @@ public class HomeActivity extends AppCompatActivity {
 
         HomeMenuAdapter adapter = new HomeMenuAdapter(this, mMenuItems);
         mHomeMenu.setAdapter(adapter);
+    }
+
+    private void setVisibleMenuItem() {
+        if (isNetworkAvailable()) {
+            mCurrentUser = ParseUser.getCurrentUser();
+            if (mCurrentUser == null) {
+                // first time using app or logout
+                // navigateToLogIn();
+                Log.d(TAG, "have not logged in");
+                mMenu.getItem(0).setVisible(true);
+                mMenu.getItem(1).setVisible(false);
+                mMenu.getItem(2).setVisible(false);
+                mMenu.getItem(3).setVisible(true);
+                mMenu.getItem(4).setVisible(true);
+                mMenu.getItem(5).setVisible(false);
+                mMenu.getItem(0).setEnabled(true);
+                mMenu.getItem(1).setEnabled(false);
+                mMenu.getItem(2).setEnabled(false);
+                mMenu.getItem(3).setEnabled(true);
+                mMenu.getItem(4).setEnabled(true);
+                mMenu.getItem(5).setEnabled(false);
+            } else {
+                // we have current user
+                Log.d(TAG, mCurrentUser.getUsername());
+                mMenu.getItem(0).setVisible(true);
+                mMenu.getItem(1).setVisible(false);
+                mMenu.getItem(2).setVisible(true);
+                mMenu.getItem(3).setVisible(true);
+                mMenu.getItem(4).setVisible(false);
+                mMenu.getItem(5).setVisible(true);
+                mMenu.getItem(0).setEnabled(true);
+                mMenu.getItem(1).setEnabled(false);
+                mMenu.getItem(2).setEnabled(false);
+                mMenu.getItem(3).setEnabled(true);
+                mMenu.getItem(4).setEnabled(true);
+                mMenu.getItem(5).setEnabled(false);
+            }
+        } else {
+            // display message to user
+            Log.d(TAG, "no internet");
+            mMenu.getItem(0).setVisible(false);
+            mMenu.getItem(1).setVisible(false);
+            mMenu.getItem(2).setVisible(false);
+            mMenu.getItem(3).setVisible(true);
+            mMenu.getItem(4).setVisible(true);
+            mMenu.getItem(5).setVisible(false);
+            mMenu.getItem(0).setEnabled(true);
+            mMenu.getItem(1).setEnabled(false);
+            mMenu.getItem(2).setEnabled(false);
+            mMenu.getItem(3).setEnabled(true);
+            mMenu.getItem(4).setEnabled(true);
+            mMenu.getItem(5).setEnabled(false);
+        }
     }
 
     public void setupHomeMenuClick() {

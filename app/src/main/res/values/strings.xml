@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">Elib</string>
-    <string name="long_name">Phần mềm hỗ trợ học tiếng Anh Elib</string>
+    <string name="app_name_slogan">Elib tiếng Anh cho người Việt</string>
 
     <!-- home menu-->
     <string name="action_my_profile">Thông tin cá nhân</string>
@@ -42,7 +42,7 @@
     <string name="title_activity_search_vocab">Từ điển Anh-Việt</string>
     <string name="title_activity_translator">Dịch văn bản</string>
     <string name="search_vocab_hint">Nhập từ cần tìm</string>
-    <string name="title_activity_vocab_content">Nội dung từ</string>
+    <string name="title_activity_vocab_content">Từ điển Anh-Việt</string>
     <string name="no_vocab_content">Từ hiện không có trong từ điển</string>
 
     <!-- search vocabulary by voice -->
@@ -95,4 +95,6 @@
     <string name="title_activity_grammar">Học ngữ pháp</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_grammar_detail">Nội dung ngữ pháp</string>
+    <string name="search_hint">Tìm kiếm...</string>
+    <string name="action_search">Tìm từ...</string>
 </resources>

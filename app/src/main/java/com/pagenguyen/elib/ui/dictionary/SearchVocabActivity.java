@@ -125,9 +125,6 @@ public class SearchVocabActivity extends AppCompatActivity {
         //Nhap tu
         if (vocab.length() > 0) {
             Intent intent = new Intent(SearchVocabActivity.this, VocabContentActivity.class);
-            // Success
-            // Go to Vocab Content Activity
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("vocab", mSearchField.getText().toString().toLowerCase());
             startActivity(intent);
 

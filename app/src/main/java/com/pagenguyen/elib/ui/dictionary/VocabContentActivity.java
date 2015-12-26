@@ -1,14 +1,19 @@
 package com.pagenguyen.elib.ui.dictionary;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -16,6 +21,7 @@ import android.widget.TextView;
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.OneTextviewAdapter;
 import com.pagenguyen.elib.api.GlosbeApi;
+import com.pagenguyen.elib.api.SpeechRecognitionHelper;
 import com.pagenguyen.elib.api.TextToSpeechHelper;
 import com.pagenguyen.elib.model.GlosbeResult;
 import com.pagenguyen.elib.ui.main.HomeActivity;
@@ -24,6 +30,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,6 +50,8 @@ public class VocabContentActivity extends AppCompatActivity {
     public Intent mIntent;
 
 	private TextToSpeechHelper textToSpeech = new TextToSpeechHelper();
+    private Menu mMenu;
+    private boolean isListening = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,19 +61,12 @@ public class VocabContentActivity extends AppCompatActivity {
         setupToolbar();
 	    textToSpeech.initialize(VocabContentActivity.this);
 
-        mIntent = getIntent();
-        mVocab = mIntent.getStringExtra("vocab");
+        handleIntent(getIntent());
+    }
 
-        //set default value
-        mEmptyTextView.setText("Đang tải...");
-        mLoadingView.setVisibility(View.VISIBLE);
-
-        //get the vocabulary from Search Vocab Activity
-        setVocabView();
-        //get definition and examples of the vocabulary
-        setVocabContentView();
-        //set volume Icon  click
-        setVolumeIconClick();
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
     }
 
 	@Override
@@ -75,9 +77,75 @@ public class VocabContentActivity extends AppCompatActivity {
 
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        mMenu = menu;
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_home, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.menu_vocab_detail, mMenu);
+        mMenu.getItem(0).setVisible(true);
+        mMenu.getItem(1).setVisible(false);
+        mMenu.getItem(2).setVisible(true);
+
+        // Define the listener
+        MenuItemCompat.OnActionExpandListener expandListener = new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                mMenu.getItem(1).setVisible(false);
+                mMenu.getItem(2).setVisible(true);
+                return true;  // Return true to collapse action view
+            }
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                mMenu.getItem(1).setVisible(true);
+                mMenu.getItem(2).setVisible(false);
+                return true;  // Return true to expand action view
+            }
+        };
+
+        // Get the MenuItem for the action item
+        MenuItem searchItem = mMenu.findItem(R.id.action_search);
+        // Assign the listener to that action item
+        MenuItemCompat.setOnActionExpandListener(searchItem, expandListener);
+
+        // Associate searchable configuration with the SearchView
+        final SearchView searchView =
+                (SearchView) MenuItemCompat.getActionView(searchItem);
+        // Configure the search info and add any event listeners...
+        searchView.setQueryHint("Nhập từ cần tìm...");
+
+        // set text color
+        // traverse the view to the widget containing the hint text
+        LinearLayout ll = (LinearLayout)searchView.getChildAt(0);
+        LinearLayout ll2 = (LinearLayout)ll.getChildAt(2);
+        LinearLayout ll3 = (LinearLayout)ll2.getChildAt(1);
+        SearchView.SearchAutoComplete autoComplete = (SearchView.SearchAutoComplete)ll3.getChildAt(0);
+        // set the text color
+        autoComplete.setTextColor(getResources().getColor(R.color.TextColorWhite));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mVocab = "" + searchView.getQuery();
+
+                //set default value
+                mEmptyTextView.setText("Đang tải...");
+                mLoadingView.setVisibility(View.VISIBLE);
+
+                //get the vocabulary from Search Vocab Activity
+                setVocabView();
+                //get definition and examples of the vocabulary
+                setVocabContentView();
+                mMenu.getItem(0).collapseActionView();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Do nothing
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(mMenu);
     }
 
     @Override
@@ -93,6 +161,15 @@ public class VocabContentActivity extends AppCompatActivity {
                 Intent intent = new Intent(VocabContentActivity.this, HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                return true;
+            }
+            case (R.id.action_voice):{
+                if(!isListening) {
+                    startListening();
+                } else {
+                    stopListening();
+                }
+                return true;
             }
             case (android.R.id.home): {
                 onBackPressed();
@@ -101,6 +178,68 @@ public class VocabContentActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SpeechRecognitionHelper.SPEECH_REQUEST_CODE) {
+            if (resultCode == RESULT_OK && null != data) {
+                // results là mảng string các kết quả trả về
+                ArrayList<String> results =
+                        data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
+                if(results != null){
+                    //get the first vocabulary in result
+                    mVocab = results.get(0);
+
+                    //set default value
+                    mEmptyTextView.setText("Đang tải...");
+                    mLoadingView.setVisibility(View.VISIBLE);
+
+                    //get the vocabulary from Search Vocab Activity
+                    setVocabView();
+                    //get definition and examples of the vocabulary
+                    setVocabContentView();
+                } else {
+                    // Do nothing
+                }
+            }
+        }
+    }
+
+    private void startListening() {
+        isListening = true;
+
+        //Start listening
+        SpeechRecognitionHelper.onSpeech(VocabContentActivity.this);
+        stopListening();
+    }
+
+    private void stopListening() {
+        isListening = false;
+    }
+
+    private void handleIntent(Intent intent) {
+        mIntent = intent;
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            mVocab = intent.getStringExtra(SearchManager.QUERY);
+        }
+        else {
+            mVocab = mIntent.getStringExtra("vocab");
+        }
+
+        //set default value
+        mEmptyTextView.setText("Đang tải...");
+        mLoadingView.setVisibility(View.VISIBLE);
+
+        //get the vocabulary from Search Vocab Activity
+        setVocabView();
+        //get definition and examples of the vocabulary
+        setVocabContentView();
+        //set volume Icon  click
+        setVolumeIconClick();
     }
 
     private void setupToolbar() {
