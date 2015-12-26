@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.WordListAdapter;
+import com.pagenguyen.elib.api.TextToSpeechHelper;
 import com.pagenguyen.elib.database.ParseConstants;
 import com.pagenguyen.elib.model.FillInBlankExercise;
 import com.pagenguyen.elib.model.MultipleChoiceExercise;
@@ -32,7 +33,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class TopicContentActivity extends AppCompatActivity {
-
     @Bind(R.id.vocabularyListView) ListView mVocabularyListView;
     @Bind(R.id.my_toolbar) Toolbar mToolbar;
 
@@ -40,6 +40,7 @@ public class TopicContentActivity extends AppCompatActivity {
     public Topic mTopic;
     public String mTopicId;
     public Menu mTopicMenuBar;
+    private TextToSpeechHelper tts = new TextToSpeechHelper();
 
     private String[] giao_duc = {   "teacher",
             "friendship",
@@ -243,12 +244,20 @@ public class TopicContentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_topic_content);
         ButterKnife.bind(this);
 
+        tts.initialize(TopicContentActivity.this);
+
         setupToolbar();
 
         setVocabularyListView();
 
         setTopicFromServer();
 
+    }
+
+    @Override
+    protected void onPause() {
+        tts.onPause();
+        super.onPause();
     }
 
     @Override
@@ -468,14 +477,25 @@ public class TopicContentActivity extends AppCompatActivity {
     }
 
     private void setItemOnClick(){
-        mVocabularyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        mVocabularyListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView vocabText = (TextView) view.findViewById(R.id.itemVocabulary);
                 String name = vocabText.getText().toString().toLowerCase();
 
                 Intent intent = new Intent(TopicContentActivity.this, VocabContentActivity.class);
                 intent.putExtra("vocab", name);
                 startActivity(intent);
+                return false;
+            }
+        });
+        mVocabularyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                tts.speak(
+                        ((TextView) view.findViewById(R.id.itemVocabulary))
+                                .getText().toString().toLowerCase()
+                );
             }
         });
     }

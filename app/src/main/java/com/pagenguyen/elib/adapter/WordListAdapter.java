@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
+import com.pagenguyen.elib.model.SavedWord;
 
 /**
  * Created by Numady Kuteko on 19/12/2015.
@@ -42,7 +44,7 @@ public class WordListAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         View rowView = convertView;
 
         if(convertView == null){
@@ -61,6 +63,27 @@ public class WordListAdapter extends BaseAdapter{
             if(isDel()) {
                 button.setImageResource(R.mipmap.ic_delete_white_24dp);
             }
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(isDel()) {
+                        Toast.makeText(
+                                mContext,
+                                "Đã xoá: " + mVocabulary[position].toLowerCase(),
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    } else {
+                        SavedWord newWord = new SavedWord(mVocabulary[position], mMeaning[position]);
+                        newWord.createParseObject();
+
+                        Toast.makeText(
+                                mContext,
+                                "Đã thêm: " + mVocabulary[position].toLowerCase(),
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    }
+                }
+            });
         }
 
         return rowView;

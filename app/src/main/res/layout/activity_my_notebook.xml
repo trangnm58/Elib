@@ -13,13 +13,20 @@
         layout="@layout/tool_bar"/>
 
     <ListView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/exerciseListView"
-        android:divider="#cacaca"
+        android:id="@+id/wordListView"
+        android:divider="@color/TextColorGrey"
         android:dividerHeight="1dp"
         android:layout_below="@+id/my_toolbar"
         android:layout_alignParentStart="true"
-        android:padding="10dp"/>
+        android:padding="@dimen/padding_inner_layout"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/loadingProgress"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

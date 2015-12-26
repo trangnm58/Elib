@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.adapter.WordListAdapter;
+import com.pagenguyen.elib.api.TextToSpeechHelper;
 import com.pagenguyen.elib.database.ParseConstants;
 import com.pagenguyen.elib.model.FillInBlankExercise;
 import com.pagenguyen.elib.model.MultipleChoiceExercise;
@@ -48,11 +49,15 @@ public class StoryContentActivity extends AppCompatActivity {
 
     public Menu mStoryMenuBar;
 
+    private TextToSpeechHelper tts = new TextToSpeechHelper();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_content);
         ButterKnife.bind(this);
+
+        tts.initialize(StoryContentActivity.this);
 
         setupToolbar();
 
@@ -63,6 +68,12 @@ public class StoryContentActivity extends AppCompatActivity {
 
         //get story from id and set story content
         getStoryFromId();
+    }
+
+    @Override
+    protected void onPause() {
+        tts.onPause(); // thêm dòng này
+        super.onPause();
     }
 
     @Override
@@ -165,14 +176,25 @@ public class StoryContentActivity extends AppCompatActivity {
     }
 
     private void setListItemClick() {
-        mWordList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mWordList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView vocabText = (TextView) view.findViewById(R.id.itemVocabulary);
 
                 Intent intent = new Intent(StoryContentActivity.this, VocabContentActivity.class);
                 intent.putExtra("vocab", vocabText.getText().toString().toLowerCase());
                 startActivity(intent);
+                return false;
+            }
+        });
+
+        mWordList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                tts.speak(
+                        ((TextView) view.findViewById(R.id.itemVocabulary))
+                                .getText().toString().toLowerCase()
+                );
             }
         });
     }

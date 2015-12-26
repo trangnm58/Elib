@@ -11,7 +11,17 @@ public class SavedWord {
 	private String mWord;
 	private String mMeaning;
 
-	public String getWord() {
+    public SavedWord(String word, String meaning) {
+        mWord = word;
+        mMeaning = meaning;
+    }
+
+    public SavedWord() {
+        mWord = "";
+        mMeaning = "";
+    }
+
+    public String getWord() {
 		return mWord;
 	}
 
