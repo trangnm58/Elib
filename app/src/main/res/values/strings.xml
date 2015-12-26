@@ -92,4 +92,7 @@
     <string name="bad_status_result">Chưa đạt ! Bạn cần cố gắng hơn</string>
     <string name="normal_status_result">Bạn có thể làm tốt hơn nữa</string>
     <string name="good_status_result">Tuyệt vời !</string>
+    <string name="title_activity_grammar">Học ngữ pháp</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_grammar_detail">Nội dung ngữ pháp</string>
 </resources>

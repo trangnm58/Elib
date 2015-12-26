@@ -147,6 +147,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pagenguyen.elib.ui.main.HomeActivity" />
         </activity>
+        <activity
+            android:name=".ui.grammar.GrammarActivity"
+            android:label="@string/title_activity_grammar"
+            android:parentActivityName=".ui.main.HomeActivity"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pagenguyen.elib.ui.main.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".ui.grammar.GrammarDetailActivity"
+            android:label="@string/title_activity_grammar_detail"
+            android:parentActivityName=".ui.grammar.GrammarActivity"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pagenguyen.elib.ui.grammar.GrammarActivity" />
+        </activity>
     </application>
 
 </manifest>

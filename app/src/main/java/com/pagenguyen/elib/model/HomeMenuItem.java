@@ -40,6 +40,9 @@ public class HomeMenuItem {
             case ("game"): {
                 return R.mipmap.ic_videogame_asset_white_24dp;
             }
+            case ("grammar"): {
+                return R.mipmap.ic_school_white_24dp;
+            }
             case ("speak"): {
                 return R.mipmap.ic_forum_white_24dp;
             }

@@ -3,6 +3,7 @@
     <color name="TextColorWhite">#ccffffff</color>
     <color name="TextColorBlue">#cc5c8b9d</color>
     <color name="TextColorBlack">#cc000000</color>
+    <color name="TextColorDarkGrey">#cc555555</color>
     <color name="TextColorGrey">#cccccccc</color>
 
     <color name="ColorPrimary">#5C8B9D</color>

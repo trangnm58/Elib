@@ -21,6 +21,7 @@ import com.pagenguyen.elib.adapter.HomeMenuAdapter;
 import com.pagenguyen.elib.model.HomeMenuItem;
 import com.pagenguyen.elib.ui.dictionary.SearchVocabActivity;
 import com.pagenguyen.elib.ui.dictionary.TranslatorActivity;
+import com.pagenguyen.elib.ui.grammar.GrammarActivity;
 import com.pagenguyen.elib.ui.notebook.MyNotebookActivity;
 import com.pagenguyen.elib.ui.pronounce.PronouncePracticeActivity;
 import com.pagenguyen.elib.ui.stories.StoryListActivity;
@@ -166,14 +167,15 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setHomeMenuAdapter() {
-        mMenuItems = new HomeMenuItem[6];
-        mMenuItems[0] = new HomeMenuItem("topic", "Học từ theo chủ đề", "TopicActivity");
-        mMenuItems[1] = new HomeMenuItem("book", "Học tiếng Anh qua truyện", "BookActivity");
-        mMenuItems[2] = new HomeMenuItem("dictionary", "Từ điển Anh-Việt", "DictActivity");
-        mMenuItems[3] = new HomeMenuItem("translator", "Dịch văn bản", "TranActivity");
-        mMenuItems[4] = new HomeMenuItem("speak", "Luyện phát âm", "PronouncePracticeActivity");
+        mMenuItems = new HomeMenuItem[7];
+        mMenuItems[0] = new HomeMenuItem("grammar", "Học ngữ pháp", "GrammarActivity");
+        mMenuItems[1] = new HomeMenuItem("topic", "Học từ theo chủ đề", "TopicActivity");
+        mMenuItems[2] = new HomeMenuItem("book", "Học tiếng Anh qua truyện", "BookActivity");
+        mMenuItems[3] = new HomeMenuItem("dictionary", "Từ điển Anh-Việt", "DictActivity");
+        mMenuItems[4] = new HomeMenuItem("translator", "Dịch văn bản", "TranActivity");
+        mMenuItems[5] = new HomeMenuItem("speak", "Luyện phát âm", "PronouncePracticeActivity");
         /*mMenuItems[5] = new HomeMenuItem("game", "Trò chơi", "GameActivity");*/
-        mMenuItems[5] = new HomeMenuItem("favorite", "Sổ tay của tôi", "MyNotebookActivity");
+        mMenuItems[6] = new HomeMenuItem("favorite", "Sổ tay của tôi", "MyNotebookActivity");
 
         HomeMenuAdapter adapter = new HomeMenuAdapter(this, mMenuItems);
         mHomeMenu.setAdapter(adapter);
@@ -185,31 +187,36 @@ public class HomeActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case (0): {
-                        Intent intent = new Intent(HomeActivity.this, TopicListActivity.class);
+                        Intent intent = new Intent(HomeActivity.this, GrammarActivity.class);
                         startActivity(intent);
                         break;
                     }
                     case (1): {
-                        Intent intent = new Intent(HomeActivity.this, StoryListActivity.class);
+                        Intent intent = new Intent(HomeActivity.this, TopicListActivity.class);
                         startActivity(intent);
                         break;
                     }
                     case (2): {
-                        Intent intent = new Intent(HomeActivity.this, SearchVocabActivity.class);
+                        Intent intent = new Intent(HomeActivity.this, StoryListActivity.class);
                         startActivity(intent);
                         break;
                     }
                     case (3): {
+                        Intent intent = new Intent(HomeActivity.this, SearchVocabActivity.class);
+                        startActivity(intent);
+                        break;
+                    }
+                    case (4): {
                         Intent intent = new Intent(HomeActivity.this, TranslatorActivity.class);
                         startActivity(intent);
                         break;
                     }
-	                case (4): {
+	                case (5): {
 		                Intent intent = new Intent(HomeActivity.this, PronouncePracticeActivity.class);
 		                startActivity(intent);
 		                break;
 	                }
-	                case (5): {
+	                case (6): {
 		                Intent intent = new Intent(HomeActivity.this, MyNotebookActivity.class);
 		                startActivity(intent);
 		                break;
