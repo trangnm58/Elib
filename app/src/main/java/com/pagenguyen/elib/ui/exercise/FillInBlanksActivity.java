@@ -15,11 +15,14 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
+import com.pagenguyen.elib.model.ExerciseResult;
 import com.pagenguyen.elib.model.FillInBlankExercise;
 import com.pagenguyen.elib.database.ParseConstants;
 import com.pagenguyen.elib.ui.main.HomeActivity;
@@ -35,6 +38,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class FillInBlanksActivity extends AppCompatActivity {
+    //Fill in blank layout
     @Bind(R.id.exerciseTitleView) TextView mExerciseTitle;
     @Bind(R.id.my_toolbar) Toolbar mToolbar;
     @Bind(R.id.loadingQuestionView) ProgressBar mLoadQuestion;
@@ -46,6 +50,17 @@ public class FillInBlanksActivity extends AppCompatActivity {
     @Bind(R.id.answerInputField) EditText mAnswerInput;
     @Bind(R.id.resultTextView) TextView mKeyText;
     @Bind(R.id.fibProgressText) TextView mFipProgressText;
+
+    @Bind(R.id.fillInBlankLayout1) RelativeLayout mExerciseLayout;
+
+    //Exercise result layout
+    @Bind(R.id.resultScoreText) TextView mScoreView;
+    @Bind(R.id.resultStatusText) TextView mStatusView;
+    @Bind(R.id.numberRightAnswer) TextView mRightAnswersView;
+    @Bind(R.id.iconImageView) ImageView mStatusIcon;
+
+    @Bind(R.id.fillInBlankLayout2) RelativeLayout mResultLayout;
+
 
     public FillInBlankExercise mExercise;
     public List<ParseObject> mQuestionList;
@@ -61,6 +76,9 @@ public class FillInBlanksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fill_in_blanks);
         ButterKnife.bind(this);
+
+        //hide result view
+        mResultLayout.setVisibility(View.GONE);
 
         mLoadQuestion.setVisibility(View.VISIBLE);
         mAnswerInput.setVisibility(View.GONE);
@@ -208,12 +226,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
                     public void run() {
                         if (mQuestPos + 1 <= mQuestionList.size()) { nextQuestion(); }
                         else {
-                            //move to result activity if user done all questions
-                            Intent intent = new Intent(FillInBlanksActivity.this, ExerciseResultActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra("right_answers", mRightAnswers);
-                            intent.putExtra("num_questions", mQuestionList.size());
-                            startActivity(intent);
+                            showResult();
                         }
                     }
                 }, 1200);
@@ -233,18 +246,33 @@ public class FillInBlanksActivity extends AppCompatActivity {
                 new android.os.Handler().postDelayed(
                     new Runnable() {
                         public void run() {
-                            //move to result activity if user done all questions
-                            Intent intent = new Intent(FillInBlanksActivity.this, ExerciseResultActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra("right_answers", mRightAnswers);
-                            intent.putExtra("num_questions", mQuestionList.size());
-                            startActivity(intent);
+                            showResult();
                             }
                     }, 1200);
             }
         }
     }
 
+    private void showResult(){
+        //hide exercise view
+        mExerciseLayout.setVisibility(View.GONE);
+        //show result view
+        mResultLayout.setVisibility(View.VISIBLE);
+
+        int numQuestion = mQuestionList.size();
+
+        float score = (float) mRightAnswers / numQuestion;
+
+        ExerciseResult result = new ExerciseResult(score);
+
+        String status = result.getStatus();
+        int icon = result.getIcon();
+
+        mScoreView.setText(result.getScore() + "%");
+        mRightAnswersView.setText("Số câu đúng: " + mRightAnswers + "/" + numQuestion);
+        mStatusIcon.setImageResource(icon);
+        mStatusView.setText(status);
+    }
 
     private void setupToolbar() {
         setSupportActionBar(mToolbar);

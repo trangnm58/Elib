@@ -14,107 +14,124 @@
         android:id="@+id/my_toolbar"
         layout="@layout/tool_bar"/>
 
-    <TextView
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        tools:text="Bài tập"
-        android:id="@+id/exerciseTitleView"
-        android:layout_below="@+id/my_toolbar"
-        android:layout_alignParentStart="true"
-        android:layout_margin="14dp"/>
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/loadingQuestionView"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_centerHorizontal="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/exerciseTitleView"
-        android:id="@+id/questionContentLayout"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp">
+        android:id="@+id/fillInBlankLayout1"
+        android:layout_below="@+id/my_toolbar">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Large Text"
-            android:textSize="16dp"
-            android:layout_gravity="center"
-            android:id="@+id/questionTextView"
-            android:layout_centerHorizontal="true" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            tools:text="Bài tập"
+            android:id="@+id/exerciseTitleView"
+            android:layout_alignParentStart="true"
+            android:layout_margin="14dp"/>
 
-        <EditText
+        <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/answerInputField"
-            android:textSize="16dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_below="@+id/questionTextView"
+            android:id="@+id/loadingQuestionView"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="28dp"
-            android:minWidth="100dp" />
+            android:layout_centerVertical="true"/>
 
-        <TextView
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/exerciseTitleView"
+            android:id="@+id/questionContentLayout"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Large Text"
+                android:textSize="16dp"
+                android:layout_gravity="center"
+                android:id="@+id/questionTextView"
+                android:layout_centerHorizontal="true" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/answerInputField"
+                android:textSize="16dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_below="@+id/questionTextView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="28dp"
+                android:minWidth="100dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="True"
+                android:textSize="14dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:id="@+id/resultTextView"
+                android:layout_below="@+id/answerInputField"
+                android:layout_centerHorizontal="true" />
+
+        </LinearLayout>
+
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="True"
-            android:textSize="14dp"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:id="@+id/resultTextView"
-            android:layout_below="@+id/answerInputField"
+            android:text="@string/next_button_label"
+            android:id="@+id/nextQuestionButton"
+            android:padding="@dimen/padding_inner_button"
+            android:layout_alignTop="@+id/exerciseTitleView"
+            android:layout_alignEnd="@+id/questionContentLayout" />
+
+        <ProgressBar
+            android:id="@+id/fibProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="25dp"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/fibProgressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="0/10"
+            android:textSize="16dp"
+            android:layout_marginBottom="20dp"
+            android:layout_alignBottom="@+id/fibProgressBar"
             android:layout_centerHorizontal="true" />
 
-    </LinearLayout>
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nộp"
+            android:padding="@dimen/padding_inner_button"
+            android:id="@+id/submitExerciseButton"
+            android:layout_below="@+id/questionContentLayout"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
-    <Button
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/next_button_label"
-        android:id="@+id/nextQuestionButton"
-        android:padding="@dimen/padding_inner_button"
-        android:layout_alignTop="@+id/exerciseTitleView"
-        android:layout_alignEnd="@+id/questionContentLayout" />
+        android:id="@+id/fillInBlankLayout2"
+        android:layout_below="@+id/my_toolbar">
+            <include
+                android:id="@+id/exerciseLayout"
+                layout="@layout/activity_exercise_result"/>
+    </RelativeLayout>
 
-    <ProgressBar
-        android:id="@+id/fibProgressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="25dp"
-        android:indeterminate="false"
-        android:max="100"
-        android:progress="0" />
-
-    <TextView
-        android:id="@+id/fibProgressText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="0/10"
-        android:textSize="16dp"
-        android:layout_marginBottom="20dp"
-        android:layout_alignBottom="@+id/fibProgressBar"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nộp"
-        android:padding="@dimen/padding_inner_button"
-        android:id="@+id/submitExerciseButton"
-        android:layout_below="@+id/questionContentLayout"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true" />
 </RelativeLayout>

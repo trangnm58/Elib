@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +19,7 @@ import com.pagenguyen.elib.model.FillInBlankExercise;
 import com.pagenguyen.elib.model.MultipleChoiceExercise;
 import com.pagenguyen.elib.model.Story;
 import com.pagenguyen.elib.model.Topic;
+import com.pagenguyen.elib.ui.main.HomeActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,6 +53,14 @@ public class ExerciseListActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_done, menu);
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -59,6 +69,13 @@ public class ExerciseListActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         switch (id) {
+            case (R.id.action_home):{
+                // Back to home page
+                Intent intent = new Intent(ExerciseListActivity.this, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                return true;
+            }
             case (android.R.id.home): {
                 onBackPressed();
                 return true;
