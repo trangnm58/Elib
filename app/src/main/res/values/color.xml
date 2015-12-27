@@ -5,6 +5,8 @@
     <color name="TextColorBlack">#cc000000</color>
     <color name="TextColorDarkGrey">#cc555555</color>
     <color name="TextColorGrey">#cccccccc</color>
+    <color name="TextColorGreen">#4CAF50</color>
+    <color name="TextColorRed">#F44336</color>
 
     <color name="ColorPrimary">#5C8B9D</color>
     <color name="ColorPrimaryDark">#437284</color>

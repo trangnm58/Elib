@@ -51,12 +51,13 @@ public class MultipleChoiceActivity extends AppCompatActivity {
     @Bind(R.id.answer_2) CheckBox answer_2;
     @Bind(R.id.answer_3) CheckBox answer_3;
     @Bind(R.id.answer_4) CheckBox answer_4;
-
+    int black;
+    int green;
+    int red;
     String title;
 
     MultipleChoiceExercise mExercises;
 
-    public static Menu mMultipleChoiceMenu;
     private int menuItemId;
     private boolean finnish;
 
@@ -79,6 +80,10 @@ public class MultipleChoiceActivity extends AppCompatActivity {
         answer_3.setVisibility(View.INVISIBLE);
         answer_4.setVisibility(View.INVISIBLE);
 
+        black = getResources().getColor(R.color.TextColorBlack);
+        green = getResources().getColor(R.color.TextColorGreen);
+        red = getResources().getColor(R.color.TextColorRed);
+
         setupToolbar();
 
         fetchData();
@@ -89,10 +94,6 @@ public class MultipleChoiceActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_done, menu);
-        mMultipleChoiceMenu=menu;
-
-        menu.getItem(0).setVisible(false);
-        menu.getItem(0).setEnabled(false);
 
         return true;
     }
@@ -252,32 +253,32 @@ public class MultipleChoiceActivity extends AppCompatActivity {
 
         else{
             if (userAnswer == 0){
-                answer_1.setTextColor(Color.RED);
+                answer_1.setTextColor(red);
             }
             else if (userAnswer == 1){
-                answer_2.setTextColor(Color.RED);
+                answer_2.setTextColor(red);
             }
             else if (userAnswer == 2){
-                answer_3.setTextColor(Color.RED);
+                answer_3.setTextColor(red);
             }
             else if (userAnswer == 3){
-                answer_4.setTextColor(Color.RED);
+                answer_4.setTextColor(red);
             }
         }
 
         int key=mExercises.getQuestionList()[questPos-1].getKey();
 
         if (key == 0){
-            answer_1.setTextColor(Color.BLUE);
+            answer_1.setTextColor(green);
         }
         else if (key == 1){
-            answer_2.setTextColor(Color.BLUE);
+            answer_2.setTextColor(green);
         }
         else if (key == 2){
-            answer_3.setTextColor(Color.BLUE);
+            answer_3.setTextColor(green);
         }
         else if (key == 3){
-            answer_4.setTextColor(Color.BLUE);
+            answer_4.setTextColor(green);
         }
 
         mNextQuestion.setVisibility(View.VISIBLE);
@@ -331,7 +332,6 @@ public class MultipleChoiceActivity extends AppCompatActivity {
     private void setNextQuestion(){
         mNextQuestion.setVisibility(View.INVISIBLE);
         setFipProgressBar();
-        mMultipleChoiceMenu.getItem(0).setEnabled(true);
 
         if (questPos == mExercises.getQuestionList().length){
 
@@ -367,11 +367,10 @@ public class MultipleChoiceActivity extends AppCompatActivity {
 
     private void setOnlyOneSelected(){
 
-        answer_1.setTextColor(Color.BLACK);
-        answer_2.setTextColor(Color.BLACK);
-        answer_3.setTextColor(Color.BLACK);
-        answer_4.setTextColor(Color.BLACK);
-
+        answer_1.setTextColor(black);
+        answer_2.setTextColor(black);
+        answer_3.setTextColor(black);
+        answer_4.setTextColor(black);
 
         answer_1.setOnClickListener(new View.OnClickListener() {
             @Override
