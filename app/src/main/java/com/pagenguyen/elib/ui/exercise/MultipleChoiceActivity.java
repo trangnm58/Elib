@@ -42,7 +42,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MultipleChoiceActivity extends AppCompatActivity {
-    @Bind(R.id.exerciseTitleView) TextView mExerciseTitle;
     @Bind(R.id.my_toolbar) Toolbar mToolbar;
     @Bind(R.id.loadingQuestionView) ProgressBar mLoadQuestion;
     @Bind(R.id.fibProgressBar) ProgressBar mFipProgressBar;
@@ -67,7 +66,6 @@ public class MultipleChoiceActivity extends AppCompatActivity {
     int black;
     int green;
     int red;
-    String title;
 
     MultipleChoiceExercise mExercises;
 
@@ -89,6 +87,7 @@ public class MultipleChoiceActivity extends AppCompatActivity {
         mLoadQuestion.setVisibility(View.VISIBLE);
         mQuestionText.setVisibility(View.INVISIBLE);
         mNextQuestion.setVisibility(View.INVISIBLE);
+        mFipProgressBar.setVisibility(View.INVISIBLE);
 
         answer_1.setVisibility(View.INVISIBLE);
         answer_2.setVisibility(View.INVISIBLE);
@@ -188,8 +187,6 @@ public class MultipleChoiceActivity extends AppCompatActivity {
 
                         mExercises = new MultipleChoiceExercise("Chọn phương án đúng: ", questions);
 
-                        setExerciseTitle();
-
                         setFirstQuestion();
 
                         mLoadQuestion.setVisibility(View.GONE);
@@ -204,10 +201,6 @@ public class MultipleChoiceActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void setExerciseTitle() {
-        mExerciseTitle.setText(title);
     }
 
     private void setDialog() {
@@ -239,6 +232,7 @@ public class MultipleChoiceActivity extends AppCompatActivity {
     }
 
     private void setFipProgressBar(){
+        mFipProgressBar.setVisibility(View.VISIBLE);
         mFipProgressBar.setProgress(questPos);
         mFipProgressText.setText(questPos + "/" + mExercises.getQuestionList().length);
     }
@@ -312,16 +306,12 @@ public class MultipleChoiceActivity extends AppCompatActivity {
     }
 
     private void setFirstQuestion(){
+        questPos = 1;
         mNextQuestion.setVisibility(View.INVISIBLE);
         mFipProgressBar.setMax(mExercises.getQuestionList().length);
         setFipProgressBar();
 
         rightAnswers=0;
-        questPos = 1;
-
-        title="Câu " + questPos +": Chọn phương án đúng: ";
-
-        setExerciseTitle();
 
         MultipleChoiceQuestion here=mExercises.getQuestionList()[0];
 
@@ -357,8 +347,6 @@ public class MultipleChoiceActivity extends AppCompatActivity {
     }
 
     private void setNextQuestion(){
-        mNextQuestion.setVisibility(View.INVISIBLE);
-        setFipProgressBar();
 
         if (questPos == mExercises.getQuestionList().length){
 
@@ -367,13 +355,11 @@ public class MultipleChoiceActivity extends AppCompatActivity {
 
         }
 
-        setOnlyOneSelected();
-
         questPos++ ;
+        mNextQuestion.setVisibility(View.INVISIBLE);
+        setFipProgressBar();
 
-        title="Câu " + questPos +": Chọn phương án đúng: ";
-
-        setExerciseTitle();
+        setOnlyOneSelected();
 
         MultipleChoiceQuestion here=mExercises.getQuestionList()[questPos-1];
 
