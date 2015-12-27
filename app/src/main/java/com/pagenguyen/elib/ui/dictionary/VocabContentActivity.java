@@ -59,7 +59,6 @@ public class VocabContentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_vocab_content);
         ButterKnife.bind(this);
         setupToolbar();
-	    textToSpeech.initialize(VocabContentActivity.this);
 
         handleIntent(getIntent());
     }
@@ -68,6 +67,12 @@ public class VocabContentActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         handleIntent(intent);
     }
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		textToSpeech.initialize(VocabContentActivity.this);
+	}
 
 	@Override
 	protected void onPause() {
