@@ -16,12 +16,15 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
+import com.pagenguyen.elib.model.ExerciseResult;
 import com.pagenguyen.elib.model.MultipleChoiceExercise;
 import com.pagenguyen.elib.model.MultipleChoiceQuestion;
 import com.pagenguyen.elib.database.ParseConstants;
@@ -51,6 +54,16 @@ public class MultipleChoiceActivity extends AppCompatActivity {
     @Bind(R.id.answer_2) CheckBox answer_2;
     @Bind(R.id.answer_3) CheckBox answer_3;
     @Bind(R.id.answer_4) CheckBox answer_4;
+    @Bind(R.id.multipleChoiceLayout1) RelativeLayout mExerciseLayout;
+
+    //Exercise result layout
+    @Bind(R.id.resultScoreText) TextView mScoreView;
+    @Bind(R.id.resultStatusText) TextView mStatusView;
+    @Bind(R.id.numberRightAnswer) TextView mRightAnswersView;
+    @Bind(R.id.iconImageView) ImageView mStatusIcon;
+
+    @Bind(R.id.multipleChoiceLayout2) RelativeLayout mResultLayout;
+
     int black;
     int green;
     int red;
@@ -70,6 +83,8 @@ public class MultipleChoiceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_multiple_choice);
 
         ButterKnife.bind(this);
+        mResultLayout.setVisibility(View.GONE);
+        finnish=false;
 
         mLoadQuestion.setVisibility(View.VISIBLE);
         mQuestionText.setVisibility(View.INVISIBLE);
@@ -106,15 +121,27 @@ public class MultipleChoiceActivity extends AppCompatActivity {
         switch (id) {
 
             case (R.id.action_home):{
-                menuItemId = R.id.action_home;
-                setDialog();
+                if (!finnish) {
+                    menuItemId = R.id.action_home;
+                    setDialog();
+                }
+                else{
+                    Intent intent = new Intent(MultipleChoiceActivity.this, HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
 
                 return true;
             }
 
             case (android.R.id.home): {
-                menuItemId = R.id.home;
-                setDialog();
+                if (!finnish) {
+                    menuItemId = R.id.home;
+                    setDialog();
+                }
+                else{
+                    onBackPressed();
+                }
 
                 return true;
             }
@@ -402,10 +429,25 @@ public class MultipleChoiceActivity extends AppCompatActivity {
     }
 
     private void finnishExercise(){
-        Intent intent = new Intent(MultipleChoiceActivity.this, ExerciseResultActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("right_answers", rightAnswers);
-        intent.putExtra("num_questions", mExercises.getQuestionList().length);
-        startActivity(intent);
+        //hide exercise view
+        mExerciseLayout.setVisibility(View.GONE);
+        //show result view
+        mResultLayout.setVisibility(View.VISIBLE);
+
+        int numQuestion = mExercises.getQuestionList().length;
+
+        float score = (float) rightAnswers / numQuestion;
+
+        ExerciseResult result = new ExerciseResult(score);
+
+        String status = result.getStatus();
+        int icon = result.getIcon();
+
+        mScoreView.setText(result.getScore() + "%");
+        mRightAnswersView.setText("Số câu đúng: " + rightAnswers + "/" + numQuestion);
+        mStatusIcon.setImageResource(icon);
+        mStatusView.setText(status);
+
+        finnish=true;
     }
 }
