@@ -10,6 +10,7 @@ public class ElibApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		Parse.enableLocalDatastore(this);
 		Parse.initialize(this, "J6qI1wPiQcWbr8MYYJKqtwDoEGFDIES97i0yRT0T", "LMCeRvr44kcTJOlOQdYJXPm5rLqysyt7bAx71PKq");
 	}
 }
