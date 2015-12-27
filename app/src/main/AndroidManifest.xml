@@ -93,7 +93,7 @@
             android:name=".ui.exercise.FillInBlanksActivity"
             android:label="@string/title_activity_exercise_content"
             android:parentActivityName=".ui.exercise.ExerciseListActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden|adjustPan" >
+            android:windowSoftInputMode="adjustResize|stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.exercise.ExerciseListActivity" />

@@ -95,4 +95,5 @@
     <string name="search_hint">Tìm kiếm...</string>
     <string name="action_search">Tìm từ...</string>
     <string name="exercise_check_answers">Kiểm Tra</string>
+    <string name="answer_input_hint">Nhập câu trả lời</string>
 </resources>

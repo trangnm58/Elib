@@ -12,7 +12,9 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pagenguyen.elib.R;
 import com.pagenguyen.elib.model.ExerciseResult;
@@ -50,8 +53,6 @@ public class FillInBlanksActivity extends AppCompatActivity {
     @Bind(R.id.resultTextView) TextView mKeyText;
     @Bind(R.id.fibProgressText) TextView mFipProgressText;
 
-    @Bind(R.id.fillInBlankLayout1) RelativeLayout mExerciseLayout;
-
     //Exercise result layout
     @Bind(R.id.resultScoreText) TextView mScoreView;
     @Bind(R.id.resultStatusText) TextView mStatusView;
@@ -80,7 +81,9 @@ public class FillInBlanksActivity extends AppCompatActivity {
 
         //hide result view
         mResultLayout.setVisibility(View.GONE);
-        mExerciseLayout.setVisibility(View.GONE);
+        setExerciseLayout(View.GONE);
+        mSubmitButton.setVisibility(View.GONE);
+        mNextQuestion.setVisibility(View.GONE);
 
         mLoadQuestion.setVisibility(View.VISIBLE);
 
@@ -103,6 +106,13 @@ public class FillInBlanksActivity extends AppCompatActivity {
         submitExerciseByEnter();
 
         setSubmitButtonClick();
+    }
+
+    private void setExerciseLayout(int status) {
+        mAnswerInput.setVisibility(status);
+        mQuestionText.setVisibility(status);
+        mFipProgressBar.setVisibility(status);
+        mFipProgressText.setVisibility(status);
     }
 
     private void setSubmitButtonClick() {
@@ -217,9 +227,6 @@ public class FillInBlanksActivity extends AppCompatActivity {
         //increase position of question - go to next question
         mQuestPos++;
 
-        //update progress bar
-        setFipProgressBar();
-
         if(check) {
             mRightAnswers++;
             //Right answer
@@ -261,7 +268,8 @@ public class FillInBlanksActivity extends AppCompatActivity {
 
     private void showResult(){
         //hide exercise view
-        mExerciseLayout.setVisibility(View.GONE);
+        setExerciseLayout(View.GONE);
+        mKeyText.setVisibility(View.GONE);
         //show result view
         mResultLayout.setVisibility(View.VISIBLE);
 
@@ -312,7 +320,8 @@ public class FillInBlanksActivity extends AppCompatActivity {
 
                             mLoadQuestion.setVisibility(View.GONE);
 
-                            mExerciseLayout.setVisibility(View.VISIBLE);
+                            setExerciseLayout(View.VISIBLE);
+                            mSubmitButton.setVisibility(View.VISIBLE);
 
                             mFipProgressBar.setMax(mQuestionList.size());
                             //update progress bar
@@ -325,6 +334,9 @@ public class FillInBlanksActivity extends AppCompatActivity {
     }
 
     private void setQuestionView(List<ParseObject> questions,int position){
+        //hide next button when do exercise
+        mNextQuestion.setVisibility(View.GONE);
+
         //set content for question view
         mQuestionText.setText(questions.get(position).getString(ParseConstants.EXERCISE_QUESTION));
         mAnswerInput.setVisibility(View.VISIBLE);
@@ -333,15 +345,12 @@ public class FillInBlanksActivity extends AppCompatActivity {
         mKeyText.setText(questions.get(position).getString(ParseConstants.EXERCISE_KEY));
         mKeyText.setVisibility(View.GONE);
 
-        //hide next button when do exercise
-        mNextQuestion.setVisibility(View.GONE);
-
         mSubmitButton.setVisibility(View.VISIBLE);
     }
 
     private void setFipProgressBar(){
-        mFipProgressBar.setProgress(mQuestPos);
-        mFipProgressText.setText(mQuestPos + "/" + mQuestionList.size());
+        mFipProgressBar.setProgress(mQuestPos+1);
+        mFipProgressText.setText(mQuestPos + 1 + "/" + mQuestionList.size());
     }
 
     private void setNextButtonClick() {
@@ -355,6 +364,9 @@ public class FillInBlanksActivity extends AppCompatActivity {
 
     private void nextQuestion() {
         setQuestionView(mQuestionList, mQuestPos);
+
+        //update progress bar
+        setFipProgressBar();
 
         mAnswerInput.setEnabled(true);
         mAnswerInput.setTextColor(Color.BLACK);
