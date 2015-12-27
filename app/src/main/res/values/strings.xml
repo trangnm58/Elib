@@ -58,9 +58,6 @@
     <string name="title_activity_exercise_content">Bài tập</string>
 
     <!-- excercies result -->
-    <string name="title_activity_exercise_result">Kết quả</string>
-    <string name="result_title_text">KẾT QUẢ</string>
-    <string name="answer_title_text">ĐÁP ÁN</string>
 
     <!-- topic -->
     <string name="title_activity_topic_list">Danh sách chủ đề</string>
@@ -88,7 +85,7 @@
     <!-- multiple choice list -->
 
     <string name="title_activity_multiple_choice_list">Danh sách bài tập</string>
-    <string name="next_button_label">Câu tiếp</string>
+    <string name="next_button_label">Tiếp Tục</string>
     <string name="bad_status_result">Chưa đạt ! Bạn cần cố gắng hơn</string>
     <string name="normal_status_result">Bạn có thể làm tốt hơn nữa</string>
     <string name="good_status_result">Tuyệt vời !</string>
@@ -97,4 +94,5 @@
     <string name="title_activity_grammar_detail">Nội dung ngữ pháp</string>
     <string name="search_hint">Tìm kiếm...</string>
     <string name="action_search">Tìm từ...</string>
+    <string name="exercise_check_answers">Kiểm Tra</string>
 </resources>

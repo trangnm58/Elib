@@ -140,14 +140,6 @@
                 android:value="com.pagenguyen.elib.ui.main.HomeActivity" />
         </activity>
         <activity
-            android:name=".ui.exercise.ExerciseResultActivity"
-            android:label="@string/title_activity_exercise_result"
-            android:parentActivityName=".ui.main.HomeActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pagenguyen.elib.ui.main.HomeActivity" />
-        </activity>
-        <activity
             android:name=".ui.grammar.GrammarActivity"
             android:label="@string/title_activity_grammar"
             android:parentActivityName=".ui.main.HomeActivity"

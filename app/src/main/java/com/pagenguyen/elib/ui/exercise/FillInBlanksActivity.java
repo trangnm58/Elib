@@ -39,7 +39,6 @@ import butterknife.ButterKnife;
 
 public class FillInBlanksActivity extends AppCompatActivity {
     //Fill in blank layout
-    @Bind(R.id.exerciseTitleView) TextView mExerciseTitle;
     @Bind(R.id.my_toolbar) Toolbar mToolbar;
     @Bind(R.id.loadingQuestionView) ProgressBar mLoadQuestion;
     @Bind(R.id.fibProgressBar) ProgressBar mFipProgressBar;
@@ -81,11 +80,9 @@ public class FillInBlanksActivity extends AppCompatActivity {
 
         //hide result view
         mResultLayout.setVisibility(View.GONE);
+        mExerciseLayout.setVisibility(View.GONE);
 
         mLoadQuestion.setVisibility(View.VISIBLE);
-        mAnswerInput.setVisibility(View.GONE);
-        mNextQuestion.setVisibility(View.GONE);
-        mSubmitButton.setVisibility(View.GONE);
 
         setupToolbar();
 
@@ -95,8 +92,6 @@ public class FillInBlanksActivity extends AppCompatActivity {
         mRightAnswers = 0;
         //doing exercise
         mFinishExercise = false;
-        //set exercise's title
-        setExerciseTitle(mQuestPos);
 
         //set exercise content
         setExcerciseContent();
@@ -228,7 +223,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
         if(check) {
             mRightAnswers++;
             //Right answer
-            mAnswerInput.setTextColor(Color.GREEN);
+            mAnswerInput.setTextColor(getResources().getColor(R.color.TextColorGreen));
 
             //auto change question after 1.5 seconds if user's answer is correct
 
@@ -243,7 +238,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
                 }, 1200);
         } else {
             //Wrong answer
-            mAnswerInput.setTextColor(Color.RED);
+            mAnswerInput.setTextColor(getResources().getColor(R.color.TextColorRed));
 
             mKeyText.setVisibility(View.VISIBLE);
 
@@ -294,12 +289,6 @@ public class FillInBlanksActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
-    private void setExerciseTitle(int number) {
-        number = number + 1;
-        mExercise = new FillInBlankExercise("Câu " + number + ":");
-        mExerciseTitle.setText(mExercise.getTitle());
-    }
-
     private void setExcerciseContent() {
         Intent intent = getIntent();
         mExerciseId = intent.getStringExtra("exercise_id");
@@ -323,10 +312,11 @@ public class FillInBlanksActivity extends AppCompatActivity {
 
                             mLoadQuestion.setVisibility(View.GONE);
 
+                            mExerciseLayout.setVisibility(View.VISIBLE);
+
                             mFipProgressBar.setMax(mQuestionList.size());
                             //update progress bar
                             setFipProgressBar();
-                        } else {
                         }
                     }
                 });
@@ -364,8 +354,6 @@ public class FillInBlanksActivity extends AppCompatActivity {
     }
 
     private void nextQuestion() {
-        setExerciseTitle(mQuestPos);
-
         setQuestionView(mQuestionList, mQuestPos);
 
         mAnswerInput.setEnabled(true);
