@@ -37,7 +37,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class StoryContentActivity extends AppCompatActivity {
-    @Bind(R.id.currentStoryName) TextView mStoryNameText;
     @Bind(R.id.storyContentText) TextView mStoryContentText;
     @Bind(R.id.tabHostStory) TabHost mTabHost;
     @Bind(R.id.storyWordListView) ListView mWordList;
@@ -214,7 +213,7 @@ public class StoryContentActivity extends AppCompatActivity {
                     mStory.setContent(object.getString(ParseConstants.CONTENT));
 
                     //set story name
-                    mStoryNameText.setText(mStory.getTitle());
+                    mToolbar.setTitle(mStory.getTitle());
 
                     //set story content
                     mStoryContentText.setText(Html.fromHtml(mStory.getContent()));
