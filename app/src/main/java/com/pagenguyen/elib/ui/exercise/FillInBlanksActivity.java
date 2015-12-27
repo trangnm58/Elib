@@ -71,6 +71,8 @@ public class FillInBlanksActivity extends AppCompatActivity {
     private int mQuestPos;
     private int mRightAnswers;
 
+    private boolean mFinishExercise;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +93,8 @@ public class FillInBlanksActivity extends AppCompatActivity {
         mQuestPos = 0;
         //number of user's right answers
         mRightAnswers = 0;
+        //doing exercise
+        mFinishExercise = false;
         //set exercise's title
         setExerciseTitle(mQuestPos);
 
@@ -153,12 +157,18 @@ public class FillInBlanksActivity extends AppCompatActivity {
         switch (id) {
             case (R.id.action_home):{
                 menuItemId = R.id.action_home;
-                setDialog();
+
+                if(!mFinishExercise) { setDialog(); }
+                else { backToHomePage(); }
+
                 return true;
             }
             case (android.R.id.home): {
                 menuItemId = R.id.home;
-                setDialog();
+
+                if(!mFinishExercise) { setDialog(); }
+                else { onBackPressed(); }
+
                 return true;
             }
         }
@@ -173,14 +183,9 @@ public class FillInBlanksActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        /*if (menuItemId == R.id.action_done) {
-                            //done and sumbit user's answers
-                            submitAnswers();
-                        } else */if (menuItemId == R.id.action_home) {
+                        if (menuItemId == R.id.action_home) {
                             // Back to home page
-                            Intent intent = new Intent(FillInBlanksActivity.this, HomeActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
+                            backToHomePage();
                         } else {
                             onBackPressed();
                         }
@@ -194,6 +199,12 @@ public class FillInBlanksActivity extends AppCompatActivity {
         //set size for text of dialog's button
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(16);
         dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(16);
+    }
+
+    private void backToHomePage(){
+        Intent intent = new Intent(FillInBlanksActivity.this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     private void submitAnswers() {
@@ -272,6 +283,9 @@ public class FillInBlanksActivity extends AppCompatActivity {
         mRightAnswersView.setText("Số câu đúng: " + mRightAnswers + "/" + numQuestion);
         mStatusIcon.setImageResource(icon);
         mStatusView.setText(status);
+
+        //doing exercise
+        mFinishExercise = true;
     }
 
     private void setupToolbar() {

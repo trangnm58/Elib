@@ -50,6 +50,48 @@ public class StoryContentActivity extends AppCompatActivity {
 
     private TextToSpeechHelper tts = new TextToSpeechHelper();
 
+    private String[] sleepingBeauty = {
+            "dây leo",
+            "hân hoan",
+            "làm chán nản",
+            "bà tiên",
+            "số kiếp",
+            "dịp",
+            "lan khắp",
+            "việc cưới xin",
+            "binh lính",
+            "sợi len, chỉ" };
+
+    private String[] godOfLove = {
+            "giúp sức",
+            "mệnh lệnh",
+            "bịt mắt",
+            "biểu tượng thiên thần",
+            "giấu",
+            "cố gắng",
+            "nữ thần",
+            "can thiệp vào",
+            "ghen tuông" };
+
+    private String[] twoBachelors = {
+            "kỹ sĩ",
+            "(thuộc) trời",
+            "sự hỗn độn",
+            "hiến dâng",
+            "vòng hoa",
+            "hiền nhân",
+            "đối thủ"   };
+
+    private String[] threeRunners = {
+            "sự tách biệt chủng tộc Nam Phi",
+            "lần mò",
+            "độc quyền",
+            "sự cho phép",
+            "càu nhàu",
+            "xâm phạm",
+            "hân hoan"
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,16 +189,19 @@ public class StoryContentActivity extends AppCompatActivity {
     private void setWordListView(List<String> words){
         String[] mWords = new String[words.size()];
 
-        String[] mStoryNameText = { "dây leo",
-                                    "hân hoan",
-                                    "làm chán nản",
-                                    "bà tiên",
-                                    "số kiếp",
-                                    "dịp",
-                                    "lan khắp",
-                                    "việc cưới xin",
-                                    "binh lính",
-                                    "sợi len, chỉ" };
+        String[] mWordsMeaning = new String[0];
+
+        String title = mStory.getTitle();
+
+        if(title.toLowerCase().equals(("Sleeping Beauty").toLowerCase())){
+            mWordsMeaning = sleepingBeauty;
+        } else if(title.toLowerCase().equals(("The God of Love").toLowerCase())){
+            mWordsMeaning = godOfLove;
+        } else if(title.toLowerCase().equals(("The Two Bachelors").toLowerCase())){
+            mWordsMeaning = twoBachelors;
+        } else if(title.toLowerCase().equals(("The Three Runners").toLowerCase())) {
+            mWordsMeaning = threeRunners;
+        }
 
         int i = 0;
         for(Object s:words){
@@ -166,7 +211,7 @@ public class StoryContentActivity extends AppCompatActivity {
 
         WordListAdapter adapter = new WordListAdapter(StoryContentActivity.this,
                 mWords,
-                mStoryNameText);
+                mWordsMeaning);
 
         mWordList.setAdapter(adapter);
 
