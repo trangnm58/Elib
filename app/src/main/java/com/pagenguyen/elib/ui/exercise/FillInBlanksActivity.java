@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -53,6 +54,8 @@ public class FillInBlanksActivity extends AppCompatActivity {
     @Bind(R.id.resultTextView) TextView mKeyText;
     @Bind(R.id.fibProgressText) TextView mFipProgressText;
 
+    @Bind(R.id.exerciseRelavLayout) RelativeLayout mRelativeLayout;
+
     //Exercise result layout
     @Bind(R.id.resultScoreText) TextView mScoreView;
     @Bind(R.id.resultStatusText) TextView mStatusView;
@@ -72,6 +75,8 @@ public class FillInBlanksActivity extends AppCompatActivity {
     private int mRightAnswers;
 
     private boolean mFinishExercise;
+
+    private RelativeLayout.LayoutParams mParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +104,8 @@ public class FillInBlanksActivity extends AppCompatActivity {
         //set exercise content
         setExcerciseContent();
 
+        setEditTextFocusListener();
+
         //set next question button action
         setNextButtonClick();
 
@@ -106,6 +113,11 @@ public class FillInBlanksActivity extends AppCompatActivity {
         submitExerciseByEnter();
 
         setSubmitButtonClick();
+
+        mParams = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+        );
     }
 
     private void setExerciseLayout(int status) {
@@ -223,11 +235,14 @@ public class FillInBlanksActivity extends AppCompatActivity {
 
         //disable edit text
         mAnswerInput.setEnabled(false);
+        mAnswerInput.clearFocus();
 
         //increase position of question - go to next question
         mQuestPos++;
 
         if(check) {
+            mNextQuestion.setEnabled(false);
+
             mRightAnswers++;
             //Right answer
             mAnswerInput.setTextColor(getResources().getColor(R.color.TextColorGreen));
@@ -242,7 +257,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
                             showResult();
                         }
                     }
-                }, 1200);
+                }, 1000);
         } else {
             //Wrong answer
             mAnswerInput.setTextColor(getResources().getColor(R.color.TextColorRed));
@@ -251,17 +266,16 @@ public class FillInBlanksActivity extends AppCompatActivity {
 
             //show next question button
             if(mQuestPos + 1 <= mQuestionList.size()){
-                mNextQuestion.setVisibility(View.VISIBLE);
+                mNextQuestion.setEnabled(true);
             }
             else {
-                mNextQuestion.setVisibility(View.GONE);
 
                 new android.os.Handler().postDelayed(
                     new Runnable() {
                         public void run() {
                             showResult();
                             }
-                    }, 1200);
+                    }, 1000);
             }
         }
     }
@@ -289,6 +303,8 @@ public class FillInBlanksActivity extends AppCompatActivity {
 
         //doing exercise
         mFinishExercise = true;
+
+        mNextQuestion.setVisibility(View.GONE);
     }
 
     private void setupToolbar() {
@@ -322,6 +338,7 @@ public class FillInBlanksActivity extends AppCompatActivity {
 
                             setExerciseLayout(View.VISIBLE);
                             mSubmitButton.setVisibility(View.VISIBLE);
+                            mNextQuestion.setVisibility(View.VISIBLE);
 
                             mFipProgressBar.setMax(mQuestionList.size());
                             //update progress bar
@@ -335,7 +352,6 @@ public class FillInBlanksActivity extends AppCompatActivity {
 
     private void setQuestionView(List<ParseObject> questions,int position){
         //hide next button when do exercise
-        mNextQuestion.setVisibility(View.GONE);
 
         //set content for question view
         mQuestionText.setText(questions.get(position).getString(ParseConstants.EXERCISE_QUESTION));
@@ -349,8 +365,41 @@ public class FillInBlanksActivity extends AppCompatActivity {
     }
 
     private void setFipProgressBar(){
-        mFipProgressBar.setProgress(mQuestPos+1);
+        mFipProgressBar.setProgress(mQuestPos + 1);
         mFipProgressText.setText(mQuestPos + 1 + "/" + mQuestionList.size());
+    }
+
+    private void setEditTextFocusListener(){
+        mAnswerInput.setFocusable(true);
+
+        mAnswerInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                mFipProgressBar.setVisibility(View.GONE);
+                                mFipProgressText.setVisibility(View.GONE);
+
+                                mParams.setMargins(0, 0, 0, 30);
+                                mRelativeLayout.setLayoutParams(mParams);
+                            }
+                        }, 200);
+                } else {
+                    new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                mFipProgressBar.setVisibility(View.VISIBLE);
+                                mFipProgressText.setVisibility(View.VISIBLE);
+
+                                mParams.setMargins(0, 0, 0, 150);
+                                mRelativeLayout.setLayoutParams(mParams);
+                            }
+                        }, 300);
+                }
+            }
+        });
     }
 
     private void setNextButtonClick() {
