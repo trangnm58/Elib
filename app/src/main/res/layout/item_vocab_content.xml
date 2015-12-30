@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="false">
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:id="@+id/meaningIcon"
+        android:src="@mipmap/ic_star_white_48dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="6dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Nghĩa"
+        android:padding="5dp"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/TextColorGreen"
+        android:textSize="@dimen/font_size_basic"
+        android:id="@+id/meaningTextView"
+        android:layout_toEndOf="@+id/meaningIcon" />
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:id="@+id/engExamIcon"
+        android:src="@mipmap/ic_star_border_white_48dp"
+        android:layout_marginTop="6dp"
+        android:layout_alignLeft="@+id/meaningTextView"
+        android:layout_below="@+id/meaningTextView" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        tools:text="Example"
+        android:textColor="@color/TextColorBlue"
+        android:textSize="@dimen/font_size_basic"
+        android:layout_marginRight="10dp"
+        android:id="@+id/engExamTextView"
+        android:layout_below="@+id/meaningTextView"
+        android:layout_toEndOf="@+id/engExamIcon" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Ví dụ"
+        android:padding="5dp"
+        android:textColor="@color/TextColorDarkGrey"
+        android:textSize="@dimen/font_size_basic"
+        android:layout_marginRight="10dp"
+        android:id="@+id/vietExamTextView"
+        android:layout_below="@+id/engExamTextView"
+        android:layout_alignLeft="@+id/engExamIcon" />
+</RelativeLayout>

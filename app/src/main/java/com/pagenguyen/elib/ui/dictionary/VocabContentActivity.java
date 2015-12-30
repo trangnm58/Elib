@@ -19,7 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pagenguyen.elib.R;
-import com.pagenguyen.elib.adapter.OneTextviewAdapter;
+import com.pagenguyen.elib.adapter.VocabContentAdapter;
 import com.pagenguyen.elib.api.GlosbeApi;
 import com.pagenguyen.elib.api.SpeechRecognitionHelper;
 import com.pagenguyen.elib.api.TextToSpeechHelper;
@@ -37,8 +37,8 @@ import butterknife.ButterKnife;
 
 public class VocabContentActivity extends AppCompatActivity {
     @Bind(R.id.vocabView) TextView mVocabView;
-    @Bind(R.id.definitionListView) ListView mListDefinition;
-    @Bind(R.id.exampleListView) ListView mListExample;
+    @Bind(R.id.vocabContentListView) ListView mVocabContentList;
+
     @Bind(R.id.emptyListView) TextView mEmptyTextView;
     @Bind(R.id.loadingContentView) ProgressBar mLoadingView;
     @Bind(R.id.volumeButton) ImageView mVolumeIcon;
@@ -52,6 +52,9 @@ public class VocabContentActivity extends AppCompatActivity {
 	private TextToSpeechHelper textToSpeech = new TextToSpeechHelper();
     private Menu mMenu;
     private boolean isListening = false;
+
+    private boolean mMeaningDone = false;
+    private boolean mExampleDone = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,13 +135,15 @@ public class VocabContentActivity extends AppCompatActivity {
                 mVocab = "" + searchView.getQuery();
 
                 //set default value
-                mEmptyTextView.setText("Đang tải...");
                 mLoadingView.setVisibility(View.VISIBLE);
+
+                mVocabContentList.setVisibility(View.GONE);
 
                 //get the vocabulary from Search Vocab Activity
                 setVocabView();
                 //get definition and examples of the vocabulary
-                setVocabContentView();
+                getVocabContent();
+
                 mMenu.getItem(0).collapseActionView();
                 return false;
             }
@@ -198,14 +203,15 @@ public class VocabContentActivity extends AppCompatActivity {
                     //get the first vocabulary in result
                     mVocab = results.get(0);
 
-                    //set default value
-                    mEmptyTextView.setText("Đang tải...");
                     mLoadingView.setVisibility(View.VISIBLE);
+
+                    mVocabContentList.setVisibility(View.GONE);
 
                     //get the vocabulary from Search Vocab Activity
                     setVocabView();
                     //get definition and examples of the vocabulary
-                    setVocabContentView();
+                    getVocabContent();
+
                     mMenu.getItem(0).collapseActionView();
                 } else {
                     // Do nothing
@@ -236,14 +242,16 @@ public class VocabContentActivity extends AppCompatActivity {
             mVocab = mIntent.getStringExtra("vocab");
         }
 
-        //set default value
-        mEmptyTextView.setText("Đang tải...");
         mLoadingView.setVisibility(View.VISIBLE);
+
+        //initiate vocab content
+        mVocabDefinition = new String[0];
+        mVocabExamples = new String[0];
 
         //get the vocabulary from Search Vocab Activity
         setVocabView();
         //get definition and examples of the vocabulary
-        setVocabContentView();
+        getVocabContent();
         //set volume Icon  click
         setVolumeIconClick();
     }
@@ -256,9 +264,12 @@ public class VocabContentActivity extends AppCompatActivity {
 
     public void setVocabView(){
         mVocabView.setText(mVocab);
+
+        mEmptyTextView.setVisibility(View.GONE);
     }
 
-    public void setVocabContentView(){
+    public void getVocabContent(){
+
         final GlosbeResult glosbeResult = new GlosbeResult();
 
         GlosbeApi.getTranslations(mVocab, new Callback() {
@@ -275,18 +286,10 @@ public class VocabContentActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         mVocabDefinition = glosbeResult.getTranslations();
-                        mLoadingView.setVisibility(View.GONE);
 
-                        //Set definitions list view
-                        if (mVocabDefinition != null && mVocabDefinition.length > 0) {
-                            OneTextviewAdapter adapter = new OneTextviewAdapter(VocabContentActivity.this,
-                                    R.layout.item_one_textview,
-                                    R.id.itemContent,
-                                    mVocabDefinition);
-                            mListDefinition.setAdapter(adapter);
-                        }
-                        mEmptyTextView.setText(R.string.no_vocab_content);
-                        mListDefinition.setEmptyView(mEmptyTextView);
+                        mMeaningDone = true;
+
+                        setVocabContentView();
                     }
                 });
             }
@@ -304,23 +307,33 @@ public class VocabContentActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         mVocabExamples = glosbeResult.getExamples();
-                        mLoadingView.setVisibility(View.GONE);
 
-                        //Set example list view
-                        if (mVocabExamples != null && mVocabExamples.length > 0) {
-                            OneTextviewAdapter adapter = new OneTextviewAdapter(VocabContentActivity.this,
-                                    R.layout.item_one_textview,
-                                    R.id.itemContent,
-                                    mVocabExamples);
-                            mListExample.setAdapter(adapter);
-                        }
+                        mExampleDone = true;
 
-                        mEmptyTextView.setText(R.string.no_vocab_content);
-                        mListExample.setEmptyView(mEmptyTextView);
+                        setVocabContentView();
                     }
                 });
             }
         });
+    }
+
+    private void setVocabContentView(){
+        if(mMeaningDone && mExampleDone){
+            //Vocab is in dictionary
+            if(mVocabDefinition != null || mVocabExamples != null){
+                //Set definitions list view
+                VocabContentAdapter adapter = new VocabContentAdapter(VocabContentActivity.this,
+                        mVocabDefinition,
+                        mVocabExamples);
+
+                mVocabContentList.setAdapter(adapter);
+
+                mLoadingView.setVisibility(View.GONE);
+                mVocabContentList.setVisibility(View.VISIBLE);
+            } else {
+                mEmptyTextView.setVisibility(View.VISIBLE);
+            }
+        } else {}
     }
 
     private void setVolumeIconClick() {

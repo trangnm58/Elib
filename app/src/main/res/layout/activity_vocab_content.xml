@@ -18,12 +18,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="32dp"
+        android:textSize="@dimen/font_size_big"
+        android:textColor="@color/TextColorBlue"
         android:id="@+id/vocabView"
         tools:text="Từ"
         android:layout_below="@+id/my_toolbar"
-        android:layout_alignParentStart="true"
         android:layout_marginLeft="16dp"/>
 
     <ImageView
@@ -32,46 +31,35 @@
         android:id="@+id/volumeButton"
         android:src="@mipmap/ic_volume_up_black_18dp"
         android:layout_marginLeft="10dp"
-        android:layout_above="@+id/definitionListView"
-        android:layout_toEndOf="@+id/vocabView"/>
+        android:layout_marginTop="67dp"
+        android:layout_toEndOf="@+id/vocabView" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/definitionListView"
-        android:layout_below="@+id/vocabView"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/emptyListView"
+        android:id="@+id/vocabContentListView"
         android:paddingStart="10dp"
-        android:paddingEnd="10dp"
+        android:paddingEnd="5dp"
         android:divider="#cacaca"
-        android:dividerHeight="1dp"/>
+        android:dividerHeight="0dp"
+        android:clickable="false"
+        android:layout_below="@+id/vocabView" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/emptyListView"
         android:text="@string/no_vocab_content"
+        android:textColor="@color/TextColorBlue"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/exampleListView"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/definitionListView"
-        android:paddingEnd="10dp"
-        android:paddingStart="10dp"
-        android:divider="#cacaca"
-        android:dividerHeight="1dp"/>
+        android:layout_centerHorizontal="true" />
 
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/loadingContentView"
         android:layout_gravity="center_horizontal"
-        android:layout_alignBottom="@+id/definitionListView"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
